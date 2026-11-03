@@ -6,366 +6,404 @@
 <title>ARIA — Red Sináptica · Synaptic Analytics</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;overflow:auto;min-height:100vh;}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
-.top{position:fixed;top:0;left:0;right:0;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,rgba(7,7,26,.97) 60%,transparent);z-index:20;pointer-events:none;}
+body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;overflow-x:auto;}
+.top{padding:14px 28px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(7,7,26,.97);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.06);}
 .brand{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:#a78bfa;font-weight:700;}
 .brand em{color:#fff;font-style:normal;}
-.hint{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.32);}
-/* LAYERS */
-.scene{position:relative;width:100%;min-height:100vh;padding:80px 0 40px;display:flex;align-items:flex-start;justify-content:center;}
-.layers{display:flex;gap:0;width:100%;max-width:1600px;padding:0 24px;align-items:center;min-height:calc(100vh - 120px);}
-.layer{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;flex:1;position:relative;z-index:5;}
-.layer-label{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);font-weight:700;margin-bottom:4px;text-align:center;}
-/* NODES */
-.node{position:relative;border-radius:10px;padding:11px 14px;cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:center;min-width:110px;max-width:140px;z-index:5;}
+.hint{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.wrap{padding:24px 28px 48px;min-width:1280px;}
+/* Diagram container — fixed size, SVG + nodes inside */
+#diagram{position:relative;width:1220px;height:990px;}
+#conn-svg{position:absolute;top:0;left:0;width:1220px;height:990px;pointer-events:none;z-index:0;}
+/* Column labels */
+.cl{position:absolute;top:6px;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.27);font-weight:700;text-align:center;z-index:2;}
+/* Nodes */
+.node{position:absolute;width:128px;border-radius:10px;padding:8px 11px;cursor:pointer;
+  transition:transform .18s,box-shadow .18s;text-align:center;z-index:5;}
 .node:hover{transform:scale(1.07);z-index:50;}
-.node .n-icon{font-size:1.2rem;margin-bottom:5px;}
-.node .n-label{font-size:.75rem;font-weight:700;color:#fff;line-height:1.3;letter-spacing:.2px;}
-.node .n-sub{font-size:.6rem;color:rgba(255,255,255,.5);margin-top:3px;line-height:1.3;}
-/* Colors per layer */
-.node.src{background:rgba(239,68,68,.14);border:1.5px solid rgba(239,68,68,.55);}
-.node.src:hover{box-shadow:0 0 24px rgba(239,68,68,.35);}
-.node.api{background:rgba(34,197,94,.12);border:1.5px solid rgba(34,197,94,.45);}
-.node.api:hover{box-shadow:0 0 24px rgba(34,197,94,.3);}
-.node.agt{background:rgba(249,115,22,.13);border:1.5px solid rgba(249,115,22,.55);}
-.node.agt:hover{box-shadow:0 0 24px rgba(249,115,22,.35);}
-.node.svc{background:rgba(139,92,246,.13);border:1.5px solid rgba(139,92,246,.55);}
-.node.svc:hover{box-shadow:0 0 24px rgba(139,92,246,.3);}
-.node.core{background:linear-gradient(135deg,rgba(109,40,217,.8),rgba(124,58,237,.6));border:2px solid rgba(168,85,247,.8);min-width:130px;padding:18px 16px;}
-.node.core:hover{box-shadow:0 0 40px rgba(168,85,247,.5);}
-.node.core .n-label{font-size:1.1rem;letter-spacing:1px;}
-.node.out{background:rgba(6,182,212,.12);border:1.5px solid rgba(6,182,212,.5);}
-.node.out:hover{box-shadow:0 0 24px rgba(6,182,212,.35);}
-.node.out.gh{background:rgba(34,197,94,.12);border:1.5px solid rgba(34,197,94,.5);}
-.node.out.gh:hover{box-shadow:0 0 24px rgba(34,197,94,.35);}
+.n-icon{font-size:1.05rem;margin-bottom:2px;}
+.n-label{font-size:.7rem;font-weight:700;color:#fff;line-height:1.25;}
+.n-sub{font-size:.55rem;color:rgba(255,255,255,.45);margin-top:2px;line-height:1.3;}
+/* Node colors */
+.node.api{background:rgba(34,197,94,.11);border:1.5px solid rgba(34,197,94,.42);}
+.node.api:hover{box-shadow:0 0 22px rgba(34,197,94,.32);}
+.node.src{background:rgba(239,68,68,.13);border:1.5px solid rgba(239,68,68,.52);}
+.node.src:hover{box-shadow:0 0 22px rgba(239,68,68,.3);}
+.node.agt{background:rgba(249,115,22,.12);border:1.5px solid rgba(249,115,22,.52);}
+.node.agt:hover{box-shadow:0 0 22px rgba(249,115,22,.32);}
+.node.svc{background:rgba(139,92,246,.12);border:1.5px solid rgba(139,92,246,.52);}
+.node.svc:hover{box-shadow:0 0 22px rgba(139,92,246,.28);}
+.node.core{background:linear-gradient(135deg,rgba(109,40,217,.82),rgba(124,58,237,.62));
+  border:2px solid rgba(168,85,247,.8);width:148px;padding:14px 14px;}
+.node.core:hover{box-shadow:0 0 42px rgba(168,85,247,.5);}
+.node.core .n-label{font-size:1rem;letter-spacing:.4px;}
+.node.out{background:rgba(6,182,212,.11);border:1.5px solid rgba(6,182,212,.48);}
+.node.out:hover{box-shadow:0 0 22px rgba(6,182,212,.32);}
+.node.repo{background:rgba(34,197,94,.09);border:1.5px solid rgba(34,197,94,.4);}
+.node.repo:hover{box-shadow:0 0 22px rgba(34,197,94,.28);}
 /* Tooltip */
-.tt{position:fixed;background:rgba(8,8,28,.97);border:1px solid #4c1d95;border-radius:10px;padding:14px 18px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:280px;font-size:.82rem;line-height:1.65;z-index:100;}
-.tt b{color:#c4b5fd;display:block;margin-bottom:5px;font-size:.88rem;}
-.tt .tg{display:inline-block;background:#1e1b4b;color:#c7d2fe;font-size:.6rem;padding:2px 6px;border-radius:3px;margin:3px 2px 0 0;letter-spacing:.3px;}
+.tt{position:fixed;background:rgba(8,8,28,.97);border:1px solid #4c1d95;border-radius:10px;
+  padding:14px 18px;pointer-events:none;opacity:0;transition:opacity .15s;
+  max-width:275px;font-size:.81rem;line-height:1.65;z-index:100;}
+.tt b{color:#c4b5fd;display:block;margin-bottom:5px;font-size:.87rem;}
+.tg{display:inline-block;background:#1e1b4b;color:#c7d2fe;font-size:.58rem;
+  padding:2px 6px;border-radius:3px;margin:3px 2px 0 0;}
 /* Legend */
-.leg{position:fixed;bottom:18px;left:22px;display:flex;flex-direction:column;gap:6px;z-index:20;}
-.li{display:flex;align-items:center;gap:8px;font-size:.64rem;color:rgba(255,255,255,.5);}
-.ld{width:9px;height:9px;border-radius:50%;}
-/* Arrow guide */
-.flow-guide{position:fixed;bottom:18px;right:22px;font-size:.6rem;color:rgba(255,255,255,.28);letter-spacing:.5px;text-align:right;z-index:20;line-height:1.8;}
+.leg{padding:10px 28px 28px;display:flex;flex-wrap:wrap;gap:14px;}
+.li{display:flex;align-items:center;gap:7px;font-size:.63rem;color:rgba(255,255,255,.48);}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 </style>
 </head>
 <body>
-<canvas id="cv"></canvas>
 
 <div class="top">
   <div>
     <div class="brand"><em>ARIA</em> — Red Sináptica</div>
-    <div class="hint" style="margin-top:3px;">Synaptic Analytics · Flujo de dependencias · Nov 2026</div>
+    <div class="hint" style="margin-top:3px;">Synaptic Analytics · Mapa de dependencias · Nov 2026</div>
   </div>
-  <div class="hint">Hover = detalles · Flechas = flujo de datos</div>
+  <div class="hint">Hover = detalles · Flechas = flujo real de datos</div>
 </div>
 
-<div class="scene">
-<div class="layers">
+<div class="wrap">
+<div id="diagram">
+<svg id="conn-svg"></svg>
 
-  <!-- LAYER 0: Fuentes externas / APIs -->
-  <div class="layer" id="l0">
-    <div class="layer-label">APIs Externas</div>
-    <div class="node api" id="n-steam" data-label="Steam + Epic" data-sub="APIs gaming" data-icon="🎮"
-      data-desc="Steam Store API: precios en COP por appid (sin auth). Epic Games Promotions API: juegos gratuitos activos y próximos (sin auth). Consultados diariamente a las 10 AM."
-      data-tags="Sin auth,COP,appid,Promotions">
-      <div class="n-icon">🎮</div><div class="n-label">Steam + Epic</div><div class="n-sub">APIs gaming</div>
-    </div>
-    <div class="node api" id="n-meteo" data-label="Open-Meteo" data-sub="Clima + GPS" data-icon="🌤"
-      data-desc="Open-Meteo: temperatura, condición climática y viento por coordenadas. Sin API key. Usado por Briefing (Bogotá) y Ubicación (GPS usuario)."
-      data-tags="Sin auth,lat/lon,Bogotá,GPS">
-      <div class="n-icon">🌤</div><div class="n-label">Open-Meteo</div><div class="n-sub">Clima gratis</div>
-    </div>
-    <div class="node api" id="n-osm" data-label="Nominatim / OSM" data-sub="Geocodificación" data-icon="🗺"
-      data-desc="Nominatim: geocodificación inversa (lat/lon → dirección). Overpass API: búsqueda de negocios cercanos (restaurantes, farmacias, bancos). Sin API key."
-      data-tags="Sin auth,GPS,lugares cercanos,Overpass">
-      <div class="n-icon">🗺</div><div class="n-label">Nominatim / OSM</div><div class="n-sub">Geocodificación</div>
-    </div>
-    <div class="node api" id="n-gtrans" data-label="Google Translate" data-sub="API informal" data-icon="🌐"
-      data-desc="API informal de Google Translate (endpoint gtx). Sin API key. Soporta 15 idiomas. Detección automática de origen. Fallback a Claude si falla."
-      data-tags="Sin key,15 idiomas,auto-detect,Fallback Claude">
-      <div class="n-icon">🌐</div><div class="n-label">Google Translate</div><div class="n-sub">API informal</div>
-    </div>
-    <div class="node api" id="n-rss" data-label="RSS El Tiempo" data-sub="Noticias" data-icon="📰"
-      data-desc="Feed RSS de El Tiempo. Extrae el titular de la noticia principal del día. Sin API key. Usado exclusivamente por el Briefing Matutino."
-      data-tags="RSS,Sin auth,titular del día">
-      <div class="n-icon">📰</div><div class="n-label">RSS El Tiempo</div><div class="n-sub">Noticias</div>
-    </div>
-  </div>
+<!-- Column labels -->
+<div class="cl" style="left:24px;width:128px;">APIs Externas</div>
+<div class="cl" style="left:212px;width:128px;">Google Sheets</div>
+<div class="cl" style="left:406px;width:128px;">Agentes Python</div>
+<div class="cl" style="left:616px;width:148px;">Orquestadora</div>
+<div class="cl" style="left:834px;width:128px;">Salidas</div>
+<div class="cl" style="left:1040px;width:128px;">Repos GitHub</div>
 
-  <!-- LAYER 1: Google Sheets -->
-  <div class="layer" id="l1">
-    <div class="layer-label">Google Sheets</div>
-    <div class="node src" id="n-sbq" data-label="PQP Barranquillita" data-sub="Sheets · CSV" data-icon="🏪"
-      data-desc="Sheet: Data Actividad PQP Barranquillita. Hojas: Ingresos, Ventas, Muestras, Premios. Modificado hoy 03/11. Yerays Marcela activa desde las 5:13 AM. CSV público sin auth."
-      data-tags="Barranquillita,Ingresos/Ventas,CSV,Sin auth">
-      <div class="n-icon">🏪</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">Sheet · CSV público</div>
-    </div>
-    <div class="node src" id="n-spqp" data-label="PQP General" data-sub="Sheets · CSV" data-icon="📊"
-      data-desc="Sheet: Datos Mercaderismo PQP. 398 registros. Ciudades: Medellín, Bucaramanga, Barranquilla. Hoy: Jenny Mancipe 7:10 AM en Bucaramanga. Formato: DD/MM/YYYY."
-      data-tags="Multi-ciudad,398 reg,CSV,Sin auth">
-      <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Sheet · CSV público</div>
-    </div>
-    <div class="node src" id="n-shenkel" data-label="Henkel GLISS" data-sub="Sheets · pendiente" data-icon="💎"
-      data-desc="Sheet de actividad Henkel GLISS. Pendiente de configuración del Sheet ID. Estructura similar al PQP General. Será conectado al Agente Informe."
-      data-tags="Pendiente,Henkel,CSV">
-      <div class="n-icon">💎</div><div class="n-label">Henkel GLISS</div><div class="n-sub">Sheet · pendiente</div>
-    </div>
-  </div>
+<!-- ── LAYER 0: APIs Externas ───────────────────────────── -->
+<div class="node api" id="n-steam" style="left:24px;top:78px"
+  data-label="Steam + Epic" data-sub="APIs gaming"
+  data-desc="Steam Store API: precios en COP por appid (sin auth). Epic Games Promotions API: juegos gratuitos y próximos. Consultados a las 10 AM diariamente."
+  data-tags="Sin auth,COP,Steam,Epic Promotions">
+  <div class="n-icon">🎮</div><div class="n-label">Steam + Epic</div><div class="n-sub">APIs gaming</div>
+</div>
 
-  <!-- LAYER 2: Agentes -->
-  <div class="layer" id="l2">
-    <div class="layer-label">Agentes Python</div>
-    <div class="node agt" id="n-apqp" data-label="Agente PQP" data-sub="agente_pqp.py" data-icon="📋"
-      data-desc="Lee PQP Barranquillita + PQP General vía CSV. Filtra por fecha hoy. Genera resumen: ingresos, ventas, muestras por mercaderista. Envía audio + texto."
-      data-tags="reporte_pqp(),,reporte_pqp_general(),,Sin tokens">
-      <div class="n-icon">📋</div><div class="n-label">Agente PQP</div><div class="n-sub">agente_pqp.py</div>
-    </div>
-    <div class="node agt" id="n-ainf" data-label="Informe Campaña" data-sub="agente_informe_campana.py" data-icon="🌐"
-      data-desc="Lee Sheets de campaña, analiza KPIs, genera reglas automáticas y construye HTML con Chart.js. preparar_informe() solo local. crear_informe() publica en GitHub."
-      data-tags="preparar_informe(),,crear_informe(),,Chart.js">
-      <div class="n-icon">🌐</div><div class="n-label">Informe Campaña</div><div class="n-sub">agente_informe_campana.py</div>
-    </div>
-    <div class="node agt" id="n-arep" data-label="Reportes Visuales" data-sub="agente_reportes.py" data-icon="📈"
-      data-desc="Genera reportes PNG con matplotlib desde datos estructurados. KPIs, tablas y gráficos de barras con colores de marca. Envía como foto por Telegram."
-      data-tags="matplotlib,PNG,generar_reporte()">
-      <div class="n-icon">📈</div><div class="n-label">Reportes Visuales</div><div class="n-sub">agente_reportes.py</div>
-    </div>
-    <div class="node svc" id="n-abrief" data-label="Briefing Matutino" data-sub="agente_briefing.py" data-icon="☀️"
-      data-desc="Diario a las 7:00 AM: clima Bogotá + noticia RSS + recordatorios + frase motivacional. Genera texto → Edge TTS → nota de voz OGG Opus."
-      data-tags="7:00 AM,Task Scheduler,SalomeNeural">
-      <div class="n-icon">☀️</div><div class="n-label">Briefing Matutino</div><div class="n-sub">agente_briefing.py</div>
-    </div>
-    <div class="node svc" id="n-ajuegos" data-label="Monitor Juegos" data-sub="agente_monitor_juegos.py" data-icon="🎮"
-      data-desc="10:00 AM: consulta 15 juegos en Steam y Epic. Alerta si ≥70% descuento o gratis. Guarda historial en JSON para comparar día a día."
-      data-tags="10:00 AM,15 juegos,Steam API,Epic API">
-      <div class="n-icon">🎮</div><div class="n-label">Monitor Juegos</div><div class="n-sub">agente_monitor_juegos.py</div>
-    </div>
-    <div class="node svc" id="n-aviajes" data-label="Viajes" data-sub="agente_viajes.py" data-icon="✈️"
-      data-desc="8:30 AM: paquetes vuelo+hotel desde Bogotá. 12 rutas, sondea 12 fechas/ruta. Links a Despegar, Booking y Skyscanner. Opcional: precios reales con Kiwi API."
-      data-tags="8:30 AM,12 rutas,Despegar,Booking">
-      <div class="n-icon">✈️</div><div class="n-label">Viajes</div><div class="n-sub">agente_viajes.py</div>
-    </div>
-    <div class="node svc" id="n-aubic" data-label="Ubicación" data-sub="agente_ubicacion.py" data-icon="📍"
-      data-desc="Recibe coordenadas GPS del usuario. Geocodificación inversa Nominatim + clima Open-Meteo + lugares cercanos Overpass. Sin tokens ni API keys."
-      data-tags="GPS,Nominatim,Open-Meteo,Sin auth">
-      <div class="n-icon">📍</div><div class="n-label">Ubicación</div><div class="n-sub">agente_ubicacion.py</div>
-    </div>
-    <div class="node svc" id="n-atrad" data-label="Traductor / Resumen" data-sub="agente_traductor.py" data-icon="🌍"
-      data-desc="Traducción: Google Translate informal (sin key), fallback Claude. Resumen: algoritmo extractivo TF puro en Python. Ambos sin tokens normalmente."
-      data-tags="Google Translate,TF extractivo,Sin tokens">
-      <div class="n-icon">🌍</div><div class="n-label">Traductor / Resumen</div><div class="n-sub">agente_traductor.py</div>
-    </div>
-    <div class="node agt" id="n-acbots" data-label="Constructor Bots" data-sub="agente_constructor_bots.py" data-icon="🔧"
-      data-desc="Genera PWA completas de registro de datos a través de una entrevista conversacional. Produce HTML mobile-first con login, módulos configurables, cola offline y envío a Google Apps Script. Publica en GitHub Pages."
-      data-tags="iniciar_construccion(),,continuar_construccion(),,PWA,Google Apps Script">
-      <div class="n-icon">🔧</div><div class="n-label">Constructor Bots</div><div class="n-sub">agente_constructor_bots.py</div>
-    </div>
-  </div>
+<div class="node api" id="n-meteo" style="left:24px;top:168px"
+  data-label="Open-Meteo" data-sub="Clima gratis"
+  data-desc="Temperatura, condición y viento por coordenadas lat/lon. Sin API key. Usado por Briefing Matutino (Bogotá fija) y Agente Ubicación (GPS usuario)."
+  data-tags="Sin auth,lat/lon,Bogotá,GPS">
+  <div class="n-icon">🌤</div><div class="n-label">Open-Meteo</div><div class="n-sub">Clima gratis</div>
+</div>
 
-  <!-- LAYER 3: ARIA CORE -->
-  <div class="layer" id="l3" style="flex:0.7;min-width:150px;">
-    <div class="layer-label">Orquestadora</div>
-    <div class="node core" id="n-aria" data-label="ARIA" data-sub="Claude Sonnet 4.6" data-icon="🧠"
-      data-desc="Asistente de Respuesta Inteligente Automatizada. Orquesta todos los agentes Python. Usa Claude solo en conversación directa. Reconocimiento de voz activo (pitch &lt;160Hz = Esneyder, &gt;160Hz = Yoana)."
-      data-tags="Claude Sonnet 4.6,Python local,Esneyder + Yoana,Voz activo">
-      <div class="n-icon">🧠</div><div class="n-label">ARIA</div><div class="n-sub">Claude Sonnet 4.6</div>
-    </div>
-  </div>
+<div class="node api" id="n-osm" style="left:24px;top:258px"
+  data-label="Nominatim / OSM" data-sub="Geocodificación"
+  data-desc="Nominatim: lat/lon → dirección. Overpass API: negocios cercanos (restaurantes, farmacias, bancos). Sin API key."
+  data-tags="Sin auth,GPS,Overpass,Lugares cercanos">
+  <div class="n-icon">🗺</div><div class="n-label">Nominatim / OSM</div><div class="n-sub">Geocodificación</div>
+</div>
 
-  <!-- LAYER 4: Salidas -->
-  <div class="layer" id="l4">
-    <div class="layer-label">Salidas</div>
-    <div class="node out" id="n-otg" data-label="Telegram Bot" data-sub="@ARIA · sendMessage" data-icon="✈"
-      data-desc="Bot Telegram principal. Recibe texto, voz e imágenes de Esneyder y Yoana. Responde con mensajes, notas de voz OGG Opus, fotos y documentos. Límite 4096 chars dividido automáticamente."
-      data-tags="sendMessage,sendVoice,sendPhoto,4096 chars">
-      <div class="n-icon">💬</div><div class="n-label">Telegram Bot</div><div class="n-sub">@ARIA · sendMessage</div>
-    </div>
-    <div class="node out" id="n-otts" data-label="Edge TTS Salomé" data-sub="es-CO-SalomeNeural" data-icon="🎙"
-      data-desc="Voz: es-CO-SalomeNeural. Rate +0%, Pitch +12Hz. Genera MP3 → convierte a OGG Opus con ffmpeg → Telegram sendVoice. GonzaloNeural para narración de videos."
-      data-tags="SalomeNeural,OGG Opus,ffmpeg,Rate +0%">
-      <div class="n-icon">🎙</div><div class="n-label">Edge TTS Salomé</div><div class="n-sub">es-CO-SalomeNeural</div>
-    </div>
-    <div class="node out gh" id="n-ogh" data-label="GitHub Pages" data-sub="analyticssynaptic-cloud" data-icon="🌐"
-      data-desc="Org: analyticssynaptic-cloud. 50+ repos activos. Reportes HTML con Chart.js publicados como GitHub Pages. Auto-numeración por campaña. Esta misma red está publicada aquí."
-      data-tags="50+ repos,Chart.js,Pages,gh CLI">
-      <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">analyticssynaptic-cloud</div>
-    </div>
-  </div>
+<div class="node api" id="n-gtrans" style="left:24px;top:348px"
+  data-label="Google Translate" data-sub="API informal"
+  data-desc="Endpoint gtx de Google Translate. Sin API key. 15 idiomas, detección automática. Fallback a Claude si falla."
+  data-tags="Sin key,15 idiomas,auto-detect,Fallback Claude">
+  <div class="n-icon">🌐</div><div class="n-label">Google Translate</div><div class="n-sub">API informal</div>
+</div>
 
-  <!-- LAYER 5: Repos GitHub Pages -->
-  <div class="layer" id="l5">
-    <div class="layer-label">Repos GitHub</div>
-    <div class="node out gh" id="n-rpqpb" data-label="PQP Barranquillita" data-sub="pqp-informe-barranquillita-*" data-icon="📄"
-      data-desc="Reportes HTML de PQP Barranquillita publicados en GitHub Pages. Auto-numerados: pqp-informe-barranquillita-1, -2, etc. Contienen Chart.js con KPIs, top mercaderistas, reglas automáticas."
-      data-tags="Chart.js,GitHub Pages,Auto-numerado,preparar_informe()">
-      <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">pqp-informe-barranquillita-*</div>
-    </div>
-    <div class="node out gh" id="n-rpqpg" data-label="PQP General" data-sub="Flash-Report-PQP-*" data-icon="📊"
-      data-desc="Reportes de campaña PQP General (multi-ciudad). Flash-Report-PQP-1, -2, etc. Análisis por ciudad, top mercaderistas y reglas de negocio generadas automáticamente."
-      data-tags="Multi-ciudad,Chart.js,GitHub Pages,reglas automáticas">
-      <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Flash-Report-PQP-*</div>
-    </div>
-    <div class="node out gh" id="n-rneural" data-label="Red Sináptica" data-sub="ARIA-Red-Sinaptica" data-icon="🧬"
-      data-desc="Este mismo diagrama. Publicado en analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/. Se actualiza cada vez que se crea un nuevo agente, tarea programada o integración."
-      data-tags="Diagrama neuronal,Siempre actualizado,analyticssynaptic-cloud">
-      <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div><div class="n-sub">ARIA-Red-Sinaptica</div>
-    </div>
-    <div class="node out gh" id="n-rpwa" data-label="PWA Tools" data-sub="Herramienta-*" data-icon="📱"
-      data-desc="Herramientas PWA de registro de datos generadas por el Constructor de Bots. Mobile-first, login por usuario, módulos configurables, cola offline y envío a Google Apps Script. Ej: Herramienta-Henkel-GLISS."
-      data-tags="PWA,Mobile-first,Offline queue,Google Apps Script">
-      <div class="n-icon">📱</div><div class="n-label">PWA Tools</div><div class="n-sub">Herramienta-*</div>
-    </div>
-  </div>
+<div class="node api" id="n-rss" style="left:24px;top:438px"
+  data-label="RSS El Tiempo" data-sub="Noticias"
+  data-desc="Feed RSS de El Tiempo. Extrae el titular principal del día. Sin API key. Solo usado por el Briefing Matutino."
+  data-tags="RSS,Sin auth,Titular del día">
+  <div class="n-icon">📰</div><div class="n-label">RSS El Tiempo</div><div class="n-sub">Noticias</div>
+</div>
 
-</div><!-- /layers -->
-</div><!-- /scene -->
+<!-- ── LAYER 1: Google Sheets ─────────────────────────── -->
+<div class="node src" id="n-sbq" style="left:212px;top:168px"
+  data-label="PQP Barranquillita" data-sub="Sheet · CSV"
+  data-desc="Sheet: Data Actividad PQP Barranquillita. Hojas: Ingresos, Ventas, Muestras, Premios. Fechas formato ISO YYYY-MM-DD. CSV público sin auth."
+  data-tags="Barranquillita,Ingresos/Ventas,CSV,Sin auth,ISO dates">
+  <div class="n-icon">🏪</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">Sheet · CSV público</div>
+</div>
+
+<div class="node src" id="n-spqp" style="left:212px;top:288px"
+  data-label="PQP General" data-sub="Sheet · CSV"
+  data-desc="Sheet: Datos Mercaderismo PQP. Multi-ciudad: Medellín, Bucaramanga, Barranquilla. Fecha formato DD/MM/YYYY. 400+ registros."
+  data-tags="Multi-ciudad,DD/MM/YYYY,CSV,Sin auth">
+  <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Sheet · CSV público</div>
+</div>
+
+<div class="node src" id="n-shenkel" style="left:212px;top:408px"
+  data-label="Henkel GLISS" data-sub="Sheet · pendiente"
+  data-desc="Sheet de actividad Henkel GLISS. Pendiente de configuración del Sheet ID. Conectado al Agente Informe una vez configurado."
+  data-tags="Pendiente,Henkel,CSV">
+  <div class="n-icon">💎</div><div class="n-label">Henkel GLISS</div><div class="n-sub">Sheet · pendiente</div>
+</div>
+
+<!-- ── LAYER 2: Agentes Python ────────────────────────── -->
+<div class="node svc" id="n-abrief" style="left:406px;top:48px"
+  data-label="Briefing Matutino" data-sub="agente_briefing.py"
+  data-desc="7:00 AM: clima Bogotá (Open-Meteo) + titular RSS + recordatorios + frase motivacional. Genera texto → Edge TTS → nota de voz OGG Opus → Telegram."
+  data-tags="7:00 AM,Task Scheduler,SalomeNeural,Open-Meteo,RSS">
+  <div class="n-icon">☀️</div><div class="n-label">Briefing Matutino</div><div class="n-sub">agente_briefing.py</div>
+</div>
+
+<div class="node svc" id="n-ajuegos" style="left:406px;top:148px"
+  data-label="Monitor Juegos" data-sub="agente_monitor_juegos.py"
+  data-desc="10:00 AM: consulta Steam + Epic. Alerta si ≥70% descuento o juego gratis. Historial en JSON para comparar día a día."
+  data-tags="10:00 AM,Steam API,Epic API,JSON historial">
+  <div class="n-icon">🎮</div><div class="n-label">Monitor Juegos</div><div class="n-sub">agente_monitor_juegos.py</div>
+</div>
+
+<div class="node svc" id="n-aviajes" style="left:406px;top:248px"
+  data-label="Viajes" data-sub="agente_viajes.py"
+  data-desc="8:30 AM: paquetes vuelo+hotel desde Bogotá. 12 rutas, 12 fechas/ruta. Links a Despegar, Booking y Skyscanner."
+  data-tags="8:30 AM,12 rutas,Despegar,Booking">
+  <div class="n-icon">✈️</div><div class="n-label">Viajes</div><div class="n-sub">agente_viajes.py</div>
+</div>
+
+<div class="node agt" id="n-apqp" style="left:406px;top:348px"
+  data-label="Agente PQP" data-sub="agente_pqp.py"
+  data-desc="Lee PQP Barranquillita + PQP General vía CSV export. Filtra registros de hoy. Genera resumen de ingresos, ventas y muestras. Envía audio + texto."
+  data-tags="reporte_pqp(),,reporte_pqp_general(),,Sin tokens,CSV">
+  <div class="n-icon">📋</div><div class="n-label">Agente PQP</div><div class="n-sub">agente_pqp.py</div>
+</div>
+
+<div class="node agt" id="n-ainf" style="left:406px;top:448px"
+  data-label="Informe Campaña" data-sub="agente_informe_campana.py"
+  data-desc="Lee Sheets de campaña, analiza KPIs, genera reglas automáticas y HTML con Chart.js. preparar_informe() = local. crear_informe() publica en GitHub Pages."
+  data-tags="preparar_informe(),,crear_informe(),,Chart.js,Reglas auto">
+  <div class="n-icon">🌐</div><div class="n-label">Informe Campaña</div><div class="n-sub">agente_informe_campana.py</div>
+</div>
+
+<div class="node agt" id="n-arep" style="left:406px;top:548px"
+  data-label="Reportes Visuales" data-sub="agente_reportes.py"
+  data-desc="Genera reportes PNG con matplotlib: KPIs, tablas y gráficos de barras con colores de marca. Envía como foto por Telegram."
+  data-tags="matplotlib,PNG,generar_reporte()">
+  <div class="n-icon">📈</div><div class="n-label">Reportes Visuales</div><div class="n-sub">agente_reportes.py</div>
+</div>
+
+<div class="node svc" id="n-aubic" style="left:406px;top:648px"
+  data-label="Ubicación" data-sub="agente_ubicacion.py"
+  data-desc="Recibe coordenadas GPS. Geocodificación inversa Nominatim + clima Open-Meteo + lugares cercanos Overpass. Sin tokens ni API keys."
+  data-tags="GPS,Nominatim,Open-Meteo,Sin auth">
+  <div class="n-icon">📍</div><div class="n-label">Ubicación</div><div class="n-sub">agente_ubicacion.py</div>
+</div>
+
+<div class="node svc" id="n-atrad" style="left:406px;top:748px"
+  data-label="Traductor / Resumen" data-sub="agente_traductor.py"
+  data-desc="Traducción via Google Translate informal. Resumen extractivo TF puro en Python. Sin tokens normalmente. Fallback a Claude si falla."
+  data-tags="Google Translate,TF extractivo,Sin tokens,Fallback Claude">
+  <div class="n-icon">🌍</div><div class="n-label">Traductor / Resumen</div><div class="n-sub">agente_traductor.py</div>
+</div>
+
+<div class="node agt" id="n-acbots" style="left:406px;top:848px"
+  data-label="Constructor Bots" data-sub="agente_constructor_bots.py"
+  data-desc="Genera PWA completas de registro de datos via entrevista conversacional. HTML mobile-first con login, módulos configurables, cola offline y envío a Google Apps Script."
+  data-tags="iniciar_construccion(),,continuar_construccion(),,PWA,Google Apps Script">
+  <div class="n-icon">🔧</div><div class="n-label">Constructor Bots</div><div class="n-sub">agente_constructor_bots.py</div>
+</div>
+
+<!-- ── LAYER 3: ARIA ───────────────────────────────────── -->
+<div class="node core" id="n-aria" style="left:616px;top:446px"
+  data-label="ARIA" data-sub="Claude Sonnet 4.6"
+  data-desc="Asistente de Respuesta Inteligente Automatizada. Orquesta todos los agentes Python. Usa Claude solo en conversación directa. Reconocimiento de voz: pitch &lt;160Hz = Esneyder, &gt;160Hz = Yoana."
+  data-tags="Claude Sonnet 4.6,Esneyder + Yoana,Voz activo,Orquestadora">
+  <div class="n-icon">🧠</div><div class="n-label">ARIA</div><div class="n-sub">Claude Sonnet 4.6</div>
+</div>
+
+<!-- ── LAYER 4: Salidas ───────────────────────────────── -->
+<div class="node out" id="n-otg" style="left:834px;top:268px"
+  data-label="Telegram Bot" data-sub="@ARIA · sendMessage"
+  data-desc="Bot Telegram. Recibe texto, voz e imágenes de Esneyder y Yoana. Responde con mensajes, notas de voz OGG Opus, fotos y documentos. Límite 4096 chars dividido automáticamente."
+  data-tags="sendMessage,sendVoice,sendPhoto,OGG Opus">
+  <div class="n-icon">💬</div><div class="n-label">Telegram Bot</div><div class="n-sub">@ARIA · sendMessage</div>
+</div>
+
+<div class="node out" id="n-otts" style="left:834px;top:418px"
+  data-label="Edge TTS Salomé" data-sub="es-CO-SalomeNeural"
+  data-desc="Voz: es-CO-SalomeNeural. Rate +0%, Pitch +12Hz. MP3 → OGG Opus (ffmpeg) → Telegram sendVoice. GonzaloNeural para narración de videos."
+  data-tags="SalomeNeural,OGG Opus,ffmpeg,Rate +0%">
+  <div class="n-icon">🎙</div><div class="n-label">Edge TTS Salomé</div><div class="n-sub">es-CO-SalomeNeural</div>
+</div>
+
+<div class="node out" id="n-ogh" style="left:834px;top:568px"
+  data-label="GitHub Pages" data-sub="analyticssynaptic-cloud"
+  data-desc="Org: analyticssynaptic-cloud. 50+ repos activos. Reportes HTML con Chart.js y PWA Tools publicados como GitHub Pages. Comandos via gh CLI desde Python."
+  data-tags="50+ repos,gh CLI,GitHub Pages,HTML">
+  <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">analyticssynaptic-cloud</div>
+</div>
+
+<!-- ── LAYER 5: Repos GitHub ─────────────────────────── -->
+<div class="node repo" id="n-rpqpb" style="left:1040px;top:448px"
+  data-label="PQP Barranquillita" data-sub="pqp-informe-barranquillita-*"
+  data-desc="Reportes HTML de PQP Barranquillita. Auto-numerados: -1, -2... KPIs, top mercaderistas, reglas de negocio automáticas. Generados por Informe Campaña."
+  data-tags="Chart.js,Auto-numerado,preparar_informe()">
+  <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">pqp-informe-barranquillita-*</div>
+</div>
+
+<div class="node repo" id="n-rpqpg" style="left:1040px;top:548px"
+  data-label="PQP General" data-sub="Flash-Report-PQP-*"
+  data-desc="Reportes PQP General multi-ciudad. Flash-Report-PQP-1, -2... Análisis por ciudad, top mercaderistas, reglas automáticas."
+  data-tags="Multi-ciudad,Chart.js,Reglas auto">
+  <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Flash-Report-PQP-*</div>
+</div>
+
+<div class="node repo" id="n-rneural" style="left:1040px;top:648px"
+  data-label="Red Sináptica" data-sub="ARIA-Red-Sinaptica"
+  data-desc="Este mismo diagrama. Se actualiza automáticamente cada vez que ARIA crea un nuevo agente, tarea programada o integración."
+  data-tags="Auto-actualizado,Diagrama neuronal,analyticssynaptic-cloud">
+  <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div><div class="n-sub">ARIA-Red-Sinaptica</div>
+</div>
+
+<div class="node repo" id="n-rpwa" style="left:1040px;top:748px"
+  data-label="PWA Tools" data-sub="Herramienta-*"
+  data-desc="Herramientas PWA generadas por Constructor Bots. Mobile-first, login por usuario, módulos configurables, cola offline, envío a Google Apps Script."
+  data-tags="PWA,Mobile-first,Offline queue,GAS">
+  <div class="n-icon">📱</div><div class="n-label">PWA Tools</div><div class="n-sub">Herramienta-*</div>
+</div>
+
+</div><!-- /diagram -->
+</div><!-- /wrap -->
 
 <div class="tt" id="tt"></div>
 
 <div class="leg">
-  <div class="li"><div class="ld" style="background:#7c3aed"></div>Núcleo ARIA</div>
-  <div class="li"><div class="ld" style="background:#ef4444"></div>Google Sheets (fuentes de datos)</div>
   <div class="li"><div class="ld" style="background:#22c55e"></div>APIs Externas (sin auth)</div>
+  <div class="li"><div class="ld" style="background:#ef4444"></div>Google Sheets (fuentes de datos)</div>
   <div class="li"><div class="ld" style="background:#f97316"></div>Agentes de procesamiento</div>
-  <div class="li"><div class="ld" style="background:#8b5cf6"></div>Servicios diarios automáticos</div>
+  <div class="li"><div class="ld" style="background:#8b5cf6"></div>Servicios automáticos (Task Scheduler)</div>
+  <div class="li"><div class="ld" style="background:#7c3aed"></div>Núcleo ARIA (orquestadora)</div>
   <div class="li"><div class="ld" style="background:#06b6d4"></div>Canales de salida</div>
-</div>
-
-<div class="flow-guide">
-  APIs → Sheets → Agentes → ARIA → Salidas<br>
-  Cada flecha = dependencia real de datos
+  <div class="li"><div class="ld" style="background:#22c55e;opacity:.55"></div>Repos GitHub Pages</div>
 </div>
 
 <script>
-const cv = document.getElementById('cv');
-const ctx = cv.getContext('2d');
-const tt = document.getElementById('tt');
-
-// Connections: [from-id, to-id, color]
+// Edges: [from, to, color]
+// All connections flow left→right between adjacent or one-skip layers.
+// Agents→Repos route through GitHub Pages node (no long-range skips).
 const EDGES = [
-  // APIs → Agentes (directo)
+  // APIs → Agents (skip Sheets column)
   ['n-steam',   'n-ajuegos', '#22c55e'],
   ['n-meteo',   'n-abrief',  '#22c55e'],
   ['n-meteo',   'n-aubic',   '#22c55e'],
   ['n-osm',     'n-aubic',   '#22c55e'],
   ['n-gtrans',  'n-atrad',   '#22c55e'],
   ['n-rss',     'n-abrief',  '#22c55e'],
-  // Sheets → Agentes
+  // Sheets → Agents
   ['n-sbq',     'n-apqp',    '#ef4444'],
   ['n-spqp',    'n-apqp',    '#ef4444'],
   ['n-sbq',     'n-ainf',    '#ef4444'],
   ['n-spqp',    'n-ainf',    '#ef4444'],
   ['n-shenkel', 'n-ainf',    '#ef4444'],
-  // Agentes → ARIA
-  ['n-apqp',    'n-aria',    '#f97316'],
-  ['n-ainf',    'n-aria',    '#f97316'],
-  ['n-arep',    'n-aria',    '#f97316'],
+  // Agents → ARIA
   ['n-abrief',  'n-aria',    '#8b5cf6'],
   ['n-ajuegos', 'n-aria',    '#8b5cf6'],
   ['n-aviajes', 'n-aria',    '#8b5cf6'],
+  ['n-apqp',    'n-aria',    '#f97316'],
+  ['n-ainf',    'n-aria',    '#f97316'],
+  ['n-arep',    'n-aria',    '#f97316'],
   ['n-aubic',   'n-aria',    '#8b5cf6'],
   ['n-atrad',   'n-aria',    '#8b5cf6'],
-  // ARIA → Salidas
+  ['n-acbots',  'n-aria',    '#f97316'],
+  // ARIA → Outputs
   ['n-aria',    'n-otg',     '#a855f7'],
   ['n-aria',    'n-otts',    '#a855f7'],
   ['n-aria',    'n-ogh',     '#a855f7'],
-  // Agentes → Salidas directas (bypass ARIA)
+  // Agents → GitHub (direct publish, bypassing ARIA)
   ['n-ainf',    'n-ogh',     '#f97316'],
+  ['n-acbots',  'n-ogh',     '#f97316'],
+  // Agents → TTS (direct audio output)
   ['n-abrief',  'n-otts',    '#8b5cf6'],
   ['n-apqp',    'n-otts',    '#f97316'],
-  // ARIA → Constructor (ARIA orquesta la entrevista)
-  ['n-aria',    'n-acbots',  '#a855f7'],
-  // Constructor → GitHub (publica PWAs)
-  ['n-acbots',  'n-ogh',     '#f97316'],
-  // Agentes → Repos específicos
-  ['n-ainf',    'n-rpqpb',   '#f97316'],
-  ['n-ainf',    'n-rpqpg',   '#f97316'],
-  ['n-acbots',  'n-rpwa',    '#f97316'],
-  ['n-aria',    'n-rneural', '#a855f7'],
+  // GitHub Pages → Repos específicos
+  ['n-ogh',     'n-rpqpb',   '#22c55e'],
+  ['n-ogh',     'n-rpqpg',   '#22c55e'],
+  ['n-ogh',     'n-rneural', '#22c55e'],
+  ['n-ogh',     'n-rpwa',    '#22c55e'],
 ];
 
-let animT = 0;
+const MARKER_COLORS = ['22c55e','ef4444','f97316','8b5cf6','a855f7','06b6d4'];
 
-function getCenter(id) {
-  const el = document.getElementById(id);
-  if (!el) return null;
-  const r = el.getBoundingClientRect();
-  return {x: r.left + r.width/2, y: r.top + r.height/2};
+function buildDefs() {
+  return '<defs>' + MARKER_COLORS.map(c =>
+    `<marker id="m${c}" markerWidth="9" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0,0 8,4 0,8" fill="#${c}" opacity="0.72"/>
+    </marker>`
+  ).join('') + '</defs>';
 }
 
-function hexRgb(h){return `${parseInt(h.slice(1,3),16)},${parseInt(h.slice(3,5),16)},${parseInt(h.slice(5,7),16)}`;}
+function draw() {
+  const svg  = document.getElementById('conn-svg');
+  const diag = document.getElementById('diagram');
+  const dr   = diag.getBoundingClientRect();
 
-function drawEdge(a, b, color, pulse) {
-  const dx = b.x - a.x, dy = b.y - a.y;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  if (dist < 10) return;
-  const ux = dx/dist, uy = dy/dist;
-  // offset from node center
-  const pad = 20;
-  const x1 = a.x + ux*pad, y1 = a.y + uy*pad;
-  const x2 = b.x - ux*pad, y2 = b.y - uy*pad;
-  // control point for slight curve
-  const mx = (x1+x2)/2 - dy*0.06, my = (y1+y2)/2 + dx*0.06;
+  svg.innerHTML = buildDefs();
 
-  const g = ctx.createLinearGradient(x1,y1,x2,y2);
-  g.addColorStop(0, `rgba(${hexRgb(color)},0.08)`);
-  g.addColorStop(pulse, `rgba(${hexRgb(color)},0.75)`);
-  g.addColorStop(1, `rgba(${hexRgb(color)},0.06)`);
+  EDGES.forEach(([fromId, toId, color], i) => {
+    const fe = document.getElementById(fromId);
+    const te = document.getElementById(toId);
+    if (!fe || !te) return;
 
-  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.quadraticCurveTo(mx,my,x2,y2);
-  ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.stroke();
+    const fr = fe.getBoundingClientRect();
+    const tr = te.getBoundingClientRect();
 
-  // arrowhead at b end
-  const angle = Math.atan2(y2-my, x2-mx);
-  const asz = 7;
-  ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - asz*Math.cos(angle-0.4), y2 - asz*Math.sin(angle-0.4));
-  ctx.lineTo(x2 - asz*Math.cos(angle+0.4), y2 - asz*Math.sin(angle+0.4));
-  ctx.closePath();
-  ctx.fillStyle = `rgba(${hexRgb(color)},${0.3+pulse*0.5})`;
-  ctx.fill();
+    // Positions relative to diagram (cancel out scroll & page offset)
+    const x1 = fr.right  - dr.left;
+    const y1 = fr.top    - dr.top  + fr.height / 2;
+    const x2 = tr.left   - dr.left - 8;  // pull back for arrowhead
+    const y2 = tr.top    - dr.top  + tr.height / 2;
 
-  // moving pulse dot
-  const t = pulse;
-  const bx = (1-t)*(1-t)*x1 + 2*(1-t)*t*mx + t*t*x2;
-  const by = (1-t)*(1-t)*y1 + 2*(1-t)*t*my + t*t*y2;
-  ctx.beginPath(); ctx.arc(bx,by,2.8,0,Math.PI*2);
-  ctx.fillStyle = `rgba(${hexRgb(color)},0.9)`; ctx.fill();
-}
+    // Bezier control points: S-curve between columns
+    const mx = (x1 + x2) / 2;
+    const d  = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+    const mc = color.slice(1);
 
-function loop() {
-  cv.width = window.innerWidth; cv.height = window.innerHeight;
-  ctx.clearRect(0,0,cv.width,cv.height);
-  // grid
-  ctx.strokeStyle='rgba(255,255,255,0.022)'; ctx.lineWidth=1;
-  for(let x=0;x<cv.width;x+=55){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,cv.height);ctx.stroke();}
-  for(let y=0;y<cv.height;y+=55){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cv.width,y);ctx.stroke();}
+    // Static line
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '1.4');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-opacity', '0.52');
+    path.setAttribute('marker-end', `url(#m${mc})`);
+    svg.appendChild(path);
 
-  animT = (animT + 0.004) % 1;
-  EDGES.forEach((e,i) => {
-    const a = getCenter(e[0]), b = getCenter(e[1]);
-    if(a && b) drawEdge(a, b, e[2], (animT + i*0.055)%1);
+    // Animated pulse dot along path
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('r', '2.7');
+    circle.setAttribute('fill', color);
+    circle.setAttribute('opacity', '0.88');
+
+    const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+    const dur   = (2.2 + (i * 0.38) % 2.1).toFixed(1) + 's';
+    const begin = (-i * 0.47).toFixed(1) + 's';
+    anim.setAttribute('dur',         dur);
+    anim.setAttribute('begin',       begin);
+    anim.setAttribute('repeatCount', 'indefinite');
+    anim.setAttribute('path',        `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+
+    circle.appendChild(anim);
+    svg.appendChild(circle);
   });
-  requestAnimationFrame(loop);
 }
-loop();
+
+window.addEventListener('load',   draw);
+window.addEventListener('resize', draw);
 
 // Tooltip
+const tt = document.getElementById('tt');
 document.querySelectorAll('.node').forEach(el => {
-  el.addEventListener('mouseenter', ev => {
-    const tags = (el.dataset.tags||'').split(',').filter(Boolean).map(t=>`<span class="tg">${t.trim()}</span>`).join('');
-    tt.innerHTML = `<b>${el.dataset.label} <small style="color:#9ca3af;font-weight:400;font-size:.7rem">${el.dataset.sub||''}</small></b>${el.dataset.desc||''}<br>${tags}`;
-    tt.style.opacity='1';
+  el.addEventListener('mouseenter', () => {
+    const tags = (el.dataset.tags || '').split(',').filter(Boolean)
+      .map(t => `<span class="tg">${t.trim()}</span>`).join('');
+    tt.innerHTML =
+      `<b>${el.dataset.label} <small style="color:#9ca3af;font-weight:400;font-size:.68rem">`
+      + `${el.dataset.sub || ''}</small></b>`
+      + (el.dataset.desc || '') + '<br>' + tags;
+    tt.style.opacity = '1';
   });
   el.addEventListener('mousemove', ev => {
-    tt.style.left = Math.min(ev.clientX+16, window.innerWidth-295)+'px';
-    tt.style.top  = Math.max(ev.clientY-50, 10)+'px';
+    tt.style.left = Math.min(ev.clientX + 16, window.innerWidth - 295) + 'px';
+    tt.style.top  = Math.max(ev.clientY - 50, 10) + 'px';
   });
-  el.addEventListener('mouseleave', () => { tt.style.opacity='0'; });
+  el.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
 });
 </script>
 </body>
