@@ -158,6 +158,11 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
       data-tags="Google Translate,TF extractivo,Sin tokens">
       <div class="n-icon">🌍</div><div class="n-label">Traductor / Resumen</div><div class="n-sub">agente_traductor.py</div>
     </div>
+    <div class="node agt" id="n-acbots" data-label="Constructor Bots" data-sub="agente_constructor_bots.py" data-icon="🔧"
+      data-desc="Genera PWA completas de registro de datos a través de una entrevista conversacional. Produce HTML mobile-first con login, módulos configurables, cola offline y envío a Google Apps Script. Publica en GitHub Pages."
+      data-tags="iniciar_construccion(),,continuar_construccion(),,PWA,Google Apps Script">
+      <div class="n-icon">🔧</div><div class="n-label">Constructor Bots</div><div class="n-sub">agente_constructor_bots.py</div>
+    </div>
   </div>
 
   <!-- LAYER 3: ARIA CORE -->
@@ -187,6 +192,31 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
       data-desc="Org: analyticssynaptic-cloud. 50+ repos activos. Reportes HTML con Chart.js publicados como GitHub Pages. Auto-numeración por campaña. Esta misma red está publicada aquí."
       data-tags="50+ repos,Chart.js,Pages,gh CLI">
       <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">analyticssynaptic-cloud</div>
+    </div>
+  </div>
+
+  <!-- LAYER 5: Repos GitHub Pages -->
+  <div class="layer" id="l5">
+    <div class="layer-label">Repos GitHub</div>
+    <div class="node out gh" id="n-rpqpb" data-label="PQP Barranquillita" data-sub="pqp-informe-barranquillita-*" data-icon="📄"
+      data-desc="Reportes HTML de PQP Barranquillita publicados en GitHub Pages. Auto-numerados: pqp-informe-barranquillita-1, -2, etc. Contienen Chart.js con KPIs, top mercaderistas, reglas automáticas."
+      data-tags="Chart.js,GitHub Pages,Auto-numerado,preparar_informe()">
+      <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">pqp-informe-barranquillita-*</div>
+    </div>
+    <div class="node out gh" id="n-rpqpg" data-label="PQP General" data-sub="Flash-Report-PQP-*" data-icon="📊"
+      data-desc="Reportes de campaña PQP General (multi-ciudad). Flash-Report-PQP-1, -2, etc. Análisis por ciudad, top mercaderistas y reglas de negocio generadas automáticamente."
+      data-tags="Multi-ciudad,Chart.js,GitHub Pages,reglas automáticas">
+      <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Flash-Report-PQP-*</div>
+    </div>
+    <div class="node out gh" id="n-rneural" data-label="Red Sináptica" data-sub="ARIA-Red-Sinaptica" data-icon="🧬"
+      data-desc="Este mismo diagrama. Publicado en analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/. Se actualiza cada vez que se crea un nuevo agente, tarea programada o integración."
+      data-tags="Diagrama neuronal,Siempre actualizado,analyticssynaptic-cloud">
+      <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div><div class="n-sub">ARIA-Red-Sinaptica</div>
+    </div>
+    <div class="node out gh" id="n-rpwa" data-label="PWA Tools" data-sub="Herramienta-*" data-icon="📱"
+      data-desc="Herramientas PWA de registro de datos generadas por el Constructor de Bots. Mobile-first, login por usuario, módulos configurables, cola offline y envío a Google Apps Script. Ej: Herramienta-Henkel-GLISS."
+      data-tags="PWA,Mobile-first,Offline queue,Google Apps Script">
+      <div class="n-icon">📱</div><div class="n-label">PWA Tools</div><div class="n-sub">Herramienta-*</div>
     </div>
   </div>
 
@@ -246,6 +276,15 @@ const EDGES = [
   ['n-ainf',    'n-ogh',     '#f97316'],
   ['n-abrief',  'n-otts',    '#8b5cf6'],
   ['n-apqp',    'n-otts',    '#f97316'],
+  // ARIA → Constructor (ARIA orquesta la entrevista)
+  ['n-aria',    'n-acbots',  '#a855f7'],
+  // Constructor → GitHub (publica PWAs)
+  ['n-acbots',  'n-ogh',     '#f97316'],
+  // Agentes → Repos específicos
+  ['n-ainf',    'n-rpqpb',   '#f97316'],
+  ['n-ainf',    'n-rpqpg',   '#f97316'],
+  ['n-acbots',  'n-rpwa',    '#f97316'],
+  ['n-aria',    'n-rneural', '#a855f7'],
 ];
 
 let animT = 0;
