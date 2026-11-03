@@ -57,19 +57,8 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .leg{padding:10px 28px 28px;display:flex;flex-wrap:wrap;gap:14px;}
 .li{display:flex;align-items:center;gap:7px;font-size:.63rem;color:rgba(255,255,255,.48);}
 .ld{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-/* Portfolio */
-.port-wrap{padding:0 28px 60px;min-width:1280px;border-top:1px solid rgba(255,255,255,.07);margin-top:8px;}
-.port-hd{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0 28px;}
-.port-hd span:first-child{font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#a78bfa;}
-.port-hd span:first-child em{color:#fff;font-style:normal;}
-.port-sub{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);}
-.port-cat{margin-bottom:28px;}
-.port-cat.hl .rg{outline:1px solid rgba(255,255,255,.15);border-radius:6px;padding:6px;}
-.cat-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55);}
-.cat-ico{font-size:1rem;}
-.cnt{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);padding:2px 8px;border-radius:10px;font-size:.58rem;letter-spacing:.5px;font-weight:600;}
-.rg{display:flex;flex-wrap:wrap;gap:6px;}
-.rp{display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:.67rem;text-decoration:none;transition:all .15s;border:1px solid;white-space:nowrap;font-weight:500;}
+/* Repo chips */
+.rp{display:inline-flex;align-items:center;padding:4px 11px;border-radius:16px;font-size:.65rem;text-decoration:none;transition:all .14s;border:1px solid;white-space:nowrap;font-weight:500;}
 .rp.new{font-weight:700;}
 .rp.pqpg{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.28);color:#fca5a5;}
 .rp.pqpg:hover,.rp.pqpg.new{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.5);}
@@ -85,6 +74,25 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .rp.apps:hover{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.5);}
 .rp.ev{background:rgba(148,163,184,.06);border-color:rgba(148,163,184,.22);color:#94a3b8;}
 .rp.ev:hover{background:rgba(148,163,184,.14);border-color:rgba(148,163,184,.4);}
+/* Repo panel */
+#repo-panel{position:fixed;top:56px;right:18px;width:340px;max-height:calc(100vh - 76px);
+  background:#0b0b22;border:1px solid rgba(139,92,246,.6);border-radius:14px;
+  overflow-y:auto;z-index:200;padding:16px 18px 18px;
+  display:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 40px rgba(0,0,0,.6);}
+#repo-panel.vis{opacity:1;}
+#rp-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+#rp-title{font-size:.8rem;font-weight:700;color:#e2e8f0;flex:1;}
+#rp-count{font-size:.58rem;color:rgba(255,255,255,.32);margin-top:3px;}
+#rp-close{background:none;border:none;color:rgba(255,255,255,.38);font-size:1.4rem;cursor:pointer;line-height:1;padding:0 0 0 8px;flex-shrink:0;transition:color .12s;}
+#rp-close:hover{color:#fff;}
+#rp-list{display:flex;flex-wrap:wrap;gap:5px;}
+/* Zoom controls */
+.zoom-ctrl{position:fixed;bottom:22px;right:22px;display:flex;gap:5px;z-index:300;align-items:center;}
+.zb{background:rgba(8,8,28,.92);border:1px solid rgba(139,92,246,.4);color:#c4b5fd;
+  width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:1.05rem;
+  display:flex;align-items:center;justify-content:center;transition:all .12s;font-family:inherit;}
+.zb:hover{background:rgba(139,92,246,.22);border-color:rgba(139,92,246,.65);}
+#z-level{width:52px;font-size:.6rem;letter-spacing:.5px;}
 </style>
 </head>
 <body>
@@ -261,50 +269,61 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">97 repos activos</div>
 </div>
 
-<!-- ── LAYER 5: Repos GitHub ─────────────────────────── -->
-<div class="node repo link" id="n-rpqpb" style="left:1040px;top:348px"
-  data-label="PQP Barranquillita Informes" data-sub="6 informes publicados ↗"
-  data-url="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-5/"
-  data-desc="6 informes publicados. Generados por Agente Informe Campaña. Contienen KPIs, top mercaderistas, PDVs y reglas automáticas con Chart.js."
-  data-tags="pqp-informe-barranquillita-5,-iv,-iii,-ii,-i,Chart.js,KPIs">
-  <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div>
-  <div class="n-sub">6 informes publicados ↗</div>
-</div>
-
-<div class="node repo link" id="n-rpqpg" style="left:1040px;top:438px"
-  data-label="PQP General Flash Reports" data-sub="13+ Flash Reports ↗"
-  data-url="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-13/"
-  data-desc="13+ Flash Reports PQP General. Multi-ciudad (Medellín, Bucaramanga, Barranquilla). Sin información geográfica pública. Generados por Informe Campaña."
-  data-tags="Flash-Report-PQP-13,Flash-Report-PQP-XVI,Flash-Report-PQP-XV,13+ repos,Chart.js">
+<!-- ── LAYER 5: 7 categorías GitHub ──────────────────── -->
+<div class="node repo link" id="n-rpqpg" style="left:1040px;top:148px"
+  data-label="PQP General Flash Reports" data-sub="21 repos · clic para ver"
+  data-desc="21 Flash Reports PQP General. Multi-ciudad sin datos GPS públicos."
+  data-tags="21 repos,Flash-Report-PQP-13,Flash-Report-PQP-XVI,Flash-Report-PQP-XV">
   <div class="n-icon">📊</div><div class="n-label">PQP General</div>
-  <div class="n-sub">Flash-Report-PQP-13 ↗</div>
+  <div class="n-sub">21 Flash Reports</div><div class="n-count">↗ ver todos</div>
 </div>
 
-<div class="node repo link" id="n-rhenkel" style="left:1040px;top:528px"
-  data-label="Henkel GLISS Reports" data-sub="Reporte-Henkel-IX ↗"
-  data-url="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IX/"
-  data-desc="9 reportes Henkel GLISS (I → IX) + Dash-Henkel, Dash-Gerencial-Henkel, Reporte-Fotografico-Henkel. Generados por Informe Campaña."
-  data-tags="Reporte-Henkel-IX,Dash-Henkel,Dash-Gerencial-Henkel,Reporte-Fotografico-Henkel,9 informes">
-  <div class="n-icon">💎</div><div class="n-label">Henkel Reports</div>
-  <div class="n-sub">Reporte-Henkel-IX ↗</div>
+<div class="node repo link" id="n-rpqpb" style="left:1040px;top:243px"
+  data-label="PQP Barranquillita Informes" data-sub="5 informes · clic para ver"
+  data-desc="5 informes PQP Barranquillita. KPIs de ingresos, ventas, muestras y premios por fecha."
+  data-tags="5 repos,pqp-informe-barranquillita-5,pqp-informe-barranquillita-iv">
+  <div class="n-icon">🏪</div><div class="n-label">PQP Barranquillita</div>
+  <div class="n-sub">5 informes</div><div class="n-count">↗ ver todos</div>
 </div>
 
-<div class="node repo link" id="n-rneural" style="left:1040px;top:618px"
-  data-label="ARIA Red Sináptica" data-sub="ARIA-Red-Sinaptica ↗"
-  data-url="https://analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/"
-  data-desc="Este mismo diagrama. Se actualiza en cada nuevo agente, tarea o integración. URL permanente del mapa de arquitectura de ARIA."
-  data-tags="Auto-actualizado,Diagrama neuronal,ARIA-Red-Sinaptica">
-  <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div>
-  <div class="n-sub">ARIA-Red-Sinaptica ↗</div>
+<div class="node repo link" id="n-rhenkel" style="left:1040px;top:338px"
+  data-label="Henkel GLISS Reports" data-sub="12 reportes · clic para ver"
+  data-desc="Reporte-Henkel-I → IX + Dash-Henkel + Dash-Gerencial-Henkel + Reporte-Fotografico-Henkel."
+  data-tags="12 repos,Reporte-Henkel-IX,Dash-Henkel,Dash-Gerencial-Henkel">
+  <div class="n-icon">💎</div><div class="n-label">Henkel GLISS</div>
+  <div class="n-sub">12 reportes</div><div class="n-count">↗ ver todos</div>
 </div>
 
-<div class="node repo link" id="n-rpwa" style="left:1040px;top:708px"
-  data-label="PWA Tools — Herramientas de Registro" data-sub="10+ herramientas activas ↗"
-  data-url="https://analyticssynaptic-cloud.github.io/Herramienta-Henkel/"
-  data-desc="Herramientas PWA de registro de datos en campo. Mobile-first, login, módulos configurables, cola offline → Google Apps Script → Sheets."
-  data-tags="Herramienta-Henkel,Control-Ingresos-Geocerca,PQP-Barranquillita,PQP-Mercaderismo,PQP-Impulso,Apiaria-V3,Creador-de-Rutas,Geo-Facing">
-  <div class="n-icon">📱</div><div class="n-label">PWA Tools</div>
-  <div class="n-sub">10+ herramientas activas ↗</div>
+<div class="node repo link" id="n-rneural" style="left:1040px;top:433px"
+  data-label="Herramientas y Apps" data-sub="8 repos · clic para ver"
+  data-desc="ARIA-Red-Sinaptica, Excel-Academy, ia-claude-presentacion, simulador-de-interfaces, Portal-Synaptic, Estado-WEB, Monitoreos-Web-Site-MFD, TDR-Mock-up."
+  data-tags="8 repos,ARIA-Red-Sinaptica,Excel-Academy,Portal-Synaptic">
+  <div class="n-icon">🛠</div><div class="n-label">Herram. y Apps</div>
+  <div class="n-sub">8 repos</div><div class="n-count">↗ ver todos</div>
+</div>
+
+<div class="node repo link" id="n-rpwa" style="left:1040px;top:528px"
+  data-label="PWA de Registro" data-sub="12 herramientas · clic para ver"
+  data-desc="Herramientas PWA mobile-first: login, módulos configurables, cola offline → Google Apps Script → Sheets."
+  data-tags="12 repos,Herramienta-Henkel,Apiaria-V3,Creador-de-Rutas,Geo-Facing">
+  <div class="n-icon">📱</div><div class="n-label">PWA de Registro</div>
+  <div class="n-sub">12 herramientas</div><div class="n-count">↗ ver todos</div>
+</div>
+
+<div class="node repo link" id="n-rotros" style="left:1040px;top:623px"
+  data-label="Otros Clientes" data-sub="24 repos · clic para ver"
+  data-desc="MEICO, NIVEA, Rich, Cerveza, Soluta, DIAGEO, Postobon, Nutrium, Cargill, Mexicano, Bevgo, Valledupar, MFD series."
+  data-tags="24 repos,Meico,NIVEA,DIAGEO,MFD,Postobon">
+  <div class="n-icon">📈</div><div class="n-label">Otros Clientes</div>
+  <div class="n-sub">24 reportes</div><div class="n-count">↗ ver todos</div>
+</div>
+
+<div class="node repo link" id="n-reventos" style="left:1040px;top:718px"
+  data-label="Eventos y Propuestas" data-sub="15 repos · clic para ver"
+  data-desc="Expo-Vinos-2026, Pausas Activas, Semana Salud, Juegos, Propuestas Comerciales y eventos institucionales."
+  data-tags="15 repos,Expo-Vinos-2026,Juegos-de-Cierre,Propuesta-Comercial">
+  <div class="n-icon">🎪</div><div class="n-label">Eventos y Propuestas</div>
+  <div class="n-sub">15 repos</div><div class="n-count">↗ ver todos</div>
 </div>
 
 </div><!-- /diagram -->
@@ -322,179 +341,70 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   <div class="li"><div class="ld" style="background:#22c55e;opacity:.55"></div>Repos GitHub Pages</div>
 </div>
 
-<!-- ── PORTFOLIO: todos los repos ──────────────────────── -->
-<div class="port-wrap" id="portfolio">
-  <div class="port-hd">
-    <span><em>Portafolio</em> GitHub Pages</span>
-    <span class="port-sub">97 repos · analyticssynaptic-cloud · Nov 2026</span>
-  </div>
-
-  <!-- PQP General -->
-  <div class="port-cat" id="cat-pqpg">
-    <div class="cat-hd"><span class="cat-ico">📊</span>PQP General Flash Reports<span class="cnt">21</span></div>
-    <div class="rg">
-      <a class="rp pqpg new" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-13/" target="_blank">Flash-Report-PQP-13</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XVI/" target="_blank">Flash-Report-PQP-XVI</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XV/" target="_blank">Flash-Report-PQP-XV</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XIV/" target="_blank">Flash-Report-PQP-XIV</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XIII/" target="_blank">Flash-Report-PQP-XIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XII/" target="_blank">Flash-Report-PQP-XII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XI/" target="_blank">Flash-Report-PQP-XI</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIII/" target="_blank">Flash-Report-PQP-IIIIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIII/" target="_blank">Flash-Report-PQP-IIIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIII/" target="_blank">Flash-Report-PQP-IIIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIII/" target="_blank">Flash-Report-PQP-IIII</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-III/" target="_blank">Flash-Report-PQP-III</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-II/" target="_blank">Flash-Report-PQP-II</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP/" target="_blank">Flash-Report-PQP</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flas-Report-PQP/" target="_blank">Flas-Report-PQP</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Reporte-Mensual-PQP-I/" target="_blank">Reporte-Mensual-PQP-I</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Dash-Board-PQP-Mercaderismo/" target="_blank">Dash-Board-PQP-Mercaderismo</a>
-      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Dash-PQP/" target="_blank">Dash-PQP</a>
-    </div>
-  </div>
-
-  <!-- PQP Barranquillita -->
-  <div class="port-cat" id="cat-pqpb">
-    <div class="cat-hd"><span class="cat-ico">🏪</span>PQP Barranquillita Informes<span class="cnt">5</span></div>
-    <div class="rg">
-      <a class="rp pqpb new" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-5/" target="_blank">pqp-informe-barranquillita-5</a>
-      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-iv/" target="_blank">pqp-informe-barranquillita-iv</a>
-      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-iii/" target="_blank">pqp-informe-barranquillita-iii</a>
-      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-ii/" target="_blank">pqp-informe-barranquillita-ii</a>
-      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita/" target="_blank">pqp-informe-barranquillita</a>
-    </div>
-  </div>
-
-  <!-- Henkel GLISS -->
-  <div class="port-cat" id="cat-henkel">
-    <div class="cat-hd"><span class="cat-ico">💎</span>Henkel GLISS Reports<span class="cnt">12</span></div>
-    <div class="rg">
-      <a class="rp henk new" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IX/" target="_blank">Reporte-Henkel-IX</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VIII/" target="_blank">Reporte-Henkel-VIII</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VII/" target="_blank">Reporte-Henkel-VII</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VI/" target="_blank">Reporte-Henkel-VI</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-V/" target="_blank">Reporte-Henkel-V</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IV/" target="_blank">Reporte-Henkel-IV</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-III/" target="_blank">Reporte-Henkel-III</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-II/" target="_blank">Reporte-Henkel-II</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-I/" target="_blank">Reporte-Henkel-I</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Dash-Henkel/" target="_blank">Dash-Henkel</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Dash-Gerencial-Henkel/" target="_blank">Dash-Gerencial-Henkel</a>
-      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Fotografico-Henkel/" target="_blank">Reporte-Fotografico-Henkel</a>
-    </div>
-  </div>
-
-  <!-- PWA de Registro -->
-  <div class="port-cat" id="cat-pwa">
-    <div class="cat-hd"><span class="cat-ico">📱</span>PWA de Registro<span class="cnt">12</span></div>
-    <div class="rg">
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Herramienta-Henkel/" target="_blank">Herramienta-Henkel</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Control-Ingresos-Geocerca/" target="_blank">Control-Ingresos-Geocerca</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Barranquillita/" target="_blank">PQP-Barranquillita</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Mercaderismo/" target="_blank">PQP-Mercaderismo</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Impulso/" target="_blank">PQP-Impulso</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Apiaria-V3/" target="_blank">Apiaria-V3</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/ApiariaV2/" target="_blank">ApiariaV2</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Apiaria/" target="_blank">Apiaria</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Creador-de-Rutas/" target="_blank">Creador-de-Rutas</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Geo-Facing/" target="_blank">Geo-Facing</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Proyecto-Flash-Nutrium-Api-Captura/" target="_blank">Nutrium-Api-Captura</a>
-      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/HHRR/" target="_blank">HHRR</a>
-    </div>
-  </div>
-
-  <!-- Otros Clientes -->
-  <div class="port-cat" id="cat-otros">
-    <div class="cat-hd"><span class="cat-ico">📈</span>Otros Clientes<span class="cnt">24</span></div>
-    <div class="rg">
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Meico-II/" target="_blank">Informe-Meico-II</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Meico-I/" target="_blank">Informe-Meico-I</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Meico-V/" target="_blank">Meico-V</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MEICO-FERIA-MONTERIA/" target="_blank">MEICO-FERIA-MONTERIA</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Meico-Barranquilla/" target="_blank">Meico-Barranquilla</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Gesti-n-NIVEA-I/" target="_blank">Informe-Gestión-NIVEA-I</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Gesti-n-NIVEA/" target="_blank">Informe-Gestión-NIVEA</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flash-Report-Rich/" target="_blank">Flash-Report-Rich</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flas-Report-Cerveza/" target="_blank">Flas-Report-Cerveza</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flash-Report-Soluta/" target="_blank">Flash-Report-Soluta</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Dash---DIAGEO/" target="_blank">Dash-DIAGEO</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Postobon-Dash/" target="_blank">Postobon-Dash</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Proyecto-Flash-Nutrium-DashBoard/" target="_blank">Flash-Nutrium-DashBoard</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Dash-Nutrium/" target="_blank">Dash-Nutrium</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Gesti-n-Cargill/" target="_blank">Gestión-Cargill</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Gestion-Mexicano/" target="_blank">Gestion-Mexicano</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Bevgo-I/" target="_blank">Bevgo-I</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Valledupar-II/" target="_blank">Valledupar-II</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Valledupar-I/" target="_blank">Valledupar-I</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Marketing-y-Eventos/" target="_blank">MFD-Marketing-y-Eventos</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Azana/" target="_blank">MFD-Azana</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Bivien/" target="_blank">MFD-Bivien</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Prebel-MFD/" target="_blank">Prebel-MFD</a>
-      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Propuesta-Comercial-MFD/" target="_blank">Propuesta-Comercial-MFD</a>
-    </div>
-  </div>
-
-  <!-- Herramientas y Apps -->
-  <div class="port-cat" id="cat-apps">
-    <div class="cat-hd"><span class="cat-ico">🛠</span>Herramientas y Apps<span class="cnt">8</span></div>
-    <div class="rg">
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/" target="_blank">ARIA-Red-Sinaptica</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Excel-Academy-Synaptic/" target="_blank">Excel-Academy-Synaptic</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/ia-claude-presentacion/" target="_blank">ia-claude-presentacion</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/simulador-de-interfaces/" target="_blank">simulador-de-interfaces</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Portal-Synapctic/" target="_blank">Portal-Synaptic</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Estado-WEB/" target="_blank">Estado-WEB</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Monitoreos-Web-Site-MFD/" target="_blank">Monitoreos-Web-Site-MFD</a>
-      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/TDR-Mock-up/" target="_blank">TDR-Mock-up</a>
-    </div>
-  </div>
-
-  <!-- Eventos y Propuestas -->
-  <div class="port-cat" id="cat-eventos">
-    <div class="cat-hd"><span class="cat-ico">🎪</span>Eventos y Propuestas<span class="cnt">15</span></div>
-    <div class="rg">
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Expo-Vinos-2026/" target="_blank">Expo-Vinos-2026</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Pausas-Activas-Grupales-Par-Servicios/" target="_blank">Pausas-Activas-Grupales</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Semana-Salud-Par-Servicios/" target="_blank">Semana-Salud-Par-Servicios</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Propuestas-de-Juegos/" target="_blank">Propuestas-de-Juegos</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juegos-de-Cierre/" target="_blank">Juegos-de-Cierre</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juegos-Par-Servicios/" target="_blank">Juegos-Par-Servicios</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juego-V1/" target="_blank">Juego-V1</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Propuesta-Comercial/" target="_blank">Propuesta-Comercial</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/CV-Erika-Johana-Sanabria-Corredor/" target="_blank">CV-Erika-Sanabria</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/LSF/" target="_blank">LSF</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/LADY-SOFT/" target="_blank">LADY-SOFT</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Par-Servicios-Fin-de-A-o/" target="_blank">Par-Servicios-Fin-de-Año</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Feliz-Cumplea-os-Vida/" target="_blank">Feliz-Cumpleaños-Vida</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Cuidado-VIsual-y-Auditivo/" target="_blank">Cuidado-Visual-y-Auditivo</a>
-      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Evento-FD-Madres/" target="_blank">Evento-FD-Madres</a>
-    </div>
-  </div>
-</div>
-
 <script>
-// Edges: [from, to, color]
-// All connections flow left→right between adjacent or one-skip layers.
-// Agents→Repos route through GitHub Pages node (no long-range skips).
+const REPOS = {
+  'n-rpqpg':{ label:'PQP General Flash Reports', icon:'📊', cls:'pqpg', items:[
+    {n:'Flash-Report-PQP-13',nw:1},{n:'Flash-Report-PQP-XVI'},{n:'Flash-Report-PQP-XV'},
+    {n:'Flash-Report-PQP-XIV'},{n:'Flash-Report-PQP-XIII'},{n:'Flash-Report-PQP-XII'},
+    {n:'Flash-Report-PQP-XI'},{n:'Flash-Report-PQP-IIIIIIIIII'},{n:'Flash-Report-PQP-IIIIIIIII'},
+    {n:'Flash-Report-PQP-IIIIIIII'},{n:'Flash-Report-PQP-IIIIIII'},{n:'Flash-Report-PQP-IIIIII'},
+    {n:'Flash-Report-PQP-IIIII'},{n:'Flash-Report-PQP-IIII'},{n:'Flash-Report-PQP-III'},
+    {n:'Flash-Report-PQP-II'},{n:'Flash-Report-PQP'},{n:'Flas-Report-PQP'},
+    {n:'Reporte-Mensual-PQP-I'},{n:'Dash-Board-PQP-Mercaderismo'},{n:'Dash-PQP'},
+  ]},
+  'n-rpqpb':{ label:'PQP Barranquillita Informes', icon:'🏪', cls:'pqpb', items:[
+    {n:'pqp-informe-barranquillita-5',nw:1},{n:'pqp-informe-barranquillita-iv'},
+    {n:'pqp-informe-barranquillita-iii'},{n:'pqp-informe-barranquillita-ii'},
+    {n:'pqp-informe-barranquillita'},
+  ]},
+  'n-rhenkel':{ label:'Henkel GLISS Reports', icon:'💎', cls:'henk', items:[
+    {n:'Reporte-Henkel-IX',nw:1},{n:'Reporte-Henkel-VIII'},{n:'Reporte-Henkel-VII'},
+    {n:'Reporte-Henkel-VI'},{n:'Reporte-Henkel-V'},{n:'Reporte-Henkel-IV'},
+    {n:'Reporte-Henkel-III'},{n:'Reporte-Henkel-II'},{n:'Reporte-Henkel-I'},
+    {n:'Dash-Henkel'},{n:'Dash-Gerencial-Henkel'},{n:'Reporte-Fotografico-Henkel'},
+  ]},
+  'n-rneural':{ label:'Herramientas y Apps', icon:'🛠', cls:'apps', items:[
+    {n:'ARIA-Red-Sinaptica'},{n:'Excel-Academy-Synaptic'},{n:'ia-claude-presentacion'},
+    {n:'simulador-de-interfaces'},{n:'Portal-Synapctic'},{n:'Estado-WEB'},
+    {n:'Monitoreos-Web-Site-MFD'},{n:'TDR-Mock-up'},
+  ]},
+  'n-rpwa':{ label:'PWA de Registro', icon:'📱', cls:'pwa', items:[
+    {n:'Herramienta-Henkel'},{n:'Control-Ingresos-Geocerca'},{n:'PQP-Barranquillita'},
+    {n:'PQP-Mercaderismo'},{n:'PQP-Impulso'},{n:'Apiaria-V3'},{n:'ApiariaV2'},
+    {n:'Apiaria'},{n:'Creador-de-Rutas'},{n:'Geo-Facing'},
+    {n:'Proyecto-Flash-Nutrium-Api-Captura'},{n:'HHRR'},
+  ]},
+  'n-rotros':{ label:'Otros Clientes', icon:'📈', cls:'otros', items:[
+    {n:'Informe-Meico-II'},{n:'Informe-Meico-I'},{n:'Meico-V'},{n:'MEICO-FERIA-MONTERIA'},
+    {n:'Meico-Barranquilla'},{n:'Informe-Gesti-n-NIVEA-I'},{n:'Informe-Gesti-n-NIVEA'},
+    {n:'Flash-Report-Rich'},{n:'Flas-Report-Cerveza'},{n:'Flash-Report-Soluta'},
+    {n:'Dash---DIAGEO'},{n:'Postobon-Dash'},{n:'Proyecto-Flash-Nutrium-DashBoard'},
+    {n:'Dash-Nutrium'},{n:'Gesti-n-Cargill'},{n:'Gestion-Mexicano'},{n:'Bevgo-I'},
+    {n:'Valledupar-II'},{n:'Valledupar-I'},{n:'MFD-Marketing-y-Eventos'},
+    {n:'MFD-Azana'},{n:'MFD-Bivien'},{n:'Prebel-MFD'},{n:'Propuesta-Comercial-MFD'},
+  ]},
+  'n-reventos':{ label:'Eventos y Propuestas', icon:'🎪', cls:'ev', items:[
+    {n:'Expo-Vinos-2026'},{n:'Pausas-Activas-Grupales-Par-Servicios'},
+    {n:'Semana-Salud-Par-Servicios'},{n:'Propuestas-de-Juegos'},{n:'Juegos-de-Cierre'},
+    {n:'Juegos-Par-Servicios'},{n:'Juego-V1'},{n:'Propuesta-Comercial'},
+    {n:'CV-Erika-Johana-Sanabria-Corredor'},{n:'LSF'},{n:'LADY-SOFT'},
+    {n:'Par-Servicios-Fin-de-A-o'},{n:'Feliz-Cumplea-os-Vida'},
+    {n:'Cuidado-VIsual-y-Auditivo'},{n:'Evento-FD-Madres'},
+  ]},
+};
+
 const EDGES = [
-  // APIs → Agents (skip Sheets column)
   ['n-steam',   'n-ajuegos', '#22c55e'],
   ['n-meteo',   'n-abrief',  '#22c55e'],
   ['n-meteo',   'n-aubic',   '#22c55e'],
   ['n-osm',     'n-aubic',   '#22c55e'],
   ['n-gtrans',  'n-atrad',   '#22c55e'],
   ['n-rss',     'n-abrief',  '#22c55e'],
-  // Sheets → Agents
   ['n-sbq',     'n-apqp',    '#ef4444'],
   ['n-spqp',    'n-apqp',    '#ef4444'],
   ['n-sbq',     'n-ainf',    '#ef4444'],
   ['n-spqp',    'n-ainf',    '#ef4444'],
   ['n-shenkel', 'n-ainf',    '#ef4444'],
-  // Agents → ARIA
   ['n-abrief',  'n-aria',    '#8b5cf6'],
   ['n-ajuegos', 'n-aria',    '#8b5cf6'],
   ['n-aviajes', 'n-aria',    '#8b5cf6'],
@@ -504,22 +414,20 @@ const EDGES = [
   ['n-aubic',   'n-aria',    '#8b5cf6'],
   ['n-atrad',   'n-aria',    '#8b5cf6'],
   ['n-acbots',  'n-aria',    '#f97316'],
-  // ARIA → Outputs
   ['n-aria',    'n-otg',     '#a855f7'],
   ['n-aria',    'n-otts',    '#a855f7'],
   ['n-aria',    'n-ogh',     '#a855f7'],
-  // Agents → GitHub (direct publish, bypassing ARIA)
   ['n-ainf',    'n-ogh',     '#f97316'],
   ['n-acbots',  'n-ogh',     '#f97316'],
-  // Agents → TTS (direct audio output)
   ['n-abrief',  'n-otts',    '#8b5cf6'],
   ['n-apqp',    'n-otts',    '#f97316'],
-  // GitHub Pages → Repos específicos
-  ['n-ogh',     'n-rpqpb',   '#22c55e'],
   ['n-ogh',     'n-rpqpg',   '#22c55e'],
+  ['n-ogh',     'n-rpqpb',   '#22c55e'],
   ['n-ogh',     'n-rhenkel', '#22c55e'],
   ['n-ogh',     'n-rneural', '#22c55e'],
   ['n-ogh',     'n-rpwa',    '#22c55e'],
+  ['n-ogh',     'n-rotros',  '#22c55e'],
+  ['n-ogh',     'n-reventos','#22c55e'],
 ];
 
 const MARKER_COLORS = ['22c55e','ef4444','f97316','8b5cf6','a855f7','06b6d4'];
@@ -532,11 +440,12 @@ function buildDefs() {
   ).join('') + '</defs>';
 }
 
+let zoom = 1;
+
 function draw() {
   const svg  = document.getElementById('conn-svg');
   const diag = document.getElementById('diagram');
   const dr   = diag.getBoundingClientRect();
-
   svg.innerHTML = buildDefs();
 
   EDGES.forEach(([fromId, toId, color], i) => {
@@ -547,18 +456,14 @@ function draw() {
     const fr = fe.getBoundingClientRect();
     const tr = te.getBoundingClientRect();
 
-    // Positions relative to diagram (cancel out scroll & page offset)
-    const x1 = fr.right  - dr.left;
-    const y1 = fr.top    - dr.top  + fr.height / 2;
-    const x2 = tr.left   - dr.left - 8;  // pull back for arrowhead
-    const y2 = tr.top    - dr.top  + tr.height / 2;
-
-    // Bezier control points: S-curve between columns
+    const x1 = (fr.right  - dr.left) / zoom;
+    const y1 = (fr.top    - dr.top  + fr.height / 2) / zoom;
+    const x2 = (tr.left   - dr.left) / zoom - 8;
+    const y2 = (tr.top    - dr.top  + tr.height / 2) / zoom;
     const mx = (x1 + x2) / 2;
     const d  = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
     const mc = color.slice(1);
 
-    // Static line
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', d);
     path.setAttribute('stroke', color);
@@ -568,20 +473,17 @@ function draw() {
     path.setAttribute('marker-end', `url(#m${mc})`);
     svg.appendChild(path);
 
-    // Animated pulse dot along path
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('r', '2.7');
     circle.setAttribute('fill', color);
     circle.setAttribute('opacity', '0.88');
-
     const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
     const dur   = (2.2 + (i * 0.38) % 2.1).toFixed(1) + 's';
     const begin = (-i * 0.47).toFixed(1) + 's';
-    anim.setAttribute('dur',         dur);
-    anim.setAttribute('begin',       begin);
+    anim.setAttribute('dur', dur);
+    anim.setAttribute('begin', begin);
     anim.setAttribute('repeatCount', 'indefinite');
-    anim.setAttribute('path',        `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
-
+    anim.setAttribute('path', d);
     circle.appendChild(anim);
     svg.appendChild(circle);
   });
@@ -590,25 +492,68 @@ function draw() {
 window.addEventListener('load',   draw);
 window.addEventListener('resize', draw);
 
-// Clickable repo nodes — open GitHub Pages URL
+// === ZOOM ===
+function setZoom(z) {
+  zoom = Math.min(2.5, Math.max(0.25, z));
+  const diag = document.getElementById('diagram');
+  diag.style.transform = `scale(${zoom})`;
+  diag.style.transformOrigin = 'top left';
+  diag.parentElement.style.minHeight = (990 * zoom + 80) + 'px';
+  draw();
+  document.getElementById('z-level').textContent = Math.round(zoom * 100) + '%';
+}
+
+document.querySelector('.wrap').addEventListener('wheel', e => {
+  e.preventDefault();
+  setZoom(zoom * (e.deltaY > 0 ? 0.88 : 1.14));
+}, {passive: false});
+
+document.getElementById('z-in').addEventListener('click',    () => setZoom(zoom * 1.2));
+document.getElementById('z-out').addEventListener('click',   () => setZoom(zoom * 0.83));
+document.getElementById('z-reset').addEventListener('click', () => setZoom(1));
+
+// === REPO PANEL ===
+const panel   = document.getElementById('repo-panel');
+const rpTitle = document.getElementById('rp-title');
+const rpCount = document.getElementById('rp-count');
+const rpList  = document.getElementById('rp-list');
+
+function showPanel(nodeId) {
+  const d = REPOS[nodeId];
+  if (!d) return;
+  rpTitle.innerHTML = `<span style="margin-right:6px">${d.icon}</span>${d.label}`;
+  rpCount.textContent = d.items.length + ' repositorios';
+  rpList.innerHTML = d.items.map(it => {
+    const url = `https://analyticssynaptic-cloud.github.io/${it.n}/`;
+    return `<a class="rp ${d.cls}${it.nw ? ' new' : ''}" href="${url}" target="_blank">${it.n}</a>`;
+  }).join('');
+  panel.style.display = 'block';
+  requestAnimationFrame(() => panel.classList.add('vis'));
+}
+
+function hidePanel() {
+  panel.classList.remove('vis');
+  setTimeout(() => { panel.style.display = 'none'; }, 180);
+}
+
 document.querySelectorAll('.node.repo.link').forEach(el => {
-  el.addEventListener('click', () => {
-    if (el.dataset.url) window.open(el.dataset.url, '_blank');
-  });
+  el.addEventListener('click', e => { e.stopPropagation(); showPanel(el.id); });
+});
+document.getElementById('rp-close').addEventListener('click', hidePanel);
+document.addEventListener('click', e => {
+  if (!panel.contains(e.target) && !e.target.closest('.node.repo')) hidePanel();
 });
 
-// Tooltip
+// === TOOLTIP ===
 const tt = document.getElementById('tt');
 document.querySelectorAll('.node').forEach(el => {
   el.addEventListener('mouseenter', () => {
     const tags = (el.dataset.tags || '').split(',').filter(Boolean)
       .map(t => `<span class="tg">${t.trim()}</span>`).join('');
-    const linkHint = el.dataset.url
-      ? `<div style="margin-top:8px;font-size:.65rem;color:#6ee7b7;">🔗 Clic para abrir en GitHub Pages</div>` : '';
     tt.innerHTML =
       `<b>${el.dataset.label} <small style="color:#9ca3af;font-weight:400;font-size:.68rem">`
       + `${el.dataset.sub || ''}</small></b>`
-      + (el.dataset.desc || '') + '<br>' + tags + linkHint;
+      + (el.dataset.desc || '') + '<br>' + tags;
     tt.style.opacity = '1';
   });
   el.addEventListener('mousemove', ev => {
