@@ -57,6 +57,34 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .leg{padding:10px 28px 28px;display:flex;flex-wrap:wrap;gap:14px;}
 .li{display:flex;align-items:center;gap:7px;font-size:.63rem;color:rgba(255,255,255,.48);}
 .ld{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+/* Portfolio */
+.port-wrap{padding:0 28px 60px;min-width:1280px;border-top:1px solid rgba(255,255,255,.07);margin-top:8px;}
+.port-hd{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0 28px;}
+.port-hd span:first-child{font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#a78bfa;}
+.port-hd span:first-child em{color:#fff;font-style:normal;}
+.port-sub{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);}
+.port-cat{margin-bottom:28px;}
+.port-cat.hl .rg{outline:1px solid rgba(255,255,255,.15);border-radius:6px;padding:6px;}
+.cat-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.cat-ico{font-size:1rem;}
+.cnt{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);padding:2px 8px;border-radius:10px;font-size:.58rem;letter-spacing:.5px;font-weight:600;}
+.rg{display:flex;flex-wrap:wrap;gap:6px;}
+.rp{display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:.67rem;text-decoration:none;transition:all .15s;border:1px solid;white-space:nowrap;font-weight:500;}
+.rp.new{font-weight:700;}
+.rp.pqpg{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.28);color:#fca5a5;}
+.rp.pqpg:hover,.rp.pqpg.new{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.5);}
+.rp.pqpb{background:rgba(249,115,22,.07);border-color:rgba(249,115,22,.28);color:#fdba74;}
+.rp.pqpb:hover,.rp.pqpb.new{background:rgba(249,115,22,.18);border-color:rgba(249,115,22,.5);}
+.rp.henk{background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.28);color:#d8b4fe;}
+.rp.henk:hover,.rp.henk.new{background:rgba(168,85,247,.18);border-color:rgba(168,85,247,.5);}
+.rp.pwa{background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.28);color:#67e8f9;}
+.rp.pwa:hover{background:rgba(6,182,212,.18);border-color:rgba(6,182,212,.5);}
+.rp.otros{background:rgba(251,191,36,.06);border-color:rgba(251,191,36,.22);color:#fde68a;}
+.rp.otros:hover{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.4);}
+.rp.apps{background:rgba(99,102,241,.07);border-color:rgba(99,102,241,.28);color:#a5b4fc;}
+.rp.apps:hover{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.5);}
+.rp.ev{background:rgba(148,163,184,.06);border-color:rgba(148,163,184,.22);color:#94a3b8;}
+.rp.ev:hover{background:rgba(148,163,184,.14);border-color:rgba(148,163,184,.4);}
 </style>
 </head>
 <body>
@@ -229,8 +257,8 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 <div class="node out" id="n-ogh" style="left:834px;top:568px"
   data-label="GitHub Pages" data-sub="analyticssynaptic-cloud"
   data-desc="Org: analyticssynaptic-cloud. 50+ repos activos. Reportes HTML con Chart.js y PWA Tools publicados como GitHub Pages. Comandos via gh CLI desde Python."
-  data-tags="50+ repos,gh CLI,GitHub Pages,HTML">
-  <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">analyticssynaptic-cloud</div>
+  data-tags="97 repos,gh CLI,GitHub Pages,HTML">
+  <div class="n-icon">🌐</div><div class="n-label">GitHub Pages</div><div class="n-sub">97 repos activos</div>
 </div>
 
 <!-- ── LAYER 5: Repos GitHub ─────────────────────────── -->
@@ -292,6 +320,160 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   <div class="li"><div class="ld" style="background:#7c3aed"></div>Núcleo ARIA (orquestadora)</div>
   <div class="li"><div class="ld" style="background:#06b6d4"></div>Canales de salida</div>
   <div class="li"><div class="ld" style="background:#22c55e;opacity:.55"></div>Repos GitHub Pages</div>
+</div>
+
+<!-- ── PORTFOLIO: todos los repos ──────────────────────── -->
+<div class="port-wrap" id="portfolio">
+  <div class="port-hd">
+    <span><em>Portafolio</em> GitHub Pages</span>
+    <span class="port-sub">97 repos · analyticssynaptic-cloud · Nov 2026</span>
+  </div>
+
+  <!-- PQP General -->
+  <div class="port-cat" id="cat-pqpg">
+    <div class="cat-hd"><span class="cat-ico">📊</span>PQP General Flash Reports<span class="cnt">21</span></div>
+    <div class="rg">
+      <a class="rp pqpg new" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-13/" target="_blank">Flash-Report-PQP-13</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XVI/" target="_blank">Flash-Report-PQP-XVI</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XV/" target="_blank">Flash-Report-PQP-XV</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XIV/" target="_blank">Flash-Report-PQP-XIV</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XIII/" target="_blank">Flash-Report-PQP-XIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XII/" target="_blank">Flash-Report-PQP-XII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-XI/" target="_blank">Flash-Report-PQP-XI</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIIII/" target="_blank">Flash-Report-PQP-IIIIIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIIII/" target="_blank">Flash-Report-PQP-IIIIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIIII/" target="_blank">Flash-Report-PQP-IIIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIIII/" target="_blank">Flash-Report-PQP-IIIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-IIII/" target="_blank">Flash-Report-PQP-IIII</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-III/" target="_blank">Flash-Report-PQP-III</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-II/" target="_blank">Flash-Report-PQP-II</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP/" target="_blank">Flash-Report-PQP</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Flas-Report-PQP/" target="_blank">Flas-Report-PQP</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Reporte-Mensual-PQP-I/" target="_blank">Reporte-Mensual-PQP-I</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Dash-Board-PQP-Mercaderismo/" target="_blank">Dash-Board-PQP-Mercaderismo</a>
+      <a class="rp pqpg" href="https://analyticssynaptic-cloud.github.io/Dash-PQP/" target="_blank">Dash-PQP</a>
+    </div>
+  </div>
+
+  <!-- PQP Barranquillita -->
+  <div class="port-cat" id="cat-pqpb">
+    <div class="cat-hd"><span class="cat-ico">🏪</span>PQP Barranquillita Informes<span class="cnt">5</span></div>
+    <div class="rg">
+      <a class="rp pqpb new" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-5/" target="_blank">pqp-informe-barranquillita-5</a>
+      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-iv/" target="_blank">pqp-informe-barranquillita-iv</a>
+      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-iii/" target="_blank">pqp-informe-barranquillita-iii</a>
+      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-ii/" target="_blank">pqp-informe-barranquillita-ii</a>
+      <a class="rp pqpb" href="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita/" target="_blank">pqp-informe-barranquillita</a>
+    </div>
+  </div>
+
+  <!-- Henkel GLISS -->
+  <div class="port-cat" id="cat-henkel">
+    <div class="cat-hd"><span class="cat-ico">💎</span>Henkel GLISS Reports<span class="cnt">12</span></div>
+    <div class="rg">
+      <a class="rp henk new" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IX/" target="_blank">Reporte-Henkel-IX</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VIII/" target="_blank">Reporte-Henkel-VIII</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VII/" target="_blank">Reporte-Henkel-VII</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-VI/" target="_blank">Reporte-Henkel-VI</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-V/" target="_blank">Reporte-Henkel-V</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IV/" target="_blank">Reporte-Henkel-IV</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-III/" target="_blank">Reporte-Henkel-III</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-II/" target="_blank">Reporte-Henkel-II</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-I/" target="_blank">Reporte-Henkel-I</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Dash-Henkel/" target="_blank">Dash-Henkel</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Dash-Gerencial-Henkel/" target="_blank">Dash-Gerencial-Henkel</a>
+      <a class="rp henk" href="https://analyticssynaptic-cloud.github.io/Reporte-Fotografico-Henkel/" target="_blank">Reporte-Fotografico-Henkel</a>
+    </div>
+  </div>
+
+  <!-- PWA de Registro -->
+  <div class="port-cat" id="cat-pwa">
+    <div class="cat-hd"><span class="cat-ico">📱</span>PWA de Registro<span class="cnt">12</span></div>
+    <div class="rg">
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Herramienta-Henkel/" target="_blank">Herramienta-Henkel</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Control-Ingresos-Geocerca/" target="_blank">Control-Ingresos-Geocerca</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Barranquillita/" target="_blank">PQP-Barranquillita</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Mercaderismo/" target="_blank">PQP-Mercaderismo</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/PQP-Impulso/" target="_blank">PQP-Impulso</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Apiaria-V3/" target="_blank">Apiaria-V3</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/ApiariaV2/" target="_blank">ApiariaV2</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Apiaria/" target="_blank">Apiaria</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Creador-de-Rutas/" target="_blank">Creador-de-Rutas</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Geo-Facing/" target="_blank">Geo-Facing</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/Proyecto-Flash-Nutrium-Api-Captura/" target="_blank">Nutrium-Api-Captura</a>
+      <a class="rp pwa" href="https://analyticssynaptic-cloud.github.io/HHRR/" target="_blank">HHRR</a>
+    </div>
+  </div>
+
+  <!-- Otros Clientes -->
+  <div class="port-cat" id="cat-otros">
+    <div class="cat-hd"><span class="cat-ico">📈</span>Otros Clientes<span class="cnt">24</span></div>
+    <div class="rg">
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Meico-II/" target="_blank">Informe-Meico-II</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Meico-I/" target="_blank">Informe-Meico-I</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Meico-V/" target="_blank">Meico-V</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MEICO-FERIA-MONTERIA/" target="_blank">MEICO-FERIA-MONTERIA</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Meico-Barranquilla/" target="_blank">Meico-Barranquilla</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Gesti-n-NIVEA-I/" target="_blank">Informe-Gestión-NIVEA-I</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Informe-Gesti-n-NIVEA/" target="_blank">Informe-Gestión-NIVEA</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flash-Report-Rich/" target="_blank">Flash-Report-Rich</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flas-Report-Cerveza/" target="_blank">Flas-Report-Cerveza</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Flash-Report-Soluta/" target="_blank">Flash-Report-Soluta</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Dash---DIAGEO/" target="_blank">Dash-DIAGEO</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Postobon-Dash/" target="_blank">Postobon-Dash</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Proyecto-Flash-Nutrium-DashBoard/" target="_blank">Flash-Nutrium-DashBoard</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Dash-Nutrium/" target="_blank">Dash-Nutrium</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Gesti-n-Cargill/" target="_blank">Gestión-Cargill</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Gestion-Mexicano/" target="_blank">Gestion-Mexicano</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Bevgo-I/" target="_blank">Bevgo-I</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Valledupar-II/" target="_blank">Valledupar-II</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Valledupar-I/" target="_blank">Valledupar-I</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Marketing-y-Eventos/" target="_blank">MFD-Marketing-y-Eventos</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Azana/" target="_blank">MFD-Azana</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/MFD-Bivien/" target="_blank">MFD-Bivien</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Prebel-MFD/" target="_blank">Prebel-MFD</a>
+      <a class="rp otros" href="https://analyticssynaptic-cloud.github.io/Propuesta-Comercial-MFD/" target="_blank">Propuesta-Comercial-MFD</a>
+    </div>
+  </div>
+
+  <!-- Herramientas y Apps -->
+  <div class="port-cat" id="cat-apps">
+    <div class="cat-hd"><span class="cat-ico">🛠</span>Herramientas y Apps<span class="cnt">8</span></div>
+    <div class="rg">
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/" target="_blank">ARIA-Red-Sinaptica</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Excel-Academy-Synaptic/" target="_blank">Excel-Academy-Synaptic</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/ia-claude-presentacion/" target="_blank">ia-claude-presentacion</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/simulador-de-interfaces/" target="_blank">simulador-de-interfaces</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Portal-Synapctic/" target="_blank">Portal-Synaptic</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Estado-WEB/" target="_blank">Estado-WEB</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/Monitoreos-Web-Site-MFD/" target="_blank">Monitoreos-Web-Site-MFD</a>
+      <a class="rp apps" href="https://analyticssynaptic-cloud.github.io/TDR-Mock-up/" target="_blank">TDR-Mock-up</a>
+    </div>
+  </div>
+
+  <!-- Eventos y Propuestas -->
+  <div class="port-cat" id="cat-eventos">
+    <div class="cat-hd"><span class="cat-ico">🎪</span>Eventos y Propuestas<span class="cnt">15</span></div>
+    <div class="rg">
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Expo-Vinos-2026/" target="_blank">Expo-Vinos-2026</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Pausas-Activas-Grupales-Par-Servicios/" target="_blank">Pausas-Activas-Grupales</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Semana-Salud-Par-Servicios/" target="_blank">Semana-Salud-Par-Servicios</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Propuestas-de-Juegos/" target="_blank">Propuestas-de-Juegos</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juegos-de-Cierre/" target="_blank">Juegos-de-Cierre</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juegos-Par-Servicios/" target="_blank">Juegos-Par-Servicios</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Juego-V1/" target="_blank">Juego-V1</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Propuesta-Comercial/" target="_blank">Propuesta-Comercial</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/CV-Erika-Johana-Sanabria-Corredor/" target="_blank">CV-Erika-Sanabria</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/LSF/" target="_blank">LSF</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/LADY-SOFT/" target="_blank">LADY-SOFT</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Par-Servicios-Fin-de-A-o/" target="_blank">Par-Servicios-Fin-de-Año</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Feliz-Cumplea-os-Vida/" target="_blank">Feliz-Cumpleaños-Vida</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Cuidado-VIsual-y-Auditivo/" target="_blank">Cuidado-Visual-y-Auditivo</a>
+      <a class="rp ev" href="https://analyticssynaptic-cloud.github.io/Evento-FD-Madres/" target="_blank">Evento-FD-Madres</a>
+    </div>
+  </div>
 </div>
 
 <script>
