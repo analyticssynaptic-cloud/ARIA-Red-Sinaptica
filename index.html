@@ -43,6 +43,9 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .node.out:hover{box-shadow:0 0 22px rgba(6,182,212,.32);}
 .node.repo{background:rgba(34,197,94,.09);border:1.5px solid rgba(34,197,94,.4);}
 .node.repo:hover{box-shadow:0 0 22px rgba(34,197,94,.28);}
+.node.repo.link{cursor:pointer;}
+.node.repo.link:hover .n-label{text-decoration:underline;text-decoration-color:rgba(34,197,94,.6);}
+.n-count{font-size:.48rem;color:rgba(34,197,94,.7);margin-top:2px;letter-spacing:.5px;}
 /* Tooltip */
 .tt{position:fixed;background:rgba(8,8,28,.97);border:1px solid #4c1d95;border-radius:10px;
   padding:14px 18px;pointer-events:none;opacity:0;transition:opacity .15s;
@@ -231,32 +234,49 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 </div>
 
 <!-- ── LAYER 5: Repos GitHub ─────────────────────────── -->
-<div class="node repo" id="n-rpqpb" style="left:1040px;top:448px"
-  data-label="PQP Barranquillita" data-sub="pqp-informe-barranquillita-*"
-  data-desc="Reportes HTML de PQP Barranquillita. Auto-numerados: -1, -2... KPIs, top mercaderistas, reglas de negocio automáticas. Generados por Informe Campaña."
-  data-tags="Chart.js,Auto-numerado,preparar_informe()">
-  <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div><div class="n-sub">pqp-informe-barranquillita-*</div>
+<div class="node repo link" id="n-rpqpb" style="left:1040px;top:348px"
+  data-label="PQP Barranquillita Informes" data-sub="6 informes publicados ↗"
+  data-url="https://analyticssynaptic-cloud.github.io/pqp-informe-barranquillita-5/"
+  data-desc="6 informes publicados. Generados por Agente Informe Campaña. Contienen KPIs, top mercaderistas, PDVs y reglas automáticas con Chart.js."
+  data-tags="pqp-informe-barranquillita-5,-iv,-iii,-ii,-i,Chart.js,KPIs">
+  <div class="n-icon">📄</div><div class="n-label">PQP Barranquillita</div>
+  <div class="n-sub">6 informes publicados ↗</div>
 </div>
 
-<div class="node repo" id="n-rpqpg" style="left:1040px;top:548px"
-  data-label="PQP General" data-sub="Flash-Report-PQP-*"
-  data-desc="Reportes PQP General multi-ciudad. Flash-Report-PQP-1, -2... Análisis por ciudad, top mercaderistas, reglas automáticas."
-  data-tags="Multi-ciudad,Chart.js,Reglas auto">
-  <div class="n-icon">📊</div><div class="n-label">PQP General</div><div class="n-sub">Flash-Report-PQP-*</div>
+<div class="node repo link" id="n-rpqpg" style="left:1040px;top:438px"
+  data-label="PQP General Flash Reports" data-sub="13+ Flash Reports ↗"
+  data-url="https://analyticssynaptic-cloud.github.io/Flash-Report-PQP-13/"
+  data-desc="13+ Flash Reports PQP General. Multi-ciudad (Medellín, Bucaramanga, Barranquilla). Sin información geográfica pública. Generados por Informe Campaña."
+  data-tags="Flash-Report-PQP-13,Flash-Report-PQP-XVI,Flash-Report-PQP-XV,13+ repos,Chart.js">
+  <div class="n-icon">📊</div><div class="n-label">PQP General</div>
+  <div class="n-sub">Flash-Report-PQP-13 ↗</div>
 </div>
 
-<div class="node repo" id="n-rneural" style="left:1040px;top:648px"
-  data-label="Red Sináptica" data-sub="ARIA-Red-Sinaptica"
-  data-desc="Este mismo diagrama. Se actualiza automáticamente cada vez que ARIA crea un nuevo agente, tarea programada o integración."
-  data-tags="Auto-actualizado,Diagrama neuronal,analyticssynaptic-cloud">
-  <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div><div class="n-sub">ARIA-Red-Sinaptica</div>
+<div class="node repo link" id="n-rhenkel" style="left:1040px;top:528px"
+  data-label="Henkel GLISS Reports" data-sub="Reporte-Henkel-IX ↗"
+  data-url="https://analyticssynaptic-cloud.github.io/Reporte-Henkel-IX/"
+  data-desc="9 reportes Henkel GLISS (I → IX) + Dash-Henkel, Dash-Gerencial-Henkel, Reporte-Fotografico-Henkel. Generados por Informe Campaña."
+  data-tags="Reporte-Henkel-IX,Dash-Henkel,Dash-Gerencial-Henkel,Reporte-Fotografico-Henkel,9 informes">
+  <div class="n-icon">💎</div><div class="n-label">Henkel Reports</div>
+  <div class="n-sub">Reporte-Henkel-IX ↗</div>
 </div>
 
-<div class="node repo" id="n-rpwa" style="left:1040px;top:748px"
-  data-label="PWA Tools" data-sub="Herramienta-*"
-  data-desc="Herramientas PWA generadas por Constructor Bots. Mobile-first, login por usuario, módulos configurables, cola offline, envío a Google Apps Script."
-  data-tags="PWA,Mobile-first,Offline queue,GAS">
-  <div class="n-icon">📱</div><div class="n-label">PWA Tools</div><div class="n-sub">Herramienta-*</div>
+<div class="node repo link" id="n-rneural" style="left:1040px;top:618px"
+  data-label="ARIA Red Sináptica" data-sub="ARIA-Red-Sinaptica ↗"
+  data-url="https://analyticssynaptic-cloud.github.io/ARIA-Red-Sinaptica/"
+  data-desc="Este mismo diagrama. Se actualiza en cada nuevo agente, tarea o integración. URL permanente del mapa de arquitectura de ARIA."
+  data-tags="Auto-actualizado,Diagrama neuronal,ARIA-Red-Sinaptica">
+  <div class="n-icon">🧬</div><div class="n-label">Red Sináptica</div>
+  <div class="n-sub">ARIA-Red-Sinaptica ↗</div>
+</div>
+
+<div class="node repo link" id="n-rpwa" style="left:1040px;top:708px"
+  data-label="PWA Tools — Herramientas de Registro" data-sub="10+ herramientas activas ↗"
+  data-url="https://analyticssynaptic-cloud.github.io/Herramienta-Henkel/"
+  data-desc="Herramientas PWA de registro de datos en campo. Mobile-first, login, módulos configurables, cola offline → Google Apps Script → Sheets."
+  data-tags="Herramienta-Henkel,Control-Ingresos-Geocerca,PQP-Barranquillita,PQP-Mercaderismo,PQP-Impulso,Apiaria-V3,Creador-de-Rutas,Geo-Facing">
+  <div class="n-icon">📱</div><div class="n-label">PWA Tools</div>
+  <div class="n-sub">10+ herramientas activas ↗</div>
 </div>
 
 </div><!-- /diagram -->
@@ -315,6 +335,7 @@ const EDGES = [
   // GitHub Pages → Repos específicos
   ['n-ogh',     'n-rpqpb',   '#22c55e'],
   ['n-ogh',     'n-rpqpg',   '#22c55e'],
+  ['n-ogh',     'n-rhenkel', '#22c55e'],
   ['n-ogh',     'n-rneural', '#22c55e'],
   ['n-ogh',     'n-rpwa',    '#22c55e'],
 ];
@@ -387,16 +408,25 @@ function draw() {
 window.addEventListener('load',   draw);
 window.addEventListener('resize', draw);
 
+// Clickable repo nodes — open GitHub Pages URL
+document.querySelectorAll('.node.repo.link').forEach(el => {
+  el.addEventListener('click', () => {
+    if (el.dataset.url) window.open(el.dataset.url, '_blank');
+  });
+});
+
 // Tooltip
 const tt = document.getElementById('tt');
 document.querySelectorAll('.node').forEach(el => {
   el.addEventListener('mouseenter', () => {
     const tags = (el.dataset.tags || '').split(',').filter(Boolean)
       .map(t => `<span class="tg">${t.trim()}</span>`).join('');
+    const linkHint = el.dataset.url
+      ? `<div style="margin-top:8px;font-size:.65rem;color:#6ee7b7;">🔗 Clic para abrir en GitHub Pages</div>` : '';
     tt.innerHTML =
       `<b>${el.dataset.label} <small style="color:#9ca3af;font-weight:400;font-size:.68rem">`
       + `${el.dataset.sub || ''}</small></b>`
-      + (el.dataset.desc || '') + '<br>' + tags;
+      + (el.dataset.desc || '') + '<br>' + tags + linkHint;
     tt.style.opacity = '1';
   });
   el.addEventListener('mousemove', ev => {
