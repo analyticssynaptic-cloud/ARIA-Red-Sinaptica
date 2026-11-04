@@ -13,76 +13,100 @@ html,body{
 }
 
 /* Stage: single transform target for zoom/pan */
-#stage{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;transform-origin:50% 50%}
-#stage svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+#stage{
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;
+  transform-origin:50% 50%;will-change:transform;
+}
+#stage svg{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  overflow:visible;pointer-events:none;
+}
 #nodes{position:absolute;top:0;left:0;pointer-events:none}
 
-/* Fixed UI (outside stage — not affected by zoom) */
-#title{position:fixed;top:14px;left:50%;transform:translateX(-50%);
-  text-align:center;z-index:10;pointer-events:none}
+/* Fixed UI elements (outside stage - immune to zoom) */
+#title{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);
+  text-align:center;z-index:10;pointer-events:none;white-space:nowrap;
+}
 #title h1{font-size:11px;color:#00d4ff;letter-spacing:4px;font-weight:300;
   text-transform:uppercase;text-shadow:0 0 18px rgba(0,200,255,.95)}
 #title p{font-size:7.5px;color:rgba(100,160,210,.45);letter-spacing:2px;margin-top:2px}
 #ctrl{position:fixed;bottom:16px;right:16px;z-index:10;display:flex;gap:7px}
-#ctrl button{background:rgba(0,20,60,.88);border:1px solid rgba(0,150,255,.38);
-  color:#88ccff;padding:5px 13px;border-radius:6px;cursor:pointer;font-size:12px;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#ctrl button{
+  background:rgba(0,20,60,.88);border:1px solid rgba(0,150,255,.38);
+  color:#88ccff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
 #ctrl button:active{background:rgba(0,60,160,.85)}
-#legend{position:fixed;bottom:16px;left:16px;z-index:10;
-  display:flex;flex-wrap:wrap;gap:4px 8px;max-width:320px}
+#legend{
+  position:fixed;bottom:16px;left:16px;z-index:10;
+  display:flex;flex-wrap:wrap;gap:4px 10px;max-width:300px;
+}
 .li{display:flex;align-items:center;gap:4px;font-size:7.5px;color:rgba(140,185,225,.6)}
 .ld{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-#tip{position:fixed;background:rgba(4,12,38,.97);border:1px solid rgba(0,180,255,.4);
-  border-radius:8px;padding:7px 13px;font-size:10.5px;color:#cce4ff;pointer-events:none;
-  display:none;z-index:20;max-width:220px;line-height:1.5;box-shadow:0 0 20px rgba(0,100,255,.3)}
+#tip{
+  position:fixed;background:rgba(4,12,38,.97);
+  border:1px solid rgba(0,180,255,.4);border-radius:8px;
+  padding:7px 13px;font-size:10.5px;color:#cce4ff;
+  pointer-events:none;display:none;z-index:20;
+  max-width:220px;line-height:1.5;box-shadow:0 0 20px rgba(0,100,255,.3);
+}
 
 /* Node base */
 .node{position:absolute;transform:translate(-50%,-50%);pointer-events:all;cursor:default}
 
-/* ── ARIA center with coin flip ─── */
-.aria-scene{perspective:800px;width:200px;height:200px}
+/* ── ARIA center with coin flip ──────────────────────────────────────────── */
+.aria-scene{perspective:800px}
 .aria-card{
-  width:200px;height:200px;position:relative;transform-style:preserve-3d;
-  transition:transform .85s cubic-bezier(.4,0,.2,1);cursor:pointer}
+  position:relative;transform-style:preserve-3d;
+  transition:transform .9s cubic-bezier(.4,0,.2,1);cursor:pointer;
+}
 .aria-card.flipped{transform:rotateY(180deg)}
 .aria-face{
-  position:absolute;width:100%;height:100%;backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;border-radius:50%;overflow:hidden;
+  position:absolute;width:100%;height:100%;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:50%;overflow:hidden;
   border:2.5px solid rgba(0,200,255,.78);
-  box-shadow:0 0 36px #00bfff,0 0 70px rgba(0,120,255,.4)}
+}
 .aria-front img{width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.05)}
 .aria-back{
   transform:rotateY(180deg);
   background:radial-gradient(ellipse at center,#0a1e3a 0%,#040c1a 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
-.aria-back .st{font-size:7px;font-weight:700;letter-spacing:2px;color:#00d4ff;
-  text-transform:uppercase;margin-bottom:4px}
-.aria-back .row{font-size:7.5px;color:rgba(160,210,255,.78);letter-spacing:.6px;text-align:center;line-height:1.6}
-.aria-lbl{text-align:center;margin-top:9px;color:#00d4ff;font-size:12px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px;
+}
+.aria-back .st{font-size:6.5px;font-weight:700;letter-spacing:2px;color:#00d4ff;
+  text-transform:uppercase;margin-bottom:4px;text-align:center}
+.aria-back .row{font-size:7px;color:rgba(160,210,255,.78);letter-spacing:.5px;text-align:center;line-height:1.6}
+.aria-lbl{text-align:center;margin-top:8px;color:#00d4ff;font-size:11px;font-weight:700;
   letter-spacing:4px;text-shadow:0 0 12px #00bfff;text-transform:uppercase}
-.aria-sub{text-align:center;color:rgba(130,195,255,.55);font-size:7.5px;
+.aria-sub{text-align:center;color:rgba(130,195,255,.55);font-size:7px;
   letter-spacing:2px;margin-top:3px}
-.aria-hint{text-align:center;color:rgba(80,160,255,.4);font-size:7px;
+.aria-hint{text-align:center;color:rgba(80,160,255,.38);font-size:6.5px;
   letter-spacing:1px;margin-top:2px}
 @keyframes apulse{
-  0%,100%{box-shadow:0 0 36px #00bfff,0 0 70px rgba(0,120,255,.4)}
-  50%{box-shadow:0 0 60px #00e0ff,0 0 130px rgba(0,160,255,.65)}}
+  0%,100%{box-shadow:0 0 32px #00bfff,0 0 60px rgba(0,120,255,.4)}
+  50%{box-shadow:0 0 55px #00e0ff,0 0 110px rgba(0,160,255,.65)}}
 .aria-face{animation:apulse 3.4s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translate(-50%,-50%) translateY(0)}
+@keyframes bob{
+  0%,100%{transform:translate(-50%,-50%) translateY(0)}
   50%{transform:translate(-50%,-50%) translateY(-6px)}}
 
 /* Hub nodes */
-.hub{width:66px;height:66px;border-radius:50%;margin:0 auto;display:flex;
-  align-items:center;justify-content:center;border:2px solid;
-  transition:transform .25s,filter .25s}
-.hub-lbl{font-size:8px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+.hub{
+  border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;
+  border:2px solid;transition:transform .25s,filter .25s;
+}
+.hub-lbl{font-size:7.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
   margin-top:5px;text-align:center;opacity:.9}
 .node:hover .hub{transform:scale(1.22);filter:brightness(1.55)}
 
 /* Agent pills */
-.pill{border-radius:18px;padding:4px 11px;font-size:8px;font-weight:600;
+.pill{
+  border-radius:18px;padding:4px 11px;font-size:7.5px;font-weight:600;
   letter-spacing:.6px;white-space:nowrap;border:1px solid;text-align:center;
-  transition:transform .2s,filter .2s;line-height:1.3}
+  transition:transform .2s,filter .2s;line-height:1.3;
+}
 .node:hover .pill{transform:scale(1.16);filter:brightness(1.6)}
 
 @keyframes flow{to{stroke-dashoffset:-80}}
@@ -121,7 +145,7 @@ const C = {
   auto:  {h:'#AB47BC',l:'rgba(150,50,180,.18)',  t:'#df99ff'},
 };
 
-// 8 hubs evenly at 45° steps, hub at d=0.24
+// 8 hubs at 45° steps. All d values are nominal (may scale on small screens).
 const HUBS = [
   {id:'h-ia',    label:'Stack IA',   icon:'&#129504;', cat:'ia',    a:90,   d:0.24},
   {id:'h-canal', label:'Canales',    icon:'&#128242;', cat:'canal', a:135,  d:0.24},
@@ -133,104 +157,123 @@ const HUBS = [
   {id:'h-auto',  label:'Automatiz.', icon:'&#9200;',   cat:'auto',  a:180,  d:0.24},
 ];
 
-// Agents spread at d=0.44-0.52, clustered ±20° around their hub
 const AGENTS = [
-  // Stack IA (hub 90°) — 3 agents at 100,90,80°
-  {id:'a-ollama', label:'Ollama local',  cat:'ia',    hub:'h-ia',    a:108, d:.48, tip:'qwen2.5 — respuestas simples locales'},
-  {id:'a-groq',   label:'Groq Cloud',   cat:'ia',    hub:'h-ia',    a:90,  d:.50, tip:'LLaMA 3.3 — respuestas medias'},
-  {id:'a-claude', label:'Claude Sonnet',cat:'ia',    hub:'h-ia',    a:72,  d:.48, tip:'Anthropic 4.6 — análisis complejo'},
-
-  // Canales (hub 135°) — 3 agents
-  {id:'a-tg',    label:'Telegram Bot',  cat:'canal', hub:'h-canal', a:155, d:.47, tip:'getUpdates · sendVoice · fotos'},
-  {id:'a-voz',   label:'Voz STT',       cat:'canal', hub:'h-canal', a:135, d:.50, tip:'Whisper / Groq STT · OGG'},
-  {id:'a-foto',  label:'Fotos',         cat:'canal', hub:'h-canal', a:115, d:.47, tip:'Fotos → Drive automático'},
-
-  // Agentes (hub 45°) — 6 agents spread 20-70°
-  {id:'a-calcu', label:'Calculadora',   cat:'agent', hub:'h-agent', a:72,  d:.46, tip:'Cálculos locales'},
-  {id:'a-clima', label:'Clima',         cat:'agent', hub:'h-agent', a:55,  d:.50, tip:'agente_clima · tiempo real'},
-  {id:'a-notic', label:'Noticias',      cat:'agent', hub:'h-agent', a:38,  d:.52, tip:'agente_noticias · titulares'},
-  {id:'a-rec',   label:'Recordatorios',cat:'agent', hub:'h-agent', a:22,  d:.50, tip:'Alarmas y tareas pendientes'},
-  {id:'a-juegos',label:'Monitor Juegos',cat:'agent', hub:'h-agent', a:6,   d:.46, tip:'Steam · estado de juegos'},
-  {id:'a-empleo',label:'Empleos',       cat:'agent', hub:'h-agent', a:-10, d:.45, tip:'Ofertas de trabajo activas'},
-
-  // Reportes (hub 0°) — 5 agents spread -18 a 18°
-  {id:'a-debate',label:'Debate Agentes',cat:'rep',   hub:'h-rep',   a:22,  d:.47, tip:'Claude vs Groq · 3 rondas'},
-  {id:'a-pdf',   label:'Generador PDF', cat:'rep',   hub:'h-rep',   a:9,   d:.50, tip:'agente_pdf · fpdf2'},
-  {id:'a-dolores',label:'Dolores Lunes',cat:'rep',   hub:'h-rep',   a:-5,  d:.52, tip:'Ventas · análisis lunes'},
-  {id:'a-henkel',label:'Henkel IX',     cat:'rep',   hub:'h-rep',   a:-18, d:.50, tip:'GitHub Pages público'},
-  {id:'a-campana',label:'Campanas',     cat:'rep',   hub:'h-rep',   a:-30, d:.47, tip:'Análisis de campañas'},
-
-  // Integraciones (hub -45°) — 4 agents
-  {id:'a-drive', label:'Google Drive',  cat:'integ', hub:'h-integ', a:-25, d:.47, tip:'OAuth · fotos · CLASP'},
-  {id:'a-gh',    label:'GitHub API',    cat:'integ', hub:'h-integ', a:-42, d:.50, tip:'Pages · repos · HTML'},
-  {id:'a-tts',   label:'Edge TTS',      cat:'integ', hub:'h-integ', a:-58, d:.50, tip:'SalomeNeural · OGG · voz'},
-  {id:'a-stt2',  label:'Whisper',       cat:'integ', hub:'h-integ', a:-72, d:.47, tip:'Transcripción de voz'},
-
-  // Medios (hub -90°) — 4 agents
-  {id:'a-cont',  label:'Contenido',     cat:'media', hub:'h-media', a:-68, d:.47, tip:'Copy · captions · guiones'},
-  {id:'a-yt',    label:'YouTube',       cat:'media', hub:'h-media', a:-82, d:.50, tip:'Tendencias · scraping'},
-  {id:'a-ig',    label:'Instagram',     cat:'media', hub:'h-media', a:-98, d:.50, tip:'Publisher · posts auto'},
-  {id:'a-pipe',  label:'Pipeline Video',cat:'media', hub:'h-media', a:-112,d:.47, tip:'Video + redes sociales'},
-
-  // Memoria (hub -135°) — 4 agents
-  {id:'a-ctx',   label:'contexto.py',   cat:'mem',   hub:'h-mem',   a:-112,d:.47, tip:'Últimos 30 turnos'},
-  {id:'a-mem2',  label:'agente_memoria',cat:'mem',   hub:'h-mem',   a:-128,d:.50, tip:'Sesiones · historial largo'},
-  {id:'a-vozadap',label:'Voz Adaptativa',cat:'mem',  hub:'h-mem',   a:-145,d:.50, tip:'Perfil Esneyder/Yoana'},
-  {id:'a-memui', label:'memoria_ui',    cat:'mem',   hub:'h-mem',   a:-160,d:.47, tip:'Burbujas Telegram'},
-
-  // Automatización (hub 180°) — 3 agents
-  {id:'a-bot24', label:'Bot 24/7',      cat:'auto',  hub:'h-auto',  a:198, d:.47, tip:'bot_autonomo activo'},
-  {id:'a-sched', label:'Task Scheduler',cat:'auto',  hub:'h-auto',  a:180, d:.50, tip:'Windows · lunes Dolores'},
-  {id:'a-brief', label:'Briefing Diario',cat:'auto', hub:'h-auto',  a:162, d:.47, tip:'Resumen matutino 8am'},
+  // Stack IA (hub 90°)
+  {id:'a-ollama', label:'Ollama local',   cat:'ia',    hub:'h-ia',    a:108, d:.50, tip:'qwen2.5 — respuestas simples locales'},
+  {id:'a-groq',   label:'Groq Cloud',     cat:'ia',    hub:'h-ia',    a:90,  d:.53, tip:'LLaMA 3.3 — respuestas medias'},
+  {id:'a-claude', label:'Claude Sonnet',  cat:'ia',    hub:'h-ia',    a:72,  d:.50, tip:'Anthropic 4.6 — análisis complejo'},
+  // Canales (hub 135°)
+  {id:'a-tg',    label:'Telegram Bot',    cat:'canal', hub:'h-canal', a:155, d:.49, tip:'getUpdates · sendVoice · fotos'},
+  {id:'a-voz',   label:'Voz STT',         cat:'canal', hub:'h-canal', a:135, d:.52, tip:'Whisper / Groq STT · OGG'},
+  {id:'a-foto',  label:'Fotos',           cat:'canal', hub:'h-canal', a:115, d:.49, tip:'Fotos → Drive automático'},
+  // Agentes (hub 45°)
+  {id:'a-calcu', label:'Calculadora',     cat:'agent', hub:'h-agent', a:72,  d:.48, tip:'Cálculos locales'},
+  {id:'a-clima', label:'Clima',           cat:'agent', hub:'h-agent', a:56,  d:.52, tip:'agente_clima · tiempo real'},
+  {id:'a-notic', label:'Noticias',        cat:'agent', hub:'h-agent', a:40,  d:.54, tip:'agente_noticias · titulares'},
+  {id:'a-rec',   label:'Recordatorios',   cat:'agent', hub:'h-agent', a:24,  d:.52, tip:'Alarmas y tareas pendientes'},
+  {id:'a-juegos',label:'Monitor Juegos',  cat:'agent', hub:'h-agent', a:8,   d:.48, tip:'Steam · estado de juegos'},
+  {id:'a-empleo',label:'Empleos',         cat:'agent', hub:'h-agent', a:-8,  d:.47, tip:'Ofertas de trabajo activas'},
+  // Reportes (hub 0°)
+  {id:'a-debate',label:'Debate Agentes',  cat:'rep',   hub:'h-rep',   a:22,  d:.49, tip:'Claude vs Groq · 3 rondas'},
+  {id:'a-pdf',   label:'Generador PDF',   cat:'rep',   hub:'h-rep',   a:9,   d:.52, tip:'agente_pdf · fpdf2'},
+  {id:'a-dolores',label:'Dolores Lunes',  cat:'rep',   hub:'h-rep',   a:-5,  d:.54, tip:'Ventas · análisis lunes'},
+  {id:'a-henkel',label:'Henkel IX',       cat:'rep',   hub:'h-rep',   a:-18, d:.52, tip:'GitHub Pages público'},
+  {id:'a-campana',label:'Campanas',       cat:'rep',   hub:'h-rep',   a:-30, d:.49, tip:'Análisis de campañas'},
+  // Integraciones (hub -45°)
+  {id:'a-drive', label:'Google Drive',    cat:'integ', hub:'h-integ', a:-25, d:.49, tip:'OAuth · fotos · CLASP'},
+  {id:'a-gh',    label:'GitHub API',      cat:'integ', hub:'h-integ', a:-42, d:.52, tip:'Pages · repos · HTML'},
+  {id:'a-tts',   label:'Edge TTS',        cat:'integ', hub:'h-integ', a:-58, d:.52, tip:'SalomeNeural · OGG · voz'},
+  {id:'a-stt2',  label:'Whisper',         cat:'integ', hub:'h-integ', a:-72, d:.49, tip:'Transcripción de voz'},
+  // Medios (hub -90°)
+  {id:'a-cont',  label:'Contenido',       cat:'media', hub:'h-media', a:-68, d:.49, tip:'Copy · captions · guiones'},
+  {id:'a-yt',    label:'YouTube',         cat:'media', hub:'h-media', a:-82, d:.52, tip:'Tendencias · scraping'},
+  {id:'a-ig',    label:'Instagram',       cat:'media', hub:'h-media', a:-98, d:.52, tip:'Publisher · posts auto'},
+  {id:'a-pipe',  label:'Pipeline Video',  cat:'media', hub:'h-media', a:-112,d:.49, tip:'Video + redes sociales'},
+  // Memoria (hub -135°)
+  {id:'a-ctx',   label:'contexto.py',     cat:'mem',   hub:'h-mem',   a:-112,d:.49, tip:'Últimos 30 turnos'},
+  {id:'a-mem2',  label:'agente_memoria',  cat:'mem',   hub:'h-mem',   a:-128,d:.52, tip:'Sesiones · historial largo'},
+  {id:'a-vozadap',label:'Voz Adaptativa', cat:'mem',   hub:'h-mem',   a:-145,d:.52, tip:'Perfil Esneyder/Yoana'},
+  {id:'a-memui', label:'memoria_ui',      cat:'mem',   hub:'h-mem',   a:-160,d:.49, tip:'Burbujas Telegram'},
+  // Automatización (hub 180°)
+  {id:'a-bot24', label:'Bot 24/7',        cat:'auto',  hub:'h-auto',  a:198, d:.49, tip:'bot_autonomo activo'},
+  {id:'a-sched', label:'Task Scheduler',  cat:'auto',  hub:'h-auto',  a:180, d:.52, tip:'Windows · lunes Dolores'},
+  {id:'a-brief', label:'Briefing Diario', cat:'auto',  hub:'h-auto',  a:162, d:.49, tip:'Resumen matutino 8am'},
 ];
 
-// Cross-links (fewer = cleaner)
 const CROSS = [
   ['a-debate','a-groq',    'ia'],
   ['a-debate','a-claude',  'ia'],
   ['a-voz',   'a-tts',     'integ'],
   ['a-gh',    'a-henkel',  'rep'],
-  ['a-drive', 'a-foto',    'canal'],
+  ['a-drive','a-foto',    'canal'],
   ['a-sched', 'a-dolores', 'auto'],
 ];
 
-let W, H, R, pos = {}, sc = 1, pan = {x:0, y:0};
+// ── Responsive layout state ───────────────────────────────────────────────────
+let W, H, Rx, Ry, AriaSize, dScale, pos = {}, sc = 1, pan = {x:0, y:0};
 let svgEl, nodesEl;
 
-function toXY(aDeg, dFrac) {
-  const r = aDeg * Math.PI / 180;
-  return [W/2 + R * dFrac * Math.cos(r), H/2 - R * dFrac * Math.sin(r)];
-}
+// Max nominal d in AGENTS (used to set outer boundary)
+const OUTER_D = 0.54;
+const HUB_NOM_D = 0.24;
 
 function buildPositions() {
   W = window.innerWidth; H = window.innerHeight;
-  R = Math.min(W, H);
+
+  // Responsive ARIA size (px diameter): scales with smaller dimension, capped
+  AriaSize = Math.max(90, Math.min(180, Math.min(W, H) * 0.26));
+
+  if (W > H) {
+    // ── Landscape (PC / tablet) ──
+    // Fill width and height separately — elliptical layout
+    Rx = Math.min(W * 0.46, (W/2 - 60) / OUTER_D);
+    Ry = Math.min(H * 0.43, (H/2 - 55) / OUTER_D);
+  } else {
+    // ── Portrait (phone) ──
+    // Circular, constrained by width
+    const r = Math.min(W * 0.44, (W/2 - 50) / OUTER_D);
+    Rx = r; Ry = r;
+  }
+
+  // Ensure hubs stay outside ARIA: scale all d values up if needed
+  const ariaR    = AriaSize / 2;
+  const minClear = ariaR + 20;
+  // Worst-case hub distance from center = Math.min(Rx,Ry) * HUB_NOM_D
+  const minHubD  = minClear / Math.min(Rx, Ry);
+  dScale = Math.max(1.0, minHubD / HUB_NOM_D);
+
   pos['aria'] = [W/2, H/2];
-  HUBS.forEach(h   => { pos[h.id]   = toXY(h.a, h.d); });
-  AGENTS.forEach(a => { pos[a.id]   = toXY(a.a, a.d); });
+  HUBS.forEach(h  => { pos[h.id] = toXY(h.a, h.d); });
+  AGENTS.forEach(a => { pos[a.id] = toXY(a.a, a.d); });
 }
 
-// ── SVG lines ────────────────────────────────────────────────────────────────
-function curve(p1, p2, bend) {
+function toXY(aDeg, dFrac) {
+  const rad = aDeg * Math.PI / 180;
+  const d   = dFrac * dScale;
+  return [W/2 + Rx * d * Math.cos(rad),
+          H/2 - Ry * d * Math.sin(rad)];
+}
+
+// ── SVG connections ───────────────────────────────────────────────────────────
+function curve(p1, p2, bendFactor) {
   const mx=(p1[0]+p2[0])/2, my=(p1[1]+p2[1])/2;
   const dx=p2[0]-p1[0], dy=p2[1]-p1[1];
   const len=Math.sqrt(dx*dx+dy*dy);
   if(!len) return `M${p1[0]},${p1[1]}L${p2[0]},${p2[1]}`;
-  const f = len * (bend||0.14);
-  const nx=-dy/len*f, ny=dx/len*f;
+  const f=len*(bendFactor||0.1), nx=-dy/len*f, ny=dx/len*f;
   return `M${p1[0].toFixed(1)},${p1[1].toFixed(1)} Q${(mx+nx).toFixed(1)},${(my+ny).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
 }
 
 function mkPath(d, stroke, w, op, dash, animDur, animDel) {
   const p = document.createElementNS('http://www.w3.org/2000/svg','path');
   p.setAttribute('d', d);
-  p.setAttribute('fill','none');
+  p.setAttribute('fill', 'none');
   p.setAttribute('stroke', stroke);
   p.setAttribute('stroke-width', w);
   p.setAttribute('opacity', op);
-  if(dash) {
+  if (dash) {
     p.setAttribute('stroke-dasharray', dash);
-    if(animDur) p.style.animation = `flow ${animDur}s ${animDel||0}s linear infinite`;
+    if (animDur) p.style.animation = `flow ${animDur}s ${animDel||0}s linear infinite`;
   }
   svgEl.appendChild(p);
 }
@@ -238,39 +281,40 @@ function mkPath(d, stroke, w, op, dash, animDur, animDel) {
 function buildSVG() {
   svgEl.innerHTML = `<defs>
     <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter></defs>`;
 
-  // ARIA → hubs (animated dashed)
+  // ARIA → hubs (animated dashed lines)
   HUBS.forEach((h, i) => {
-    const col = C[h.cat].h;
-    mkPath(curve(pos['aria'], pos[h.id], 0.12), col, 1.8, 0.65, '8,10', 2.8+i*.28, i*.3);
+    mkPath(curve(pos['aria'], pos[h.id], 0.1), C[h.cat].h, 1.8, 0.65, '8,10',
+           2.8+i*.28, i*.3);
   });
-
   // hub → agents (thin solid)
   AGENTS.forEach(a => {
-    mkPath(curve(pos[a.hub], pos[a.id], 0.1), C[a.cat].h, 0.9, 0.28, null);
+    mkPath(curve(pos[a.hub], pos[a.id], 0.08), C[a.cat].h, 0.9, 0.28, null);
   });
-
-  // cross links
+  // cross-links (dashed, animated)
   CROSS.forEach(([f,t,cat], i) => {
-    if(pos[f] && pos[t])
-      mkPath(curve(pos[f], pos[t], 0.18), C[cat].h, 0.85, 0.42, '5,9', 3.8+i*.35, i*.45);
+    if (pos[f] && pos[t])
+      mkPath(curve(pos[f], pos[t], 0.16), C[cat].h, 0.85, 0.4, '5,9',
+             3.8+i*.35, i*.45);
   });
 }
 
 // ── DOM nodes ─────────────────────────────────────────────────────────────────
 function buildNodes() {
   nodesEl.innerHTML = '';
+  const SZ = AriaSize;
+  const HUB_SZ = Math.max(52, SZ * 0.36);
 
   // ARIA center
   const aw = document.createElement('div');
   aw.className = 'node';
   aw.style.cssText = `left:${pos['aria'][0]}px;top:${pos['aria'][1]}px;animation:bob 5.2s ease-in-out infinite`;
   aw.innerHTML = `
-    <div class="aria-scene">
-      <div class="aria-card" id="aria-card">
+    <div class="aria-scene" style="width:${SZ}px;height:${SZ}px">
+      <div class="aria-card" id="aria-card" style="width:${SZ}px;height:${SZ}px">
         <div class="aria-face aria-front">
           <img src="${ARIA_SRC}" alt="ARIA">
         </div>
@@ -290,7 +334,7 @@ function buildNodes() {
     <div class="aria-hint">toca para ver stack</div>`;
   nodesEl.appendChild(aw);
 
-  // Flip logic
+  // Flip on click
   document.getElementById('aria-card').addEventListener('click', function() {
     this.classList.toggle('flipped');
   });
@@ -302,8 +346,8 @@ function buildNodes() {
     el.className = 'node';
     el.style.cssText = `left:${pos[h.id][0]}px;top:${pos[h.id][1]}px`;
     el.innerHTML = `
-      <div class="hub" style="background:${cv.l};border-color:${cv.h}99;box-shadow:0 0 18px ${cv.h}44">
-        <span style="font-size:22px">${h.icon}</span>
+      <div class="hub" style="width:${HUB_SZ}px;height:${HUB_SZ}px;background:${cv.l};border-color:${cv.h}99;box-shadow:0 0 16px ${cv.h}44">
+        <span style="font-size:${Math.round(HUB_SZ*0.33)}px">${h.icon}</span>
       </div>
       <div class="hub-lbl" style="color:${cv.t}">${h.label}</div>`;
     el.addEventListener('mouseenter', e => showTip(e, h.label, 'Categoría principal'));
@@ -342,8 +386,8 @@ const tipEl = document.getElementById('tip');
 function showTip(e, name, desc) {
   tipEl.innerHTML = `<strong style="color:#00d4ff">${name}</strong>${desc ? `<br><span style="opacity:.7;font-size:9.5px">${desc}</span>` : ''}`;
   tipEl.style.display = 'block';
-  tipEl.style.left = Math.min(e.clientX+14, window.innerWidth-240)+'px';
-  tipEl.style.top  = Math.max(e.clientY-8, 10)+'px';
+  tipEl.style.left = Math.min(e.clientX+14, window.innerWidth-240) + 'px';
+  tipEl.style.top  = Math.max(e.clientY-8, 10) + 'px';
 }
 function hideTip() { tipEl.style.display='none'; }
 
@@ -352,43 +396,45 @@ function applyT() {
   document.getElementById('stage').style.transform =
     `translate(${pan.x}px,${pan.y}px) scale(${sc})`;
 }
-function Z(d) { sc = Math.max(.25, Math.min(4, sc+d)); applyT(); }
+function Z(d) { sc = Math.max(.2, Math.min(5, sc+d)); applyT(); }
 function rst() { sc=1; pan={x:0,y:0}; applyT(); }
 
 // Mouse drag
 let drag=false, ox=0, oy=0, opx=0, opy=0;
-document.addEventListener('mousedown', e => { drag=true; ox=e.clientX; oy=e.clientY; opx=pan.x; opy=pan.y; });
+document.addEventListener('mousedown', e => {
+  drag=true; ox=e.clientX; oy=e.clientY; opx=pan.x; opy=pan.y;
+});
 document.addEventListener('mousemove', e => {
   if(drag){ pan.x=opx+(e.clientX-ox); pan.y=opy+(e.clientY-oy); applyT(); }
 });
-document.addEventListener('mouseup', () => drag=false);
-document.addEventListener('wheel', e => { e.preventDefault(); Z(e.deltaY<0?.13:-.13); }, {passive:false});
+document.addEventListener('mouseup', () => { drag=false; });
+document.addEventListener('wheel', e => {
+  e.preventDefault(); Z(e.deltaY<0 ? .13 : -.13);
+}, {passive:false});
 
-// Touch pan + pinch zoom
-let t0=null, t1=null, initDist=0, initSc=1;
+// Touch: 1-finger pan + 2-finger pinch zoom
+let t0=null, initDist=0, initSc=1;
 document.addEventListener('touchstart', e => {
-  if(e.touches.length===1){
-    t0={x:e.touches[0].clientX,y:e.touches[0].clientY,px:pan.x,py:pan.y};
-    t1=null;
-  } else if(e.touches.length===2){
+  if(e.touches.length===1) {
+    t0={x:e.touches[0].clientX, y:e.touches[0].clientY, px:pan.x, py:pan.y};
+  } else if(e.touches.length===2) {
     const a=e.touches[0], b=e.touches[1];
     initDist=Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY);
-    initSc=sc;
-    t0=null;
+    initSc=sc; t0=null;
   }
-},{passive:true});
+}, {passive:true});
 document.addEventListener('touchmove', e => {
-  if(t0 && e.touches.length===1){
+  if(t0 && e.touches.length===1) {
     pan.x=t0.px+(e.touches[0].clientX-t0.x);
     pan.y=t0.py+(e.touches[0].clientY-t0.y);
     applyT();
-  } else if(e.touches.length===2){
+  } else if(e.touches.length===2) {
     const a=e.touches[0], b=e.touches[1];
     const d=Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY);
-    sc=Math.max(.25,Math.min(4,initSc*(d/initDist)));
+    sc=Math.max(.2, Math.min(5, initSc*(d/initDist)));
     applyT();
   }
-},{passive:true});
+}, {passive:true});
 document.addEventListener('touchend', () => { t0=null; });
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -402,13 +448,14 @@ function init() {
   applyT();
 }
 
-window.addEventListener('resize', init);
+window.addEventListener('resize', () => { rst(); init(); });
 
 try { init(); } catch(err) {
   document.body.insertAdjacentHTML('beforeend',
     `<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-     color:#ff4444;font-size:13px;z-index:999;text-align:center;padding:20px;
-     background:rgba(0,0,0,.8);border-radius:8px">Error: ${err.message}</div>`);
+     color:#ff6666;font-size:13px;z-index:999;text-align:center;padding:20px;
+     background:rgba(0,0,0,.85);border-radius:10px;border:1px solid #ff4444">
+     Error: ${err.message}<br><small style="opacity:.6">${err.stack||''}</small></div>`);
 }
 </script>
 </body>
