@@ -14,8 +14,8 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .hint{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
 .wrap{padding:24px 28px 48px;min-width:1280px;}
 /* Diagram container — fixed size, SVG + nodes inside */
-#diagram{position:relative;width:1220px;height:1120px;}
-#conn-svg{position:absolute;top:0;left:0;width:1220px;height:1120px;pointer-events:none;z-index:0;}
+#diagram{position:relative;width:1220px;height:1300px;}
+#conn-svg{position:absolute;top:0;left:0;width:1220px;height:1300px;pointer-events:none;z-index:0;}
 /* Column labels */
 .cl{position:absolute;top:6px;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;
   color:rgba(255,255,255,.27);font-weight:700;text-align:center;z-index:2;}
@@ -232,6 +232,20 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   <div class="n-icon">🌍</div><div class="n-label">Traductor / Resumen</div><div class="n-sub">agente_traductor.py</div>
 </div>
 
+<div class="node agt" id="n-apdf" style="left:406px;top:1048px"
+  data-label="Generador PDF" data-sub="agente_pdf.py"
+  data-desc="Genera documentos PDF con portada, tablas, KPIs, gráficos de barras y pie de página ARIA. Usa fpdf2. generar_pdf_reporte() / pdf_dolores_premium(). Activa con: 'crea un pdf', 'exporta pdf', 'quiero un pdf'."
+  data-tags="fpdf2,portada,tabla,KPI,gráfico barras,pdf_dolores_premium()">
+  <div class="n-icon">📄</div><div class="n-label">Generador PDF</div><div class="n-sub">agente_pdf.py</div>
+</div>
+
+<div class="node agt" id="n-adebate" style="left:406px;top:1158px"
+  data-label="Debate Agentes" data-sub="agente_debate.py"
+  data-desc="Sistema multi-agente: Claude (Posición A) vs Groq LLaMA (Posición B). 3 rondas: posición A → contrapunto B → síntesis final. Da respuestas más equilibradas y robustas. Activa con: 'debatamos', 'debate entre agentes', 'dos perspectivas'."
+  data-tags="Claude,Groq,LLaMA,debate,síntesis,multi-agente,3 rondas">
+  <div class="n-icon">⚡</div><div class="n-label">Debate Agentes</div><div class="n-sub">agente_debate.py</div>
+</div>
+
 <div class="node agt" id="n-afotosdrive" style="left:406px;top:948px"
   data-label="Fotos → Drive" data-sub="agente_fotos_drive.py"
   data-desc="Recibe fotos de Telegram vía Claude Code plugin. Las guarda en bot/fotos_pendientes/. Al pedido explícito ('sube las fotos a Drive'), las sube a Google Drive como públicas, genera links lh3.googleusercontent.com y los inyecta en la galería de reportes HTML. guardar_foto_local() / subir_fotos_a_drive() / links_para_reporte()."
@@ -343,6 +357,109 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 </div><!-- /diagram -->
 </div><!-- /wrap -->
 
+<!-- ══════════════ MAPA MENTAL SECTION ══════════════ -->
+<div style="padding:28px 28px 0;border-top:1px solid rgba(255,255,255,.07);margin-top:24px;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+    <span style="font-size:1.1rem;font-weight:700;letter-spacing:1px;color:#a78bfa;">MAPA MENTAL — ARIA</span>
+    <span style="font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);">8 dimensiones del sistema</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1220px;">
+
+    <!-- Canales -->
+    <div style="background:rgba(0,188,212,.08);border:1px solid rgba(0,188,212,.3);border-radius:12px;padding:16px;">
+      <div style="color:#00BCD4;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">📲 Canales de Entrada</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        🗣 Voz (OGA/MP3) → Telegram<br>
+        💬 Texto → Telegram<br>
+        📸 Fotos → Telegram<br>
+        💻 Terminal Claude Code
+      </div>
+    </div>
+
+    <!-- Stack IA -->
+    <div style="background:rgba(124,77,255,.08);border:1px solid rgba(124,77,255,.3);border-radius:12px;padding:16px;">
+      <div style="color:#7C4DFF;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">🧠 Stack de IA (3 capas)</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        <span style="color:#4CAF50;">●</span> Ollama qwen2.5:0.5b — simple, local<br>
+        <span style="color:#FFC107;">●</span> Groq Qwen3.8-27B — medio, nube<br>
+        <span style="color:#2196F3;">●</span> Claude Sonnet 4.6 — complejo, API<br>
+        <span style="color:#9C27B0;">●</span> Claude+Groq Debate — síntesis
+      </div>
+    </div>
+
+    <!-- Agentes -->
+    <div style="background:rgba(255,111,0,.08);border:1px solid rgba(255,111,0,.3);border-radius:12px;padding:16px;">
+      <div style="color:#FF6F00;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">⚙️ Agentes Especializados</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        Briefing · Juegos · Clima · Noticias<br>
+        Viajes · PQP · Informe Campaña<br>
+        Ubicación · Calculadora · Traductor<br>
+        Fotos/Drive · PDF · Debate · Bots
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div style="background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.3);border-radius:12px;padding:16px;">
+      <div style="color:#00C853;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">🎬 Contenido y Medios</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        YouTube scraping + tendencias<br>
+        Instagram publisher automático<br>
+        Pipeline video (Wav2Lip + TTS)<br>
+        Generación de copy y captions
+      </div>
+    </div>
+
+    <!-- Memoria -->
+    <div style="background:rgba(245,0,87,.08);border:1px solid rgba(245,0,87,.3);border-radius:12px;padding:16px;">
+      <div style="color:#F50057;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">🧩 Memoria y Contexto</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        Sesiones automáticas (gap 30 min)<br>
+        Títulos auto por Groq<br>
+        Búsqueda en historial<br>
+        Voz adaptativa Esneyder/Yoana
+      </div>
+    </div>
+
+    <!-- Reportes -->
+    <div style="background:rgba(255,214,0,.08);border:1px solid rgba(255,214,0,.3);border-radius:12px;padding:16px;">
+      <div style="color:#FFD600;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">📊 Reportes y Análisis</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        Henkel IX en GitHub Pages<br>
+        Dolores Premium (lunes auto - Mari)<br>
+        Flash Reports PQP<br>
+        Excel + PDF + PNG generados
+      </div>
+    </div>
+
+    <!-- Integraciones -->
+    <div style="background:rgba(38,198,218,.08);border:1px solid rgba(38,198,218,.3);border-radius:12px;padding:16px;">
+      <div style="color:#26C6DA;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">🔗 Integraciones Externas</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        Google Drive v3 · OAuth CLASP<br>
+        GitHub API · Pages · gh CLI<br>
+        Telegram Bot API sendVoice OGG<br>
+        Edge TTS SalomeNeural · Whisper STT
+      </div>
+    </div>
+
+    <!-- Automatizaciones -->
+    <div style="background:rgba(171,71,188,.08);border:1px solid rgba(171,71,188,.3);border-radius:12px;padding:16px;">
+      <div style="color:#AB47BC;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">⏰ Automatizaciones</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.8;">
+        Bot autónomo 24/7 siempre activo<br>
+        Lunes 8am → Dolores Premium (Mari)<br>
+        Briefing diario 7am<br>
+        Monitor juegos 10am · 9 archivos .bat
+      </div>
+    </div>
+
+  </div>
+  <div style="margin-top:16px;padding:12px 18px;background:rgba(167,139,250,.06);border-radius:8px;border-left:3px solid #a78bfa;font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.6;">
+    Versión actualizada noviembre 2026 · 2 nuevos agentes: <strong style="color:#a78bfa">agente_pdf.py</strong> y <strong style="color:#a78bfa">agente_debate.py</strong> · Audio corregido a OGG Opus vía sendVoice
+  </div>
+</div>
+<div style="height:32px;"></div>
+
 <div class="tt" id="tt"></div>
 
 <div class="leg">
@@ -447,6 +564,11 @@ const EDGES = [
   ['n-afotosdrive', 'n-ogdrive',     '#f97316'],
   ['n-afotosdrive', 'n-aria',        '#f97316'],
   ['n-ogdrive',     'n-ainf',        '#06b6d4'],
+  // PDF + Debate
+  ['n-apdf',        'n-aria',        '#f97316'],
+  ['n-apdf',        'n-otg',         '#06b6d4'],
+  ['n-adebate',     'n-aria',        '#a855f7'],
+  ['n-adebate',     'n-otg',         '#06b6d4'],
 ];
 
 const MARKER_COLORS = ['22c55e','ef4444','f97316','8b5cf6','a855f7','06b6d4'];
@@ -517,7 +639,7 @@ function setZoom(z) {
   const diag = document.getElementById('diagram');
   diag.style.transform = `scale(${zoom})`;
   diag.style.transformOrigin = 'top left';
-  diag.parentElement.style.minHeight = (1120 * zoom + 80) + 'px';
+  diag.parentElement.style.minHeight = (1300 * zoom + 80) + 'px';
   draw();
   document.getElementById('z-level').textContent = Math.round(zoom * 100) + '%';
 }
