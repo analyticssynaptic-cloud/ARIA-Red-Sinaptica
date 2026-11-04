@@ -14,8 +14,8 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 .hint{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
 .wrap{padding:24px 28px 48px;min-width:1280px;}
 /* Diagram container — fixed size, SVG + nodes inside */
-#diagram{position:relative;width:1220px;height:990px;}
-#conn-svg{position:absolute;top:0;left:0;width:1220px;height:990px;pointer-events:none;z-index:0;}
+#diagram{position:relative;width:1220px;height:1120px;}
+#conn-svg{position:absolute;top:0;left:0;width:1220px;height:1120px;pointer-events:none;z-index:0;}
 /* Column labels */
 .cl{position:absolute;top:6px;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;
   color:rgba(255,255,255,.27);font-weight:700;text-align:center;z-index:2;}
@@ -232,6 +232,13 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   <div class="n-icon">🌍</div><div class="n-label">Traductor / Resumen</div><div class="n-sub">agente_traductor.py</div>
 </div>
 
+<div class="node agt" id="n-afotosdrive" style="left:406px;top:948px"
+  data-label="Fotos → Drive" data-sub="agente_fotos_drive.py"
+  data-desc="Recibe fotos de Telegram vía Claude Code plugin. Las guarda en bot/fotos_pendientes/. Al pedido explícito ('sube las fotos a Drive'), las sube a Google Drive como públicas, genera links lh3.googleusercontent.com y los inyecta en la galería de reportes HTML. guardar_foto_local() / subir_fotos_a_drive() / links_para_reporte()."
+  data-tags="guardar_foto_local(),subir_fotos_a_drive(),links_para_reporte(),OAuth CLASP,Drive v3,Galería HTML">
+  <div class="n-icon">📸</div><div class="n-label">Fotos → Drive</div><div class="n-sub">agente_fotos_drive.py</div>
+</div>
+
 <div class="node agt" id="n-acbots" style="left:406px;top:848px"
   data-label="Constructor Bots" data-sub="agente_constructor_bots.py"
   data-desc="Genera PWA completas de registro de datos via entrevista conversacional. HTML mobile-first con login, módulos configurables, cola offline y envío a Google Apps Script."
@@ -241,10 +248,10 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
 
 <!-- ── LAYER 3: ARIA ───────────────────────────────────── -->
 <div class="node core" id="n-aria" style="left:616px;top:446px"
-  data-label="ARIA" data-sub="Claude Sonnet 4.6"
-  data-desc="Asistente de Respuesta Inteligente Automatizada. Orquesta todos los agentes Python. Usa Claude solo en conversación directa. Reconocimiento de voz: pitch &lt;160Hz = Esneyder, &gt;160Hz = Yoana."
-  data-tags="Claude Sonnet 4.6,Esneyder + Yoana,Voz activo,Orquestadora">
-  <div class="n-icon">🧠</div><div class="n-label">ARIA</div><div class="n-sub">Claude Sonnet 4.6</div>
+  data-label="ARIA" data-sub="Multi-IA: Claude · Groq · Ollama"
+  data-desc="Asistente de Respuesta Inteligente Automatizada. Compuesta por 4 capas de IA: (1) Agentes Python locales — cero costo, cero latencia; (2) Ollama qwen2.5:0.5b — simple, offline local; (3) Groq Qwen3.8-27B — medio, gratis en nube; (4) Claude Sonnet 4.6 — complejo, Anthropic API. Router automático por intención clasifica cada mensaje. Reconocimiento de voz: pitch &lt;160Hz = Esneyder, &gt;160Hz = Yoana."
+  data-tags="Claude Sonnet 4.6,Groq Qwen3.8B,Ollama qwen2.5,12 agentes Python,Router por intención,Esneyder + Yoana">
+  <div class="n-icon">🧠</div><div class="n-label">ARIA</div><div class="n-sub">Claude · Groq · Ollama</div>
 </div>
 
 <!-- ── LAYER 4: Salidas ───────────────────────────────── -->
@@ -260,6 +267,13 @@ body{background:#07071a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;o
   data-desc="Voz: es-CO-SalomeNeural. Rate +0%, Pitch +12Hz. MP3 → OGG Opus (ffmpeg) → Telegram sendVoice. GonzaloNeural para narración de videos."
   data-tags="SalomeNeural,OGG Opus,ffmpeg,Rate +0%">
   <div class="n-icon">🎙</div><div class="n-label">Edge TTS Salomé</div><div class="n-sub">es-CO-SalomeNeural</div>
+</div>
+
+<div class="node out" id="n-ogdrive" style="left:834px;top:718px"
+  data-label="Google Drive" data-sub="Drive v3 API · OAuth CLASP"
+  data-desc="Almacena fotos enviadas por Telegram. OAuth via refresh_token CLASP (sin clave separada). Carpeta 'ARIA Fotos'. Fotos publicadas públicas (anyone con link). Links formato lh3.googleusercontent.com/d/{id}=w1600 se inyectan en galerías de reportes HTML."
+  data-tags="OAuth CLASP,ARIA Fotos,Público,lh3 links,Drive v3 API">
+  <div class="n-icon">📁</div><div class="n-label">Google Drive</div><div class="n-sub">Drive v3 · OAuth CLASP</div>
 </div>
 
 <div class="node out" id="n-ogh" style="left:834px;top:568px"
@@ -428,6 +442,11 @@ const EDGES = [
   ['n-ogh',     'n-rpwa',    '#22c55e'],
   ['n-ogh',     'n-rotros',  '#22c55e'],
   ['n-ogh',     'n-reventos','#22c55e'],
+  // Fotos → Drive
+  ['n-otg',         'n-afotosdrive', '#06b6d4'],
+  ['n-afotosdrive', 'n-ogdrive',     '#f97316'],
+  ['n-afotosdrive', 'n-aria',        '#f97316'],
+  ['n-ogdrive',     'n-ainf',        '#06b6d4'],
 ];
 
 const MARKER_COLORS = ['22c55e','ef4444','f97316','8b5cf6','a855f7','06b6d4'];
@@ -498,7 +517,7 @@ function setZoom(z) {
   const diag = document.getElementById('diagram');
   diag.style.transform = `scale(${zoom})`;
   diag.style.transformOrigin = 'top left';
-  diag.parentElement.style.minHeight = (990 * zoom + 80) + 'px';
+  diag.parentElement.style.minHeight = (1120 * zoom + 80) + 'px';
   draw();
   document.getElementById('z-level').textContent = Math.round(zoom * 100) + '%';
 }
