@@ -13,6 +13,15 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Segoe UI',sys
 #stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
 #stage video.on{opacity:1}
 #stage video.fade{transition:opacity .6s linear}
+#stage #vc{z-index:3;transition:opacity .16s linear}
+#voiceBtn{top:calc(14px + env(safe-area-inset-top));left:14px;opacity:0;pointer-events:none}
+#voiceBtn.show{opacity:1;pointer-events:auto}
+#voiceBtn.pulse{animation:vpulse 1.8s ease-in-out infinite}
+#voiceBtn.on{border-color:rgba(0,220,255,.9);color:#fff;box-shadow:0 0 16px rgba(0,212,255,.45)}
+@keyframes vpulse{50%{box-shadow:0 0 18px rgba(0,212,255,.7);border-color:rgba(0,220,255,.9)}}
+#cap{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:12;width:min(90vw,560px);text-align:center;font-size:13px;line-height:1.5;color:#e8f6ff;text-shadow:0 1px 8px #000,0 0 14px rgba(0,0,0,.9);pointer-events:none;opacity:0;transition:opacity .4s}
+#cap.show{opacity:1}
+#cap b{color:var(--cy);font-weight:600}
 body.net #stage{filter:blur(10px) brightness(.26) saturate(1.3);transform:scale(1.08)}
 #vign{position:fixed;inset:0;z-index:1;pointer-events:none;
   background:radial-gradient(ellipse at 50% 30%,transparent 40%,rgba(0,4,14,.6) 100%)}
@@ -124,6 +133,8 @@ body.net #legend{opacity:1}
   body.net #panel.open{transform:translate(0,-50%)}
 }
 @media (max-width:600px){
+  #voiceBtn{top:auto;bottom:calc(76px + env(safe-area-inset-bottom))}
+  #cap{font-size:12px;bottom:calc(122px + env(safe-area-inset-bottom))}
   #ui h1{font-size:10px;letter-spacing:3.5px}
   #ui p{font-size:7px;letter-spacing:1.2px}
   #legend{display:none}
@@ -139,7 +150,9 @@ body.net #legend{opacity:1}
 <div id="stage">
   <video id="va" class="on" src="intro.mp4" muted playsinline preload="auto"></video>
   <video id="vb" src="loop.mp4" muted playsinline loop preload="auto"></video>
+  <video id="vc" src="talk.mp4" muted playsinline loop preload="auto"></video>
 </div>
+<audio id="voz" src="voz.mp3" preload="auto"></audio>
 <div id="vign"></div>
 
 <div id="play-ov"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><p>TOCA PARA INICIAR</p></div>
@@ -150,6 +163,8 @@ body.net #legend{opacity:1}
 <div id="netCtl"><button id="btnRot" class="mini"><i data-i="RotateCw"></i><span>Auto</span></button><button id="btnCenter" class="mini"><i data-i="Crosshair"></i>Centrar</button></div>
 
 <button id="netBtn"><span class="orb"></span><span id="netTxt">Red central</span></button>
+<button id="voiceBtn" class="mini"><i data-i="Volume2"></i><span>Escuchar a ARIA</span></button>
+<div id="cap"></div>
 <div id="hint">Toca un nodo para ver su información</div>
 
 <div id="panel">
@@ -175,7 +190,10 @@ import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js
    FACE      → posición del rostro en el video (fracción del ancho/alto) y radio de la cabeza */
 const VW=1280,VH=720;
 const FACE_T=7.3;
-const EASE=.55;          // segundos de desaceleración en cada cambio de sentido
+const EASE=.6;           // segundos de desaceleración en cada cambio de sentido
+/* Presentación con voz (Edge TTS es-CO-SalomeNeural, rate +6%, pitch +20Hz — la voz caleña del bot)
+   VOZ = [inicio, fin, palabra] de cada palabra; mientras suena una palabra se muestra talk.mp4 */
+const VOZ=[[0.097, 0.321, "Hola"], [1.262, 1.51, "Soy"], [1.534, 1.887, "ARIA"], [2.159, 2.265, "la"], [2.265, 2.807, "asistente"], [2.807, 3.385, "inteligente"], [3.385, 3.432, "de"], [3.468, 4.104, "Synaptic"], [4.199, 4.93, "Analytics"], [5.778, 6.191, "Conecto"], [6.191, 6.816, "inteligencia"], [6.816, 7.618, "artificial"], [7.889, 8.573, "canales"], [8.844, 9.493, "agentes"], [9.776, 10.389, "reportes"], [10.413, 10.448, "y"], [10.46, 11.486, "automatizaciones"], [11.509, 11.592, "en"], [11.627, 11.804, "una"], [11.828, 12.111, "sola"], [12.146, 12.299, "red"], [12.347, 12.936, "neuronal"], [13.785, 14.033, "Toca"], [14.092, 14.434, "cualquier"], [14.481, 14.693, "nodo"], [14.752, 14.906, "para"], [14.965, 15.33, "conocer"], [15.354, 15.436, "lo"], [15.507, 15.59, "que"], [15.59, 15.884, "hago"], [16.262, 16.321, "o"], [16.321, 16.686, "activa"], [16.71, 16.804, "la"], [16.828, 16.969, "red"], [16.993, 17.37, "central"], [17.429, 17.583, "para"], [17.606, 17.712, "ver"], [17.748, 17.83, "mi"], [17.866, 18.184, "modelo"], [18.243, 18.703, "completo"]];
 const FACE={x:.49,y:.205,r:.062};
 
 /* ═════════════ DATOS ═════════════ */
@@ -279,11 +297,12 @@ begin();
 function startLoop(){
   if(looping)return;looping=true;
   try{vb.currentTime=0;}catch(e){}
-  vb.playbackRate=.45;
+  vb.playbackRate=.55;
   vb.play().catch(()=>{});
   vb.style.zIndex=2;va.style.zIndex=1;
   vb.classList.add('fade');void vb.offsetWidth;vb.classList.add('on');
   setTimeout(()=>{va.pause();va.classList.remove('on');vb.classList.remove('fade');},700);
+  setTimeout(()=>speak(true),900);   // ARIA se presenta al llegar al primer plano
 }
 va.addEventListener('ended',startLoop);
 setInterval(()=>videoTick(),40);   // respaldo si el navegador ralentiza requestAnimationFrame
@@ -300,7 +319,46 @@ function videoTick(){
     // en el bucle: frena suavemente en los dos puntos donde cambia el sentido (inicio/fin y mitad)
     const L=vb.duration||5,t=vb.currentTime;
     const d=Math.min(t,Math.abs(t-L/2),L-t);
-    vb.playbackRate=.45+.55*smooth(d/EASE);
+    vb.playbackRate=.55+.45*smooth(d/EASE);
+    voiceTick();
+  }
+}
+
+/* ═════════════ VOZ + SINCRONÍA DE LABIOS ═════════════ */
+const vc=$('#vc'),voz=$('#voz'),voiceBtn=$('#voiceBtn'),cap=$('#cap');
+// tramos de habla: palabras con pausas menores a 0.3 s se unen para que la boca no parpadee
+const TALK=[];VOZ.forEach(([a,b])=>{const l=TALK[TALK.length-1];if(l&&a-l[1]<.3)l[1]=b;else TALK.push([a,b]);});
+// subtítulos: frases separadas por pausas mayores a 0.4 s
+const LINES=[];VOZ.forEach((w,i)=>{const p=VOZ[i-1];if(!p||w[0]-p[1]>.4)LINES.push([]);LINES[LINES.length-1].push(i);});
+let speaking=false,talkOn=false,talkTO=null;
+function setTalk(on){
+  if(on===talkOn)return;talkOn=on;clearTimeout(talkTO);
+  if(on){vc.play().catch(()=>{});vc.classList.add('on');}
+  else{vc.classList.remove('on');talkTO=setTimeout(()=>vc.pause(),220);}
+}
+function speak(auto){
+  if(!VOZ.length)return;
+  voz.currentTime=0;
+  voz.play().then(()=>{speaking=true;voiceBtn.classList.remove('pulse');voiceBtn.classList.add('on');
+      voiceBtn.querySelector('span').textContent='Silenciar';})
+    .catch(()=>{if(auto)voiceBtn.classList.add('pulse');});   // sin interacción previa el navegador bloquea el audio
+}
+function stopVoice(){
+  voz.pause();speaking=false;setTalk(false);cap.classList.remove('show');
+  voiceBtn.classList.remove('on');voiceBtn.querySelector('span').textContent='Escuchar a ARIA';
+}
+voz.addEventListener('ended',stopVoice);
+voiceBtn.onclick=e=>{e.stopPropagation();speaking?stopVoice():speak(false);};
+function voiceTick(){
+  if(!speaking)return;
+  $('#hint').classList.remove('show');
+  const t=voz.currentTime;
+  setTalk(TALK.some(([a,b])=>t>=a-.04&&t<=b+.06));
+  let wi=-1;VOZ.forEach((w,i)=>{if(t>=w[0]-.02)wi=i;});
+  const line=LINES.find(l=>l.includes(wi));
+  if(line){
+    cap.innerHTML=line.map(i=>i===wi?'<b>'+VOZ[i][2]+'</b>':VOZ[i][2]).join(' ');
+    cap.classList.toggle('show',t<=VOZ[line[line.length-1]][1]+.5);
   }
 }
 function skipIntro(){
@@ -500,6 +558,7 @@ function enterFace(){
   nodes.filter(n=>n.kind==='agent').forEach(a=>a.pos.copy(face.w));
   $('#skip').classList.add('hide');
   netBtn.classList.add('show');
+  voiceBtn.classList.add('show');
   coreEl.classList.remove('off');
   const hint=$('#hint');
   setTimeout(()=>hint.classList.add('show'),1400);
