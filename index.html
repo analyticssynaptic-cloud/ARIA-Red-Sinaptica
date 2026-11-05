@@ -178,16 +178,12 @@ function glowSprite(col,size){
   sp.scale.setScalar(size);return sp;
 }
 
-function emojiSprite(emoji,size,css){
-  const c=document.createElement('canvas');c.width=c.height=128;
-  const ctx=c.getContext('2d');
-  ctx.beginPath();ctx.arc(64,64,56,0,Math.PI*2);
-  ctx.fillStyle=css+'22';ctx.fill();
-  ctx.strokeStyle=css+'66';ctx.lineWidth=3;ctx.stroke();
-  ctx.font='60px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(emoji,64,66);
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
-  sp.scale.setScalar(size);return sp;
+function emojiLabel(emoji,css,fontSize){
+  const d=document.createElement('div');
+  d.style.cssText=`font-size:${fontSize||18}px;line-height:1;pointer-events:none;user-select:none;
+    text-shadow:0 0 6px ${css}88;filter:drop-shadow(0 0 3px ${css})`;
+  d.textContent=emoji;
+  return new CSS2DObject(d);
 }
 
 function mkLine(p1,p2,col,op){
@@ -237,7 +233,11 @@ HUBS.forEach((hub,i)=>{
     new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.8,shininess:60}));
   mesh.position.copy(p); scene.add(mesh);
   mesh.add(glowSprite(col,110));
-  mesh.add(emojiSprite(hub.icon,55,C[hub.cat].css));
+
+  // Ícono emoji sobre el nodo (CSS2D = siempre visible, renderizado como HTML)
+  const icon=emojiLabel(hub.icon,C[hub.cat].css,20);
+  icon.position.set(0,-4,0);
+  mesh.add(icon);
 
   const lbl=cssLbl(hub.label,'lbl lbl-hub');
   lbl.element.style.color=C[hub.cat].css;
@@ -267,7 +267,11 @@ HUBS.forEach(hub=>{
       new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.65,shininess:40}));
     mesh.position.copy(dir); scene.add(mesh);
     mesh.add(glowSprite(col,50));
-    if(agent.icon)mesh.add(emojiSprite(agent.icon,28,C[agent.cat].css));
+    if(agent.icon){
+      const aIcon=emojiLabel(agent.icon,C[agent.cat].css,13);
+      aIcon.position.set(0,-2,0);
+      mesh.add(aIcon);
+    }
     nodeMap[agent.id]={mesh,pos:dir.clone(),data:agent};
     clickable.push(mesh);
     scene.add(mkLine(hubPos,dir,col,.22));
