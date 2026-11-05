@@ -6,56 +6,70 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
+
+/* Video fullscreen fondo */
+#av-vid{
+  position:fixed;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:0;
+}
+/* Oscurecer ligeramente para que nodos sean legibles */
+#vid-overlay{
+  position:fixed;inset:0;z-index:1;
+  background:rgba(2,6,18,0.42);
+}
+
 #ui{position:fixed;top:14px;left:50%;transform:translateX(-50%);text-align:center;z-index:10;pointer-events:none;white-space:nowrap}
 #ui h1{font-size:11px;color:#00d4ff;letter-spacing:4px;font-weight:300;text-transform:uppercase;text-shadow:0 0 18px rgba(0,200,255,.95)}
-#ui p{font-size:7.5px;color:rgba(100,160,210,.45);letter-spacing:2px;margin-top:2px}
+#ui p{font-size:7.5px;color:rgba(100,160,210,.55);letter-spacing:2px;margin-top:2px}
 #tooltip{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);
-  background:rgba(4,12,38,.97);border:1px solid rgba(0,180,255,.4);border-radius:10px;
+  background:rgba(2,8,28,.92);border:1px solid rgba(0,180,255,.45);border-radius:10px;
   padding:12px 20px;z-index:20;color:#cce4ff;font-size:12px;min-width:220px;max-width:320px;
-  text-align:center;display:none;pointer-events:none;backdrop-filter:blur(10px);
-  box-shadow:0 4px 24px rgba(0,180,255,.15)}
+  text-align:center;display:none;pointer-events:none;backdrop-filter:blur(12px);
+  box-shadow:0 4px 24px rgba(0,180,255,.18)}
 #tooltip strong{color:#00d4ff;display:block;margin-bottom:5px;font-size:15px;letter-spacing:.5px}
 #tooltip .sub{font-size:10.5px;opacity:.8;line-height:1.5}
 #tooltip .cat{font-size:9px;opacity:.45;margin-top:7px;letter-spacing:1.5px;text-transform:uppercase}
-#hint{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);color:rgba(100,160,210,.4);
+#hint{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);color:rgba(100,160,210,.5);
   font-size:10px;letter-spacing:1px;z-index:10;pointer-events:none;animation:fadeout 4s 3s forwards}
 @keyframes fadeout{to{opacity:0}}
 #legend{position:fixed;bottom:16px;left:12px;z-index:10;display:flex;flex-wrap:wrap;gap:3px 10px;max-width:200px}
-.li{display:flex;align-items:center;gap:4px;font-size:7px;color:rgba(140,185,225,.5)}
+.li{display:flex;align-items:center;gap:4px;font-size:7px;color:rgba(140,185,225,.55)}
 .ld{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 #ctrl{position:fixed;bottom:16px;right:12px;z-index:10;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
-#ctrl button{background:rgba(0,20,60,.88);border:1px solid rgba(0,150,255,.38);color:#88ccff;
-  padding:7px 14px;border-radius:6px;cursor:pointer;font-size:12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#ctrl button{background:rgba(0,10,40,.82);border:1px solid rgba(0,150,255,.38);color:#88ccff;
+  padding:7px 14px;border-radius:6px;cursor:pointer;font-size:12px;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;backdrop-filter:blur(6px)}
 #ctrl button:active{background:rgba(0,60,160,.85)}
 #ctrl button.active{border-color:rgba(0,220,255,.8);color:#00d4ff}
-.lbl{color:#fff;font-size:9px;padding:2px 6px;background:rgba(0,0,0,.55);border-radius:4px;pointer-events:none;white-space:nowrap;user-select:none}
+.lbl{color:#fff;font-size:9px;padding:2px 6px;background:rgba(0,0,0,.45);border-radius:4px;pointer-events:none;white-space:nowrap;user-select:none}
 .lbl-hub{font-size:10.5px;font-weight:600;padding:3px 8px}
-#play-ov{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.7);display:flex;
+#play-ov{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:flex;
   align-items:center;justify-content:center;flex-direction:column;gap:14px;cursor:pointer}
 #play-ov svg{width:64px;height:64px;fill:#00d4ff;filter:drop-shadow(0 0 16px #00d4ff)}
 #play-ov p{color:#00d4ff;font-size:13px;letter-spacing:3px}
-#camtarget{position:fixed;top:52px;left:50%;transform:translateX(-50%);
-  color:rgba(0,212,255,.4);font-size:9px;letter-spacing:2px;z-index:10;pointer-events:none}
 </style>
 </head>
 <body>
-<!-- Overlay tap-to-play para iOS -->
+
+<!-- Video fullscreen fondo -->
+<video id="av-vid" src="aria_video.mp4" loop muted playsinline autoplay
+  crossorigin="anonymous"></video>
+<div id="vid-overlay"></div>
+
+<!-- Overlay tap-to-play iOS -->
 <div id="play-ov">
   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
   <p>TOCA PARA INICIAR</p>
 </div>
-<video id="av-vid" src="aria_video.mp4" loop muted playsinline
-  crossorigin="anonymous" style="display:none"></video>
 
 <div id="ui"><h1>ARIA — RED NEURONAL 3D</h1><p>Synaptic Analytics · v2026.11 · 46 nodos · 55 conexiones</p></div>
 <div id="hint">Toca un nodo · Arrastra · Pellizca zoom</div>
-<div id="camtarget" id="ct">● VISTA COMPLETA</div>
 <div id="tooltip"><strong id="tn"></strong><div class="sub" id="td"></div><div class="cat" id="tc"></div></div>
 <div id="legend"></div>
 <div id="ctrl">
   <button id="btn-rot" onclick="toggleRot()">⟳ Auto</button>
   <button onclick="camWide()">🌐 Red</button>
-  <button onclick="camFace()">👤 Cara</button>
+  <button onclick="camZoom()">🔍 Zoom</button>
   <button onclick="resetCam()">⌂ Reset</button>
 </div>
 
@@ -65,21 +79,22 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
 
-// ── Video ─────────────────────────────────────────────────────────────────────
+// ── Video autoplay ────────────────────────────────────────────────────────────
 const vid=document.getElementById('av-vid');
 const playOv=document.getElementById('play-ov');
 function startVideo(){
-  vid.play().then(()=>playOv.style.display='none').catch(()=>{});
+  vid.play().then(()=>{playOv.style.display='none';}).catch(()=>{});
 }
 startVideo();
-playOv.addEventListener('click',()=>{startVideo();},{ once:true });
+playOv.addEventListener('click',()=>{vid.play();playOv.style.display='none';},{once:true});
 
-// ── Renderer ──────────────────────────────────────────────────────────────────
-const renderer=new THREE.WebGLRenderer({antialias:true});
+// ── Renderer Three.js (alpha=true → canvas transparente sobre el video) ──────
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.setClearColor(0x020609,1);
-document.body.insertBefore(renderer.domElement,document.body.firstChild);
+renderer.setClearColor(0x000000,0); // transparente — el video se ve debajo
+renderer.domElement.style.cssText='position:fixed;inset:0;z-index:2;';
+document.body.appendChild(renderer.domElement);
 
 const css2d=new CSS2DRenderer();
 css2d.setSize(window.innerWidth,window.innerHeight);
@@ -87,7 +102,7 @@ css2d.domElement.style.cssText='position:fixed;top:0;left:0;pointer-events:none;
 document.body.appendChild(css2d.domElement);
 
 const scene=new THREE.Scene();
-scene.fog=new THREE.FogExp2(0x020609,0.00022);
+// Sin fog (con canvas transparente el fog se ve raro)
 const camera=new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.5,8000);
 
 const controls=new OrbitControls(camera,renderer.domElement);
@@ -95,88 +110,75 @@ controls.enableDamping=true;controls.dampingFactor=0.07;
 controls.autoRotate=true;controls.autoRotateSpeed=0.45;
 controls.minDistance=180;controls.maxDistance=2200;
 
-// Posiciones de cámara
-const CAM_WIDE ={pos:new THREE.Vector3(0,80,920), tgt:new THREE.Vector3(0,0,0)};
-const CAM_FACE ={pos:new THREE.Vector3(0,120,280), tgt:new THREE.Vector3(0,105,0)};
+const CAM_WIDE={pos:new THREE.Vector3(0,80,920),tgt:new THREE.Vector3(0,0,0)};
+const CAM_ZOOM={pos:new THREE.Vector3(0,60,480),tgt:new THREE.Vector3(0,0,0)};
 let camGoal=null;
 
 function setCamDist(){
   const a=window.innerWidth/window.innerHeight,hv=Math.tan(THREE.MathUtils.degToRad(25));
   const D=a<1?440/(hv*a):440/hv;
   camera.position.set(0,D*0.12,D*1.1);
-  controls.target.set(0,0,0);
-  controls.update();
+  controls.target.set(0,0,0);controls.update();
 }
 setCamDist();
 
-scene.add(new THREE.AmbientLight(0x112244,2.5));
-const coreLight=new THREE.PointLight(0x00d4ff,5,900);scene.add(coreLight);
+scene.add(new THREE.AmbientLight(0x112244,2.0));
+const coreLight=new THREE.PointLight(0x00d4ff,4,900);scene.add(coreLight);
 [[0x7E57C2,300,100,0],[0x2196F3,-200,150,250],[0xFF6F00,250,-100,-200],
  [0x00C853,-300,-150,100],[0xF50057,100,200,-300],[0xAB47BC,-100,-200,250]]
-.forEach(([c,x,y,z])=>{const l=new THREE.PointLight(c,0.5,650);l.position.set(x,y,z);scene.add(l);});
+.forEach(([c,x,y,z])=>{const l=new THREE.PointLight(c,0.4,650);l.position.set(x,y,z);scene.add(l);});
 
-// Estrellas
-{const geo=new THREE.BufferGeometry();const n=2000,p=new Float32Array(n*3);
- for(let i=0;i<n*3;i++)p[i]=(Math.random()-.5)*5500;
- geo.setAttribute('position',new THREE.BufferAttribute(p,3));
- scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0x334466,size:1.4,sizeAttenuation:true})));}
-
-// ── Video central — pantalla holográfica ─────────────────────────────────────
-const vidTex=new THREE.VideoTexture(vid);
-vidTex.colorSpace=THREE.SRGBColorSpace;
-vidTex.minFilter=THREE.LinearFilter;
-vidTex.magFilter=THREE.LinearFilter;
-
-// Plano con video (proporción 9:16 portrait)
-const VID_W=190, VID_H=338;
-const vidMesh=new THREE.Mesh(
-  new THREE.PlaneGeometry(VID_W,VID_H),
-  new THREE.MeshBasicMaterial({map:vidTex,side:THREE.DoubleSide}));
-vidMesh.position.set(0,0,0);
-scene.add(vidMesh);
-
-// Marco holográfico Tron alrededor del video
-function tronFrame(w,h,col,op){
-  const pts=[
-    new THREE.Vector3(-w/2,-h/2,1),new THREE.Vector3( w/2,-h/2,1),
-    new THREE.Vector3( w/2,-h/2,1),new THREE.Vector3( w/2, h/2,1),
-    new THREE.Vector3( w/2, h/2,1),new THREE.Vector3(-w/2, h/2,1),
-    new THREE.Vector3(-w/2, h/2,1),new THREE.Vector3(-w/2,-h/2,1),
-  ];
-  for(let i=0;i<pts.length;i+=2){
-    scene.add(new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([pts[i],pts[i+1]]),
-      new THREE.LineBasicMaterial({color:col,opacity:op,transparent:true,blending:THREE.AdditiveBlending})));
-  }
+// ── Core ARIA en el centro (glow + anillos, sin plano de video) ───────────────
+function glowSprite(col,size){
+  const c=document.createElement('canvas');c.width=c.height=128;
+  const ctx=c.getContext('2d'),r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+  const gr=ctx.createRadialGradient(64,64,0,64,64,64);
+  gr.addColorStop(0,`rgba(${r},${g},${b},1)`);gr.addColorStop(.4,`rgba(${r},${g},${b},.4)`);gr.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=gr;ctx.fillRect(0,0,128,128);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
+  sp.scale.setScalar(size);return sp;
 }
-tronFrame(VID_W+4,VID_H+4,0x00d4ff,0.7);
-tronFrame(VID_W+8,VID_H+8,0x0088aa,0.3);
 
-// Glow aura detrás del video
-{const gc=document.createElement('canvas');gc.width=gc.height=256;
- const gx=gc.getContext('2d');
- const gr=gx.createRadialGradient(128,128,0,128,128,128);
- gr.addColorStop(0,'rgba(0,180,255,0.5)');gr.addColorStop(1,'rgba(0,0,0,0)');
- gx.fillStyle=gr;gx.fillRect(0,0,256,256);
- const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(gc),
-   transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
- sp.scale.set(400,560,1);sp.position.set(0,0,-2);scene.add(sp);}
+// Glow suave en el centro para marcar el core
+const coreGlow=glowSprite(0x00d4ff,180);
+coreGlow.position.set(0,0,0);
+scene.add(coreGlow);
 
-// Anillos orbitales
-[[84,2],[108,1.2]].forEach(([r,t],i)=>{
+// Anillos orbitales del core
+const rings=[];
+[[72,1.8,0x00d4ff,.35],[96,1.2,0x0088cc,.2],[120,0.8,0x005588,.12]].forEach(([r,t,col,op],i)=>{
   const rm=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,90),
-    new THREE.MeshBasicMaterial({color:0x00d4ff,opacity:i===0?.28:.15,transparent:true,blending:THREE.AdditiveBlending}));
-  if(i===1)rm.rotation.x=Math.PI/4;
-  scene.add(rm);
-  vidMesh.userData[`r${i+1}`]=rm;
+    new THREE.MeshBasicMaterial({color:col,opacity:op,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
+  if(i===1)rm.rotation.x=Math.PI/3;
+  if(i===2)rm.rotation.x=Math.PI/6;rm.rotation.y=Math.PI/4;
+  scene.add(rm);rings.push(rm);
 });
 
-// Label ARIA
-{const ld=document.createElement('div');
- ld.style.cssText='font-size:14px;font-weight:800;letter-spacing:5px;color:#00d4ff;'+
-   'text-shadow:0 0 14px #00d4ff;pointer-events:none;user-select:none';
- ld.textContent='ARIA';
- const lo=new CSS2DObject(ld);lo.position.set(0,185,0);scene.add(lo);}
+// Esfera invisible en el centro para el raycaster del nodo ARIA
+const coreHit=new THREE.Mesh(new THREE.SphereGeometry(55,8,8),
+  new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+scene.add(coreHit);
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+const ORIGIN=new THREE.Vector3();
+function fibSphere(n,r){
+  const pts=[],phi=Math.PI*(3-Math.sqrt(5));
+  for(let i=0;i<n;i++){const y=1-(i/(n-1))*2,rad=Math.sqrt(Math.max(0,1-y*y)),t=phi*i;
+    pts.push(new THREE.Vector3(Math.cos(t)*rad*r,y*r,Math.sin(t)*rad*r));}
+  return pts;
+}
+function emojiLabel(emoji,css,fs){
+  const d=document.createElement('div');
+  d.style.cssText=`font-size:${fs||18}px;line-height:1;pointer-events:none;user-select:none;text-shadow:0 0 6px ${css}88;filter:drop-shadow(0 0 3px ${css})`;
+  d.textContent=emoji;return new CSS2DObject(d);
+}
+function mkLine(p1,p2,col,op){
+  return new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1,p2]),
+    new THREE.LineBasicMaterial({color:col,opacity:op,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
+}
+function cssLbl(text,cls){
+  const d=document.createElement('div');d.className=cls||'lbl';d.textContent=text;return new CSS2DObject(d);
+}
 
 // ── Datos nodos ───────────────────────────────────────────────────────────────
 const C={
@@ -247,54 +249,27 @@ const CROSS=[
   ['a-limpieza','a-sched','auto'],['a-avatar','a-ig','media'],
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-const ORIGIN=new THREE.Vector3();
-function fibSphere(n,r){
-  const pts=[],phi=Math.PI*(3-Math.sqrt(5));
-  for(let i=0;i<n;i++){const y=1-(i/(n-1))*2,rad=Math.sqrt(Math.max(0,1-y*y)),t=phi*i;
-    pts.push(new THREE.Vector3(Math.cos(t)*rad*r,y*r,Math.sin(t)*rad*r));}
-  return pts;
-}
-function glowSprite(col,size){
-  const c=document.createElement('canvas');c.width=c.height=128;
-  const ctx=c.getContext('2d'),r=(col>>16)&255,g=(col>>8)&255,b=col&255;
-  const gr=ctx.createRadialGradient(64,64,0,64,64,64);
-  gr.addColorStop(0,`rgba(${r},${g},${b},1)`);gr.addColorStop(.4,`rgba(${r},${g},${b},.4)`);gr.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=gr;ctx.fillRect(0,0,128,128);
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
-  sp.scale.setScalar(size);return sp;
-}
-function emojiLabel(emoji,css,fs){
-  const d=document.createElement('div');
-  d.style.cssText=`font-size:${fs||18}px;line-height:1;pointer-events:none;user-select:none;text-shadow:0 0 6px ${css}88;filter:drop-shadow(0 0 3px ${css})`;
-  d.textContent=emoji;return new CSS2DObject(d);
-}
-function mkLine(p1,p2,col,op){
-  return new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1,p2]),
-    new THREE.LineBasicMaterial({color:col,opacity:op,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
-}
-function cssLbl(text,cls){
-  const d=document.createElement('div');d.className=cls||'lbl';d.textContent=text;return new CSS2DObject(d);
-}
-
 // ── Nodos ─────────────────────────────────────────────────────────────────────
-const nodeMap={};const clickable=[vidMesh];
-nodeMap['aria']={mesh:vidMesh,pos:ORIGIN.clone(),data:{label:'ARIA',cat:'aria',tip:'Asistente de Respuesta Inteligente Automatizada · Avatar 3D Tron · Synaptic Analytics'}};
+const nodeMap={};
+const clickable=[coreHit];
+nodeMap['aria']={mesh:coreHit,pos:ORIGIN.clone(),data:{label:'ARIA',cat:'aria',tip:'Asistente de Respuesta Inteligente Automatizada · Avatar 3D Tron · Synaptic Analytics'}};
 
 const hubPts=fibSphere(HUBS.length,290);
 HUBS.forEach((hub,i)=>{
   const p=hubPts[i],col=C[hub.cat].hex;
+  // Nodos semi-transparentes
   const mesh=new THREE.Mesh(new THREE.SphereGeometry(22,24,24),
-    new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.8,shininess:60}));
+    new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.9,
+      shininess:60,transparent:true,opacity:0.82}));
   mesh.position.copy(p);scene.add(mesh);
-  mesh.add(glowSprite(col,115));
+  mesh.add(glowSprite(col,110));
   const icon=emojiLabel(hub.icon,C[hub.cat].css,20);icon.position.set(0,-4,0);mesh.add(icon);
   const lbl=cssLbl(hub.label,'lbl lbl-hub');
   lbl.element.style.color=C[hub.cat].css;lbl.element.style.textShadow=`0 0 8px ${C[hub.cat].css}66`;
   lbl.position.set(0,32,0);mesh.add(lbl);
   nodeMap[hub.id]={mesh,pos:p.clone(),data:{label:hub.label,cat:hub.cat,tip:`Hub · ${C[hub.cat].name}`}};
   clickable.push(mesh);
-  scene.add(mkLine(ORIGIN,p,col,.5));
+  scene.add(mkLine(ORIGIN,p,col,.45));
 });
 
 const byHub={};AGENTS.forEach(a=>{(byHub[a.hub]||(byHub[a.hub]=[])).push(a);});
@@ -310,19 +285,21 @@ HUBS.forEach(hub=>{
     const dir=hd.clone().addScaledVector(right,Math.cos(phi)*sp).addScaledVector(fwd,Math.sin(phi)*sp)
       .addScaledVector(new THREE.Vector3(0,1,0),(i%3-1)*.12).normalize().multiplyScalar(455);
     const mesh=new THREE.Mesh(new THREE.SphereGeometry(10,14,14),
-      new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.65,shininess:40}));
+      new THREE.MeshPhongMaterial({color:0x020609,emissive:col,emissiveIntensity:.7,
+        shininess:40,transparent:true,opacity:0.75}));
     mesh.position.copy(dir);scene.add(mesh);
-    mesh.add(glowSprite(col,52));
+    mesh.add(glowSprite(col,50));
     if(agent.icon){const aIcon=emojiLabel(agent.icon,C[agent.cat].css,13);aIcon.position.set(0,-2,0);mesh.add(aIcon);}
     nodeMap[agent.id]={mesh,pos:dir.clone(),data:agent};clickable.push(mesh);
-    scene.add(mkLine(hubPos,dir,col,.22));
+    scene.add(mkLine(hubPos,dir,col,.18));
   });
 });
-CROSS.forEach(([f,t,cat])=>{const pf=nodeMap[f]?.pos,pt=nodeMap[t]?.pos;if(pf&&pt)scene.add(mkLine(pf,pt,C[cat].hex,.4));});
+CROSS.forEach(([f,t,cat])=>{const pf=nodeMap[f]?.pos,pt=nodeMap[t]?.pos;if(pf&&pt)scene.add(mkLine(pf,pt,C[cat].hex,.35));});
 
 const particles=HUBS.map((hub,i)=>{
   const mesh=new THREE.Mesh(new THREE.SphereGeometry(3.5,8,8),
-    new THREE.MeshBasicMaterial({color:C[hub.cat].hex,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));
+    new THREE.MeshBasicMaterial({color:C[hub.cat].hex,transparent:true,opacity:0,
+      blending:THREE.AdditiveBlending,depthWrite:false}));
   scene.add(mesh);
   return{mesh,to:nodeMap[hub.id].pos.clone(),t:i/HUBS.length,spd:.004+i*.0003};
 });
@@ -353,11 +330,10 @@ function hideTip(){document.getElementById('tooltip').style.display='none';}
 
 // ── UI handlers ───────────────────────────────────────────────────────────────
 let autoRot=true;
-const camTgtEl=document.getElementById('camtarget');
 window.toggleRot=()=>{autoRot=!autoRot;controls.autoRotate=autoRot;document.getElementById('btn-rot').textContent=autoRot?'⟳ Auto':'⟳ Libre';};
-window.camFace=()=>{camGoal={pos:CAM_FACE.pos.clone(),tgt:CAM_FACE.tgt.clone()};controls.autoRotate=false;camTgtEl.textContent='👤 ACERCANDO A CARA...';};
-window.camWide=()=>{camGoal={pos:CAM_WIDE.pos.clone(),tgt:CAM_WIDE.tgt.clone()};camTgtEl.textContent='🌐 VISTA RED COMPLETA';};
-window.resetCam=()=>{setCamDist();controls.autoRotate=autoRot=true;document.getElementById('btn-rot').textContent='⟳ Auto';camGoal=null;hideTip();camTgtEl.textContent='● VISTA COMPLETA';};
+window.camWide=()=>{camGoal={pos:CAM_WIDE.pos.clone(),tgt:CAM_WIDE.tgt.clone()};};
+window.camZoom=()=>{camGoal={pos:CAM_ZOOM.pos.clone(),tgt:CAM_ZOOM.tgt.clone()};controls.autoRotate=false;};
+window.resetCam=()=>{setCamDist();controls.autoRotate=autoRot=true;document.getElementById('btn-rot').textContent='⟳ Auto';camGoal=null;hideTip();};
 
 const leg=document.getElementById('legend');
 Object.entries(C).filter(([k])=>k!=='aria').forEach(([k,v])=>{
@@ -371,30 +347,30 @@ window.addEventListener('resize',()=>{
 
 // ── Animación ─────────────────────────────────────────────────────────────────
 const clock=new THREE.Clock();let frame=0;
-const r1=vidMesh.userData.r1,r2=vidMesh.userData.r2;
 
 function animate(){
   requestAnimationFrame(animate);
-  const delta=clock.getDelta();
-  const t=clock.elapsedTime;
+  const t=clock.getElapsedTime();
   frame++;
 
-  // Suave zoom de cámara a objetivo
   if(camGoal){
     camera.position.lerp(camGoal.pos,0.035);
     controls.target.lerp(camGoal.tgt,0.035);
-    if(camera.position.distanceTo(camGoal.pos)<3){camGoal=null;}
+    if(camera.position.distanceTo(camGoal.pos)<3)camGoal=null;
   }
 
-  // Anillos orbitales del video
-  if(r1){r1.rotation.y=t*.5;r1.rotation.z=Math.sin(t*.4)*.3;}
-  if(r2){r2.rotation.y=-t*.3;r2.rotation.x=Math.PI/4+Math.sin(t*.2)*.2;}
-  coreLight.intensity=4+Math.sin(t*1.8)*1.5;
+  // Anillos del core
+  rings[0].rotation.y=t*.5;rings[0].rotation.z=Math.sin(t*.4)*.3;
+  rings[1].rotation.y=-t*.3;rings[1].rotation.x=Math.PI/3+Math.sin(t*.2)*.2;
+  rings[2].rotation.y=t*.2;rings[2].rotation.z=Math.sin(t*.35)*.15;
+  coreLight.intensity=3.5+Math.sin(t*1.8)*1.2;
 
-  // Nodos flicker
-  if(frame%3===0)HUBS.forEach((h,i)=>{nodeMap[h.id].mesh.material.emissiveIntensity=.65+Math.sin(t*1.4+i*.9)*.25;});
-  if(frame%4===0)AGENTS.forEach((a,i)=>{const n=nodeMap[a.id];if(n)n.mesh.material.emissiveIntensity=.45+Math.sin(t*1.1+i*.5)*.2;});
-  particles.forEach(p=>{p.t=(p.t+p.spd)%1;p.mesh.position.lerpVectors(ORIGIN,p.to,p.t);p.mesh.material.opacity=Math.sin(p.t*Math.PI)*.9;});
+  // Pulso del glow central
+  coreGlow.scale.setScalar(1+Math.sin(t*1.4)*.08);
+
+  if(frame%3===0)HUBS.forEach((h,i)=>{nodeMap[h.id].mesh.material.emissiveIntensity=.72+Math.sin(t*1.4+i*.9)*.22;});
+  if(frame%4===0)AGENTS.forEach((a,i)=>{const n=nodeMap[a.id];if(n)n.mesh.material.emissiveIntensity=.52+Math.sin(t*1.1+i*.5)*.18;});
+  particles.forEach(p=>{p.t=(p.t+p.spd)%1;p.mesh.position.lerpVectors(ORIGIN,p.to,p.t);p.mesh.material.opacity=Math.sin(p.t*Math.PI)*.85;});
 
   controls.update();
   renderer.render(scene,camera);
