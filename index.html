@@ -395,7 +395,9 @@ hubs.forEach(h=>segs.push({a:null,b:h,kind:'core'}));
 AGENTS.forEach(a=>segs.push({a:byId[a.hub],b:byId[a.id],kind:'agent'}));
 CROSS.forEach(([f,t,c])=>segs.push({a:byId[f],b:byId[t],kind:'cross',cat:c}));
 segs.forEach(s=>{s.c=new THREE.Color(C[(s.cat)||s.b.d.cat].hex);s.al=0;});
-const segPos=new Float32Array(segs.length*6),segCol=new Float32Array(segs.length*8);
+// Cada conexión se divide en tramos para poder desvanecerla gradualmente al acercarse al rostro
+const SUB=12;
+const segPos=new Float32Array(segs.length*SUB*6),segCol=new Float32Array(segs.length*SUB*8);
 const segGeo=new THREE.BufferGeometry();
 segGeo.setAttribute('position',new THREE.BufferAttribute(segPos,3));
 segGeo.setAttribute('color',new THREE.BufferAttribute(segCol,4));
@@ -600,6 +602,14 @@ function corePoint(target,out){
   if(mode!=='net')out.z=0;
   return out.normalize().multiplyScalar(coreG.scale.x*(mode==='net'?.62:.82)).add(coreG.position);
 }
+// Máscara del rostro: 0 sobre la cara, 1 lejos de ella (solo en modo avatar)
+let maskK=1;
+function faceMask(p){
+  if(maskK<.001)return 1;
+  const d=Math.hypot(p.x-coreG.position.x,p.y-coreG.position.y);
+  return 1-maskK*(1-smooth((d-face.r*1.0)/(face.r*1.5)));
+}
+const pA=new V3(),pB=new V3();
 function animate(now){
   requestAnimationFrame(animate);
   const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
@@ -613,7 +623,8 @@ function animate(now){
   coreSphere.scale.setScalar(THREE.MathUtils.lerp(coreSphere.scale.x,net?.55:.001,k));
   coreSphere.material.emissiveIntensity=.65+Math.sin(T*1.8)*.2;
   coreGlow.material.opacity+=((net?.95:0)-coreGlow.material.opacity)*k;
-  const ringOp=mode==='intro'?0:net?.55:.3;
+  maskK+=((net?0:1)-maskK)*k;
+  const ringOp=mode==='intro'?0:net?.55:.07;   // halo casi invisible sobre el rostro
   coreRings.forEach((r,i)=>{
     r.material.opacity+=(ringOp*(1-i*.2)-r.material.opacity)*k;
     r.rotation.x=1.25+i*.18+Math.sin(T*.4+i)*.12;
@@ -668,9 +679,14 @@ function animate(now){
     }
     s.al+=(t-s.al)*Math.min(1,k*1.5);
     const B=s.b.g.position,A=s.a?s.a.g.position:corePoint(B,tmpA);
-    segPos.set([A.x,A.y,A.z,B.x,B.y,B.z],i*6);
-    const fa=s.kind==='core'?s.al*.3:s.al,fb=s.al;
-    segCol.set([s.c.r,s.c.g,s.c.b,fa,s.c.r,s.c.g,s.c.b,fb],i*8);
+    for(let j=0;j<SUB;j++){
+      const u0=j/SUB,u1=(j+1)/SUB,o=(i*SUB+j);
+      pA.lerpVectors(A,B,u0);pB.lerpVectors(A,B,u1);
+      segPos.set([pA.x,pA.y,pA.z,pB.x,pB.y,pB.z],o*6);
+      // las conexiones al núcleo nacen transparentes y se encienden hacia el nodo
+      const g0=s.kind==='core'?smooth(u0/.75):1,g1=s.kind==='core'?smooth(u1/.75):1;
+      segCol.set([s.c.r,s.c.g,s.c.b,s.al*g0*faceMask(pA),s.c.r,s.c.g,s.c.b,s.al*g1*faceMask(pB)],o*8);
+    }
   });
   segGeo.attributes.position.needsUpdate=true;segGeo.attributes.color.needsUpdate=true;
 
@@ -679,7 +695,7 @@ function animate(now){
     p.p=(p.p+dt*p.v)%1;
     const s=p.s,B=s.b.g.position,A=s.a?s.a.g.position:corePoint(B,tmpB);
     p.sp.position.lerpVectors(A,B,p.p);
-    p.sp.material.opacity=Math.sin(p.p*Math.PI)*Math.min(1,s.al*1.8);
+    p.sp.material.opacity=Math.sin(p.p*Math.PI)*Math.min(1,s.al*1.8)*faceMask(p.sp.position);
   });
 
   // Cámara
