@@ -30,6 +30,26 @@ body.net #stage{filter:blur(10px) brightness(.26) saturate(1.3);transform:scale(
 #lines .t{margin-top:6px;font-size:clamp(15px,2.1vw,21px);font-weight:300;letter-spacing:.6px;line-height:1.35;
   color:rgba(236,248,255,.92);text-shadow:0 0 18px rgba(0,180,255,.45),0 1px 10px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.8)}
 body.net #lines,body.pan #lines{opacity:0}
+
+/* ── Textos laterales mientras ARIA habla en la intro ── */
+.side{position:fixed;top:50%;z-index:12;width:min(30vw,340px);pointer-events:none;
+  opacity:0;filter:blur(8px);transition:opacity 1s ease,transform 1.5s cubic-bezier(.2,.7,.2,1),filter 1s ease}
+.side.l{left:max(4vw,18px);text-align:left;transform:translate(-24px,-50%)}
+.side.r{right:max(4vw,18px);text-align:right;transform:translate(24px,-50%)}
+.side.show{opacity:1;filter:none;transform:translate(0,-50%)}
+.side .k{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:rgba(0,212,255,.9);
+  text-shadow:0 0 14px rgba(0,212,255,.7),0 1px 6px #000}
+.side .t{margin-top:8px;font-size:clamp(16px,2vw,24px);font-weight:300;line-height:1.3;letter-spacing:.4px;
+  color:rgba(240,250,255,.92);text-shadow:0 0 20px rgba(0,180,255,.45),0 1px 10px rgba(0,0,0,.95)}
+.side::before{content:'';display:block;width:38px;height:1px;margin-bottom:12px;
+  background:linear-gradient(90deg,rgba(0,212,255,.9),transparent);box-shadow:0 0 8px rgba(0,212,255,.8)}
+.side.r::before{margin-left:auto;background:linear-gradient(270deg,rgba(0,212,255,.9),transparent)}
+@media (max-width:600px){
+  .side{top:auto;bottom:calc(120px + env(safe-area-inset-bottom));width:52vw}
+  .side.l{transform:translate(-16px,0)}.side.r{transform:translate(16px,0)}
+  .side.show{transform:none}
+  .side .t{font-size:14px}
+}
 #vign{position:fixed;inset:0;z-index:1;pointer-events:none;
   background:radial-gradient(ellipse at 50% 30%,transparent 40%,rgba(0,4,14,.6) 100%)}
 #gl{position:fixed;inset:0;z-index:2}
@@ -168,6 +188,7 @@ body.net #legend{opacity:1}
 
 <button id="netBtn"><span class="orb"></span><span id="netTxt">Red central</span></button>
 <div id="lines"></div>
+<div id="sides"></div>
 <div id="hint">Toca un nodo para ver su información</div>
 
 <div id="panel">
@@ -187,9 +208,9 @@ import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js
 
 /* ═════════════ CONFIGURACIÓN DEL VIDEO ═════════════
    intro.mp4 → presentación (termina en el primer plano del rostro)
-   loop.mp4  → últimos 1.6 s de la intro en ida y vuelta con aceleración/frenado suave ya
-               incluidos en el archivo (60 fps, velocidad 1×). Empieza y termina EXACTAMENTE en el
-               último cuadro de la intro → el paso intro→bucle es un corte invisible, sin fundido.
+   loop.mp4  → tramo 7.8 s–final de la intro (boca cerrada, ARIA "esperando") en ida y vuelta
+               con aceleración/frenado suave ya incluidos (60 fps, velocidad 1×). Empieza y termina
+               EXACTAMENTE en el último cuadro de la intro → corte invisible, sin fundido, sin labios.
    FACE_T    → segundo de la intro en que aparecen los nodos
    FACE      → posición del rostro en el video (fracción del ancho/alto) y radio de la cabeza
    Sin audio: la página es 100 % silenciosa. */
@@ -198,11 +219,17 @@ const FACE_T=7.3;
 /* Textos tipo transparencia que describen a ARIA mientras se enfoca el rostro */
 const LINES=[
   ['ARIA','Asistente de Respuesta Inteligente Automatizada'],
-  ['Una sola red','Conecta modelos de IA, canales, agentes y reportes'],
-  ['Conversa','Responde por Telegram con texto, voz y fotos'],
-  ['Trabaja sola','Reportes y tareas automáticas 24/7, sin intervención'],
-  ['Recuerda','Guarda el contexto y se adapta a cada persona'],
+  ['Una sola red','Conecta modelos de IA, agentes y reportes'],
+  ['Analiza','Convierte datos en decisiones claras'],
+  ['Trabaja sola','Automatiza tareas 24/7, sin intervención'],
+  ['Recuerda','Aprende del contexto y se adapta a cada persona'],
   ['Explora','Toca un nodo o activa la Red central'],
+];
+/* Textos laterales mientras ARIA habla en la intro: [desde (s), hasta (s), lado, título, texto] */
+const SIDES=[
+  [2.6,4.2,'l','Hola, soy ARIA','Asistente de Respuesta Inteligente Automatizada'],
+  [4.4,5.9,'r','Inteligencia conectada','Modelos de IA, agentes y reportes en una sola red'],
+  [6.0,7.25,'l','Siempre activa','Analiza, aprende y automatiza 24/7'],   // sale antes de que aparezcan los nodos (7.3 s)
 ];
 const FACE={x:.49,y:.205,r:.062};
 
@@ -315,6 +342,7 @@ function startLoop(){
   if(vb.requestVideoFrameCallback)vb.requestVideoFrameCallback(hideIntro);
   else vb.addEventListener('playing',hideIntro,{once:true});
   setTimeout(hideIntro,400);   // respaldo
+  hideSides();
   startLines();
   enterFace();                 // por si el navegador no alcanzó a pasar por FACE_T
 }
@@ -323,8 +351,20 @@ va.addEventListener('timeupdate',()=>videoTick());
 
 function videoTick(){
   if(!started||looping)return;
-  if(mode==='intro'&&va.currentTime>=FACE_T)enterFace();
+  const t=va.currentTime;
+  if(mode==='intro'&&t>=FACE_T)enterFace();
+  sideEls.forEach((el,i)=>{const [a,b]=SIDES[i];el.classList.toggle('show',t>=a&&t<b);});
 }
+// el chequeo va en un temporizador propio para que los textos laterales sigan el video con precisión
+setInterval(videoTick,80);
+
+const sidesBox=$('#sides');
+const sideEls=SIDES.map(([,,side,k,t])=>{
+  const d=document.createElement('div');d.className='side '+side;
+  d.innerHTML=`<div class="k">${k}</div><div class="t">${t}</div>`;
+  sidesBox.appendChild(d);return d;
+});
+function hideSides(){sideEls.forEach(el=>el.classList.remove('show'));}
 
 /* ═════════════ TEXTOS TIPO TRANSPARENCIA ═════════════ */
 const linesBox=$('#lines');
