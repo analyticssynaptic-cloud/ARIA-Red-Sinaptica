@@ -14,6 +14,10 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Segoe UI',sys
 #stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 #va{z-index:2}#vb{z-index:1}
 #va.gone{visibility:hidden}
+/* respiración muy leve encima del bucle, con un ritmo distinto (9.4 s vs 7 s del video)
+   para que la espera nunca se sienta repetida; empieza en escala 1 → no se nota el corte */
+#vb.idle{animation:breathe 9.4s ease-in-out infinite;transform-origin:49% 22%;will-change:transform}
+@keyframes breathe{0%,100%{transform:none}50%{transform:scale(1.014) translateY(-.25%)}}
 body.net #stage{filter:blur(10px) brightness(.26) saturate(1.3);transform:scale(1.08)}
 
 /* ── Textos tipo transparencia sobre ARIA (sin tarjetas) ── */
@@ -208,9 +212,10 @@ import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js
 
 /* ═════════════ CONFIGURACIÓN DEL VIDEO ═════════════
    intro.mp4 → presentación (termina en el primer plano del rostro)
-   loop.mp4  → tramo 7.8 s–final de la intro (boca cerrada, ARIA "esperando") en ida y vuelta
-               con aceleración/frenado suave ya incluidos (60 fps, velocidad 1×). Empieza y termina
-               EXACTAMENTE en el último cuadro de la intro → corte invisible, sin fundido, sin labios.
+   loop.mp4  → tramo 7.95 s–final de la intro (después del parpadeo: ojos abiertos, boca cerrada)
+               a cámara lenta en ida y vuelta de 7 s, con cuadros intermedios suavizados y frenado
+               incluido (60 fps, velocidad 1×). Empieza y termina EXACTAMENTE en el último cuadro de
+               la intro → corte invisible, sin fundido, sin labios ni parpadeo.
    FACE_T    → segundo de la intro en que aparecen los nodos
    FACE      → posición del rostro en el video (fracción del ancho/alto) y radio de la cabeza
    Sin audio: la página es 100 % silenciosa. */
@@ -338,6 +343,7 @@ function startLoop(){
   try{vb.currentTime=0;}catch(e){}
   vb.playbackRate=1;
   vb.play().catch(()=>{});
+  vb.classList.add('idle');
   const hideIntro=()=>{va.classList.add('gone');va.pause();};
   if(vb.requestVideoFrameCallback)vb.requestVideoFrameCallback(hideIntro);
   else vb.addEventListener('playing',hideIntro,{once:true});
